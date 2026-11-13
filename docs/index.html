@@ -86,10 +86,40 @@
     .hero p.lead { font-size: 20px; color: var(--ink-2); margin: 0 0 28px; max-width: 520px; }
     .hero .ctas { display: flex; gap: 12px; flex-wrap: wrap; }
     .hero .meta { color: var(--ink-3); font-size: 14px; margin-top: 16px; }
-    .device { padding: 12px; border-radius: 34px; background: linear-gradient(160deg, #2A2F3D, #12151D); box-shadow: 0 40px 90px #000a, inset 0 1px 0 #ffffff1a; position: relative; }
-    .device img { border-radius: 16px; }
-    .device::before, .device::after { content: ""; position: absolute; width: 26px; height: 26px; border-radius: 50%; top: 50%; translate: 0 -50%; background: radial-gradient(circle at 40% 35%, #3a4050, #15181f); box-shadow: 0 0 0 2px var(--gold), 0 0 14px 2px var(--gold); }
-    .device::before { left: -40px; } .device::after { right: -40px; display: none; }
+/* Handheld: a rounded-rectangle body with shoulder buttons, recessed sticks with lights, D-pad, face buttons,
+   Start/Select and speaker grilles. Grips are flex columns, so the parts scale with the device. */
+.hh { --hh-light-l: #FFB84D; --hh-light-r: #FF795D; position: relative; isolation: isolate; border-radius: 46px;
+  background: linear-gradient(180deg, #3B4253 0%, #232833 38%, #181B23 100%);
+  box-shadow: 0 40px 80px #000a, inset 0 2px 0 #ffffff26, inset 0 -4px 0 #0008, inset 0 0 0 1px #ffffff0d; }
+.hh::before, .hh::after { content: ""; position: absolute; top: -13px; width: 24%; height: 20px; z-index: -1; border-radius: 14px 14px 4px 4px;
+  background: linear-gradient(180deg, #4A5265, #262B36); box-shadow: inset 0 1px 0 #ffffff30; }
+.hh::before { left: 7%; } .hh::after { right: 7%; }
+.hh .hh-screen { background: #05070A; border-radius: 16px; padding: 10px; box-shadow: inset 0 0 0 1px #ffffff14, 0 0 0 2px #0006; position: relative; z-index: 1; }
+.hh .grip { display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; }
+.hh .well { width: 74%; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle, #0B0D12 58%, #1E222C 72%); box-shadow: inset 0 3px 6px #000c, 0 1px 0 #ffffff14; }
+.hh .stick { width: 76%; aspect-ratio: 1; border-radius: 50%; position: relative;
+  background: repeating-radial-gradient(circle at 50% 50%, #2C313D 0 3px, #262A35 3px 6px);
+  box-shadow: 0 0 0 3px var(--hh-light-l), 0 0 18px 4px color-mix(in srgb, var(--hh-light-l) 70%, transparent), 0 6px 10px #000b, inset 0 2px 0 #ffffff22; }
+.hh .grip.r .stick { box-shadow: 0 0 0 3px var(--hh-light-r), 0 0 18px 4px color-mix(in srgb, var(--hh-light-r) 70%, transparent), 0 6px 10px #000b, inset 0 2px 0 #ffffff22; }
+.hh .stick::after { content: ""; position: absolute; inset: 30%; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #3A404E, #1C2029); box-shadow: inset 0 1px 0 #ffffff1a; }
+.hh .dpad { width: 62%; aspect-ratio: 1; position: relative; }
+.hh .dpad i { position: absolute; background: linear-gradient(180deg, #2B303B, #171A21); box-shadow: inset 0 1px 0 #ffffff1f, 0 3px 4px #0009; border-radius: 6px; }
+.hh .dpad i:nth-child(1) { left: 34%; right: 34%; top: 2%; bottom: 2%; }
+.hh .dpad i:nth-child(2) { top: 34%; bottom: 34%; left: 2%; right: 2%; }
+.hh .dpad i:nth-child(3) { left: 44%; top: 44%; width: 12%; height: 12%; border-radius: 50%; background: #11141A; box-shadow: inset 0 1px 2px #000; }
+.hh .face { width: 74%; aspect-ratio: 1; position: relative; }
+.hh .face b { position: absolute; width: 33%; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 45% 35%, #333948, #191C24); box-shadow: inset 0 1px 0 #ffffff26, 0 3px 4px #000a;
+  font: 800 clamp(7px, 0.85vw, 12px)/1 system-ui, sans-serif; }
+.hh .face b:nth-child(1) { left: 33.5%; top: 0; color: #F5C518; }
+.hh .face b:nth-child(2) { left: 0; top: 33.5%; color: #4D9BFF; }
+.hh .face b:nth-child(3) { right: 0; top: 33.5%; color: #FF5E63; }
+.hh .face b:nth-child(4) { left: 33.5%; bottom: 0; color: #4FD18B; }
+.hh .hh-sys { display: flex; gap: 10%; width: 70%; justify-content: center; }
+.hh .hh-sys i { width: 30%; height: 7px; border-radius: 5px; background: #0E1016; box-shadow: inset 0 1px 1px #000, 0 1px 0 #ffffff12; }
+.hh .grille { display: grid; grid-template-columns: repeat(4, 4px); gap: 4px; opacity: .7; }
+.hh .grille i { width: 4px; height: 4px; border-radius: 50%; background: #0A0C10; box-shadow: 0 1px 0 #ffffff10; }
+    .device { display: grid; grid-template-columns: 18% 1fr 18%; align-items: stretch; padding: 40px 0; margin-top: 14px; }
     .stripe { height: 6px; background: linear-gradient(90deg, var(--gold), var(--coral) 50%, var(--rose)); }
 
     /* sections */
@@ -162,7 +192,6 @@
       .row.flip .text { order: 0; }
       .grid, .steps { grid-template-columns: 1fr 1fr; }
       .gallery { grid-template-columns: 1fr 1fr; }
-      .device::before { display: none; }
       section { padding: 64px 0; }
     }
     @media (max-width: 600px) {
@@ -204,7 +233,11 @@
         </div>
         <p class="meta">Free · Android 8.0 or later · Works with RetroArch and standalone emulators</p>
       </div>
-      <div class="device"><img src="images/site/01-consoles.jpg" alt="Mirmire's console screen with Nintendo 64 selected" width="1200" height="540"></div>
+      <div class="device hh">
+        <div class="grip l"><span class="well"><span class="stick"></span></span><span class="dpad"><i></i><i></i><i></i></span><span class="hh-sys"><i></i></span><span class="grille"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+        <div class="hh-screen"><img src="images/site/01-consoles.jpg" alt="Mirmire's console screen on a handheld, with Nintendo 64 selected" width="1200" height="540"></div>
+        <div class="grip r"><span class="face"><b>Y</b><b>X</b><b>B</b><b>A</b></span><span class="well"><span class="stick"></span></span><span class="hh-sys"><i></i></span><span class="grille"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+      </div>
     </div>
   </header>
   <div class="stripe"></div>

@@ -287,8 +287,8 @@ function drawPreview() {
   requestAnimationFrame(fit);
   const c = resolveColors(themeForPreview());
   const dev = $("#device");
-  dev.style.setProperty("--light", c.lights);
-  dev.style.setProperty("--light-r", c.lightsRight);
+  dev.style.setProperty("--hh-light-l", c.lights);
+  dev.style.setProperty("--hh-light-r", c.lightsRight);
   document.querySelector(".stage").style.setProperty("--stage-glow", c.primary);
   drawChecks(c);
 }
