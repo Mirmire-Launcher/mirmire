@@ -45,7 +45,7 @@ a { color: var(--accent); }
 .app { display: grid; grid-template-rows: 60px 1fr; height: 100vh; }
 .bar { display: flex; align-items: center; gap: 14px; padding: 0 18px; border-bottom: 1px solid var(--line); background: var(--panel); }
 .brand { display: flex; align-items: center; gap: 10px; font-family: Oxanium, sans-serif; font-weight: 700; font-size: 17px; letter-spacing: .3px; white-space: nowrap; }
-.brand .mark { width: 30px; height: 30px; border-radius: 9px; background: conic-gradient(from 200deg, #FFD18A, #FF8FA3, #8AB4FF, #7BE0C3, #FFD18A); display: grid; place-items: center; color: #10131C; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; display: block; box-shadow: 0 0 0 1px #ffffff14; }
 .brand small { color: var(--ink-3); font-weight: 500; font-family: inherit; }
 .seg { display: inline-flex; padding: 3px; gap: 2px; border-radius: 11px; background: var(--panel-3); }
 .seg button { border: 0; background: none; padding: 6px 14px; border-radius: 8px; color: var(--ink-2); font-weight: 600; white-space: nowrap; }
@@ -342,7 +342,12 @@ dialog h2 { margin: 0 0 6px; font-family: Oxanium, sans-serif; }
 .m-stage { flex: .55; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; overflow: hidden; }
 .m-stage-media { display: flex; gap: 10px; flex: 1; min-height: 0; }
 .m-media { flex: 1.7; border-radius: 14px; background: #000; overflow: hidden; }
-.m-media svg, .m-box svg, .m-cover svg, .m-game-art svg, .m-card-art svg { width: 100%; height: 100%; display: block; }
+.m-media svg, .m-box svg, .m-cover svg, .m-game-art svg, .m-card-art svg, .m-thumb svg { width: 100%; height: 100%; display: block; }
+.m-art { width: 100%; height: 100%; object-fit: cover; display: block; }
+.m-art.pixel { image-rendering: pixelated; }
+.m-box .m-art, .m-media .m-art { object-fit: contain; position: absolute; inset: 0; }
+.m-media, .m-box { position: relative; }
+.m-stage-media { min-height: 34%; }
 .m-box { flex: 1; border-radius: 6px; overflow: hidden; }
 .m-stage-meta { display: flex; align-items: center; gap: 6px; }
 .m-stage-title { font-size: 26px; font-weight: 800; line-height: 30px; color: var(--on-surface); }
@@ -406,4 +411,6 @@ dialog h2 { margin: 0 0 6px; font-family: Oxanium, sans-serif; }
 /* hints */
 .m-hints { position: absolute; right: 12px; bottom: 12px; display: flex; gap: 16px; padding: 6px 14px; border-radius: 99px; background: rgba(0,0,0,.55); color: #fff; font-size: 12px; font-weight: 500; z-index: 5; font-family: Roboto, system-ui, sans-serif; }
 .m-hints > span { display: inline-flex; align-items: center; gap: 6px; }
-.m-glyph { width: 22px; height: 22px; border-radius: 50%; display: inline-grid; place-items: center; font-weight: 900; font-size: 11px; }
+.m-glyph { border-radius: 50%; display: inline-grid; place-items: center; font-weight: 900; line-height: 1; flex: none; }
+.m-glyph.sq { background: rgba(255,255,255,.9); color: #15171C; display: inline-flex; align-items: center; justify-content: center; }
+.m-glyph.sq b { font-weight: 900; }

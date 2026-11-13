@@ -138,12 +138,13 @@ export const LIMITS = {
   music: { kind: "audio", maxBytes: 8 << 20, maxSec: 120 },
 };
 
-// Made-up games for the preview, so no real box art is needed.
+// Sample library for the preview: freely licensed homebrew games (credits in assets/games/CREDITS.md).
+const g = (id) => ({ box: `assets/games/${id}-cover.jpg`, shot: `assets/games/${id}-shot.png` });
 export const SAMPLE_GAMES = [
-  { title: "Star Courier", year: 1991, genre: "Shooter", players: "1 player", hue: 210 },
-  { title: "Pixel Knights", year: 1994, genre: "Action RPG", players: "1 player", hue: 18 },
-  { title: "Turbo Kart League", year: 1996, genre: "Racing", players: "4 players", hue: 120 },
-  { title: "Moonlit Manor", year: 1993, genre: "Adventure", players: "1 player", hue: 275 },
-  { title: "Block Party", year: 1990, genre: "Puzzle", players: "2 players", hue: 45 },
-  { title: "Ninja Garden", year: 1992, genre: "Platform", players: "1 player", hue: 340 },
+  { title: "Tobu Tobu Girl Deluxe", system: "gbc", dev: "Tangram Games", year: null, genre: "Platform", players: "1 player", hue: 340, ...g("tobu") },
+  { title: "µCity", system: "gbc", dev: "Antonio Niño Díaz", year: 2017, genre: "City building", players: "1 player", hue: 140, ...g("ucity") },
+  { title: "Butano Fighter", system: "gba", dev: "GValiente", year: null, genre: "Shooter", players: "1 player", hue: 10, ...g("butano") },
+  { title: "Libbet and the Magic Floor", system: "gb", dev: "Damian Yerrick", year: 2018, genre: "Puzzle", players: "1 player", hue: 245, ...g("libbet") },
+  { title: "Thwaite", system: "nes", dev: "Damian Yerrick", year: 2011, genre: "Action", players: "2 players", hue: 220, ...g("thwaite") },
+  { title: "Concentration Room", system: "nes", dev: "Damian Yerrick", year: 2010, genre: "Puzzle", players: "2 players", hue: 55, ...g("croom") },
 ];

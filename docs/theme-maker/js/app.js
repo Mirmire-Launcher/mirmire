@@ -1,7 +1,7 @@
 import { SYSTEMS, SYSTEM, COLOR_GROUPS, COLOR_KEYS, SOUNDS, BUTTON_SOUNDS, SOUND_ALIASES, LIMITS, IMAGES, VIDEOS, AUDIO, FONTS, ID_RE, MAX_FILES, MAX_BYTES, SAMPLE_GAMES } from "./data.js";
 import { BUILT_IN } from "./presets.js";
 import * as pal from "./palette.js";
-import { render, resolveColors, SCREENS, SCENES } from "./preview.js";
+import { render, resolveColors, SCREENS, SCENES, GLYPHS } from "./preview.js";
 import { writeZip, readZip } from "./zip.js";
 import { icon } from "./icons.js";
 
@@ -21,7 +21,7 @@ function blankProject(mode = "theme") {
 
 let P = blankProject();
 let section = "basics";
-const view = { scene: "consoles", system: "snes", game: 0, row: 0, focus: true, screen: SCREENS.wide, rail: false, hints: true, video: true, sound: true, pick: false };
+const view = { scene: "consoles", system: "snes", game: 0, row: 0, focus: true, screen: SCREENS.wide, rail: false, glyphs: "xbox", video: true, sound: true, pick: false };
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -794,6 +794,7 @@ function drawStart() {
   };
   const fl = { primary: "#FFD18A", background: "#0D1628", surface: "#142037", primaryContainer: "#493B29", surfaceContainer: "#19283F", onBackground: "#FFF4E4", outline: "#91A0B5" };
   $("#start").innerHTML = `<div class="start-in">
+    <img src="assets/mirmire-icon.svg" alt="Mirmire" width="64" height="64" style="display:block;border-radius:16px;margin-bottom:18px;box-shadow:0 10px 30px #0005">
     <h1>Make Mirmire yours</h1>
     <p class="lede">Design a theme or an icon pack and see it on Mirmire's real screens as you go. When you're done, download a ZIP and import it in the app. Everything stays in your browser.</p>
     <div class="ways">
@@ -808,7 +809,7 @@ function drawStart() {
       <button class="tpl" data-start="firstlight">${mini(fl, { cardKind: "rounded", cardRadius: 18, cardBorder: "#596A83" }, "assets/first-light/wallpaper.jpg")}<div class="meta"><b>First Light</b><small>wallpaper, sounds, music</small></div></button>
       ${BUILT_IN.map((t) => `<button class="tpl" data-start="preset:${t.id}">${mini(t.colors, t.style, t.id === "droiddeck" ? "" : undefined)}<div class="meta"><b>${esc(t.name)}</b><small>${t.dark ? "dark" : "light"}</small></div></button>`).join("")}
     </div>
-    <p class="hint" style="margin-top:28px">Console icons by KyleBing and RetroArch assets contributors, CC BY 4.0. Oxanium font, SIL OFL. <a href="assets/CREDITS.md" target="_blank" rel="noopener">Credits</a> · <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/CREATING.md" target="_blank" rel="noopener">How to make themes and icon packs</a></p>
+    <p class="hint" style="margin-top:28px">Console icons by KyleBing and RetroArch assets contributors, CC BY 4.0. Sample games: Tobu Tobu Girl Deluxe, µCity, Butano Fighter, Libbet and the Magic Floor, Thwaite and Concentration Room, used under their free licenses. Oxanium font, SIL OFL. <a href="assets/CREDITS.md" target="_blank" rel="noopener">Credits</a> · <a href="assets/games/CREDITS.md" target="_blank" rel="noopener">Game art credits</a> · <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/CREATING.md" target="_blank" rel="noopener">How to make themes and icon packs</a></p>
   </div>`;
 }
 let hasSaved = false, savedName = "";
@@ -1049,6 +1050,7 @@ function wire() {
     if (t.dataset.openzip !== undefined && t.files[0]) await openAny([{ path: t.files[0].name, blob: t.files[0] }]);
     if (t.dataset.openfolder !== undefined && t.files.length) await openAny([...t.files].map((f) => ({ path: f.webkitRelativePath || f.name, blob: f })), "folder");
     if (t.id === "screenSize") { view.screen = SCREENS[t.value]; drawPreview(); }
+    if (t.id === "glyphs") { view.glyphs = t.value; drawPreview(); }
     if (t.id === "frame") { $("#device").classList.toggle("flat", t.value === "flat"); fit(); }
   });
 
@@ -1099,6 +1101,7 @@ function liveColor(k, rewriteHex = true) {
 async function boot() {
   try { const ui = localStorage.getItem("studio-ui"); if (ui) document.documentElement.dataset.theme = ui; } catch { /* ignore */ }
   $("#screenSize").innerHTML = Object.entries(SCREENS).map(([k, s]) => `<option value="${k}">${s.label}</option>`).join("");
+  $("#glyphs").innerHTML = Object.entries(GLYPHS).map(([k, l]) => `<option value="${k}">${l}</option>`).join("");
   wire();
   drawScenes();
   hasSaved = await restore();
@@ -1115,6 +1118,7 @@ async function boot() {
     await startFrom(kind, arg);
     if (q.get("scene")) { view.scene = q.get("scene"); drawScenes(); }
     if (q.get("frame") === "flat") $("#device").classList.add("flat");
+    if (q.get("glyphs") && GLYPHS[q.get("glyphs")]) { view.glyphs = q.get("glyphs"); $("#glyphs").value = view.glyphs; }
     if (q.get("screen") && SCREENS[q.get("screen")]) { view.screen = SCREENS[q.get("screen")]; $("#screenSize").value = q.get("screen"); }
     if (q.get("section")) section = q.get("section");
     drawEditor(); drawPreview();

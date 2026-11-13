@@ -55,6 +55,9 @@ export function fontStack(t, customFamily) {
 
 /** Generated stand-in box art for the made-up sample games. */
 function art(game, kind = "box") {
+  // Real artwork when the sample game has it (freely licensed homebrew; see assets/games/CREDITS.md).
+  const real = kind === "shot" ? game.shot : game.box;
+  if (real) return `<img class="m-art ${kind === "shot" ? "pixel" : ""}" src="${real}" alt="" loading="lazy">`;
   const h = game.hue;
   const a = `hsl(${h} 70% 46%)`, b = `hsl(${(h + 40) % 360} 75% 22%)`, d = `hsl(${(h + 200) % 360} 80% 70%)`;
   const id = `g${h}${kind}`;
@@ -126,9 +129,48 @@ function rail(activeTab) {
   </nav>`;
 }
 
-function hintBar() {
-  const btn = (l, c, ink = "#fff") => `<span class="m-glyph" style="background:${c};color:${ink}">${l}</span>`;
-  return `<div class="m-hints"><span>${btn("A", "#3DBE5B")}Open</span><span>${btn("B", "#E5484D")}Back</span><span>${btn("Y", "#F5C518", "#15171C")}Search</span></div>`;
+// Controller glyphs, drawn like PadGlyph in Gamepad.kt.
+export const GLYPHS = { xbox: "Xbox buttons", playstation: "PlayStation buttons", nintendo: "Nintendo buttons", off: "No hints" };
+
+function glyph(button, style, size = 22) {
+  const face = ["A", "B", "X", "Y"].includes(button);
+  if (!face) {
+    const names = { L1: { xbox: "LB", playstation: "L1", nintendo: "L" }, R1: { xbox: "RB", playstation: "R1", nintendo: "R" },
+      L2: { xbox: "LT", playstation: "L2", nintendo: "ZL" }, R2: { xbox: "RT", playstation: "R2", nintendo: "ZR" } };
+    const label = names[button]?.[style];
+    const inner = label ? `<b style="font-size:${size * 0.45}px;padding:0 6px">${label}</b>`
+      : icon(button === "START" ? "menuLines" : "viewAgenda", size * 0.65, "#15171C");
+    return `<span class="m-glyph sq" style="height:${size}px;min-width:${size * 1.5}px;border-radius:${size / 3}px">${inner}</span>`;
+  }
+  if (style === "playstation") {
+    const tint = { A: "#7FA8F0", B: "#F07A7A", X: "#E79BD0", Y: "#5FD4A8" }[button];
+    const sw = 1.8;
+    const shape = {
+      A: `<path d="M3 3L11 11M11 3L3 11" stroke="${tint}" stroke-width="${sw}" stroke-linecap="round"/>`,
+      B: `<circle cx="7" cy="7" r="4.4" stroke="${tint}" stroke-width="${sw}" fill="none"/>`,
+      X: `<rect x="3" y="3" width="8" height="8" stroke="${tint}" stroke-width="${sw}" fill="none"/>`,
+      Y: `<path d="M7 2.6L11.6 10.6H2.4Z" stroke="${tint}" stroke-width="${sw}" fill="none" stroke-linejoin="round"/>`,
+    }[button];
+    return `<span class="m-glyph" style="width:${size}px;height:${size}px;background:#1E2129"><svg width="${size * 0.6}" height="${size * 0.6}" viewBox="0 0 14 14">${shape}</svg></span>`;
+  }
+  const nintendo = style === "nintendo";
+  const bg = nintendo ? "#2A2D35" : { A: "#3DBE5B", B: "#E5484D", X: "#3E8EF7", Y: "#F5C518" }[button];
+  const ink = !nintendo && button === "Y" ? "#15171C" : "#fff";
+  return `<span class="m-glyph" style="width:${size}px;height:${size}px;background:${bg};color:${ink};font-size:${size * 0.5}px">${button}</span>`;
+}
+
+// The hints each screen shows in the app (HomeScreen, GameScreen, SettingsScreen).
+const SCENE_HINTS = {
+  consoles: [["A", "Open"], ["Y", "Search"], ["START", "Settings"]],
+  games: [["A", "Details"], ["X", "Favorite"], ["R2", "View"], ["L2", "Art"], ["B", "Back"]],
+  spotlight: [["A", "Details"], ["X", "Favorite"], ["R2", "View"], ["L2", "Art"], ["B", "Back"]],
+  game: [["A", "Select"], ["X", "Favorite"], ["Y", "Keep on device"], ["B", "Back"]],
+  settings: [["A", "Select"], ["B", "Back"], ["L1", "Prev"], ["R1", "Next"]],
+};
+
+function hintBar(scene, style) {
+  const hints = SCENE_HINTS[scene] || [];
+  return `<div class="m-hints">${hints.map(([b, l]) => `<span>${glyph(b, style)}${l}</span>`).join("")}</div>`;
 }
 
 function consolesScene(t, view, assets) {
@@ -160,8 +202,7 @@ function gamesScene(t, view, assets) {
   const local = view.game % 3 === 0;
   return `<div class="m-games-head">
       <div class="m-games-title">
-        <span class="m-sysicon">${iconFor(t, sys[0], assets)}</span>
-        <div><div class="m-title-l">${esc(sys[1])}</div><div class="m-label-m m-muted">${games.length} games</div></div>
+        <div><div class="m-title-l">All games</div><div class="m-label-m m-muted">${games.length} games</div></div>
       </div>
       <div class="m-switcher"><span class="m-seg on">${icon("list", 20)}<span>List</span></span><span class="m-seg">${icon("grid", 20)}</span><span class="m-seg">${icon("carousel", 20)}</span></div>
       <span class="m-chip">${icon("boxArt", 18)}<span>Box art</span></span>
@@ -171,16 +212,16 @@ function gamesScene(t, view, assets) {
       <div class="m-panel m-list">${games.map((x, i) => `
         <button class="m-tile m-row ${i === view.game ? (view.focus ? "foc" : "sel") : ""}" data-game="${i}" data-sfx="move">
           <span class="m-thumb">${art(x)}</span>
-          <span class="m-row-text"><b>${esc(x.title)}</b><small>${esc(sys[1])}</small></span>
+          <span class="m-row-text"><b>${esc(x.title)}</b><small>${esc(SYSTEM[x.system || sys[0]][1])}</small></span>
           ${i === 1 ? `<span style="color:#FF6B8A">${icon("heart", 16)}</span>` : ""}
           <span style="color:${i % 3 === 0 ? "var(--secondary)" : "var(--on-sv)"}">${icon(i % 3 === 0 ? "done" : "cloud", 16)}</span>
         </button>`).join("")}</div>
       <div class="m-panel m-stage">
         <div class="m-stage-media"><div class="m-media">${art(g, "shot")}</div><div class="m-box">${art(g)}</div></div>
-        <div class="m-stage-meta"><span class="m-sysicon sm">${iconFor(t, sys[0], assets)}</span><span class="m-label-m m-muted">${esc(sys[1])}</span>
+        <div class="m-stage-meta"><span class="m-sysicon sm">${iconFor(t, g.system || sys[0], assets)}</span><span class="m-label-m m-muted">${esc(SYSTEM[g.system || sys[0]][1])}</span>
           ${statusPill(local)}</div>
         <div class="m-stage-title">${esc(g.title)}</div>
-        <div class="m-info">${icon("calendar", 14)}${g.year}<span style="width:12px"></span>${icon("category", 14)}${esc(g.genre)}<span style="width:12px"></span><span style="color:#FFC23D;display:inline-flex;gap:4px;align-items:center">${icon("trophy", 14)}12 / 40</span></div>
+        <div class="m-info">${g.year ? `${icon("calendar", 14)}${g.year}<span style="width:12px"></span>` : ""}${icon("category", 14)}${esc(g.genre)}<span style="width:12px"></span><span style="color:#FFC23D;display:inline-flex;gap:4px;align-items:center">${icon("trophy", 14)}12 / 40</span></div>
         <div class="m-actions">${playButton(local)}<button class="m-tile m-round" data-sfx="favorite">${icon("heartOutline", 22)}</button><button class="m-tile m-round" data-go="game" data-sfx="select">${icon("info", 22)}</button></div>
       </div>
     </div>`;
@@ -196,8 +237,8 @@ function playButton(local, focused = false) {
 }
 
 function gameScene(t, view, assets) {
-  const sys = SYSTEM[view.system];
   const g = SAMPLE_GAMES[view.game] || SAMPLE_GAMES[0];
+  const sys = SYSTEM[g.system || view.system];
   const pill = (ic, text, color = "var(--on-sv)") => `<span class="m-info-pill" style="color:${color}">${icon(ic, 14)}${text}</span>`;
   return `<div class="m-game-art">${art(g, "shot")}</div>
     <button class="m-iconbtn" data-go="games" data-sfx="back">${icon("back", 24)}</button>
@@ -205,7 +246,7 @@ function gameScene(t, view, assets) {
       <div class="m-cover">${art(g, "shot")}</div>
       <div class="m-game-col">
         <div class="m-headline">${esc(g.title)}</div>
-        <div class="m-body-m m-muted">${esc(sys[1])} · ${g.year} · Mirmire Soft · ${esc(g.genre)} · ${g.players}</div>
+        <div class="m-body-m m-muted">${[sys[1], g.year, g.dev, g.genre, g.players].filter(Boolean).map(esc).join(" · ")}</div>
         <div class="m-pills">${statusPill(true)}${pill("sd", "256 KB")}${pill("checkCircle", "Verified dump", "var(--primary)")}${pill("trophy", "12 / 40", "var(--tertiary)")}${pill("history", "3 h 20 min played")}</div>
         <div class="m-actions">${playButton(true, view.focus)}<button class="m-tile m-action" data-sfx="select">${icon("cloudUpload", 20)}<span>Offload</span></button></div>
         <div class="m-actions"><button class="m-tile m-round" data-sfx="favorite">${icon("heartOutline", 22)}</button><button class="m-tile m-round" data-sfx="favorite">${icon("pin", 22)}</button><button class="m-tile m-round" data-sfx="select">${icon("refresh", 22)}</button>
@@ -221,12 +262,12 @@ function sectionHeader(t, text) {
 
 function spotlightScene(t, view, assets) {
   const card = (g, i) => `<button class="m-tile m-card ${i === view.game && view.focus ? "foc" : ""}" data-game="${i}" data-sfx="move">
-      <span class="m-card-art">${art(g)}</span><span class="m-card-foot"><b>${esc(g.title)}</b><small>${esc(SYSTEM[["snes", "nes", "n64", "megadrive", "gba", "psx"][i]][1])}</small></span></button>`;
+      <span class="m-card-art">${art(g)}</span><span class="m-card-foot"><b>${esc(g.title)}</b><small>${esc(SYSTEM[g.system || ["snes", "nes", "n64", "megadrive", "gba", "psx"][i]][1])}</small></span></button>`;
   return `<div class="m-spot">
     <div class="m-weekly">
       <span class="m-weekly-badge">${icon("trophy", 30)}</span>
       <div style="min-width:0"><div class="m-kicker" style="color:var(--tertiary)">${icon("trophy", 14)} ACHIEVEMENT OF THE WEEK</div>
-        <div class="m-title-l">Speed Run · 10 points</div><div class="m-body-s m-muted">Pixel Knights · Super Nintendo · 312 of 5,120 players have it</div></div>
+        <div class="m-title-l">Sample achievement · 10 points</div><div class="m-body-s m-muted">Tobu Tobu Girl Deluxe · Game Boy Color · from RetroAchievements</div></div>
       <span class="m-body-s m-muted" style="margin-left:auto">In your library</span>
     </div>
     ${sectionHeader(t, "Close to mastery")}
@@ -286,6 +327,6 @@ export function render(theme, view, assets, fontFamily) {
       ${chrome && !useRail ? topBar(view, tab) : ""}
       <div class="m-body">${body}</div>
     </div>
-    ${view.hints ? hintBar() : ""}
+    ${view.glyphs !== "off" ? hintBar(scene, view.glyphs) : ""}
   </div>`;
 }
