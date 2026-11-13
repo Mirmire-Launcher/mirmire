@@ -21,7 +21,12 @@ New here? Read the **[User guide](docs/GUIDE.md)**.
 - **Three ways to browse games:** a list with a preview pane, a cover grid, or a showcase wheel, with box art, 3D boxes, screenshots, title screens, cartridges or fan art.
 - **Video previews** play when a game stays selected.
 - **RetroArch set up for you:** cores, hotkeys, auto-resume and a sharp picture, plus settings for all games, each console and each game, and suggestions for your device.
-- **Save sync:** in-game saves sync with your storage before you play and when you come back, with older versions kept.
+- **Save sync and continue anywhere:** saves and save states sync with your storage, and the home screen offers to continue what you last played on another device. Devices without shared storage pair over Wi-Fi.
+- **Library cleanup:** one version of each game by your preferred regions, betas and demos hidden, and files checked against No-Intro.
+- **BIOS checker:** what each console needs, what's missing or wrong, and BIOS files synced from your storage.
+- **Spotlight:** the RetroAchievements weekly challenge, games close to mastery, quick and multiplayer picks, and your play time with battery estimates.
+- **Profiles:** separate players with their own saves and favorites, PINs and a content filter for children.
+- **Backups and trips:** back up and sync settings across devices, pack games for offline play, and offload games without losing saves.
 - **RetroAchievements:** progress on every game card and on each game's page.
 - **Stick lights on Retroid and AYN handhelds:** match the theme, show the battery level, or take each game's color from its console, its cover art or its performance mode.
 - **Themes and icon packs:** built-in themes, downloadable ones, or your own ZIP. Works as your home screen on handhelds and TVs.
@@ -79,6 +84,20 @@ New here? Read the **[User guide](docs/GUIDE.md)**.
 | ![Stick lights](screenshots/36-device-lights.jpg) | ![Console colors](screenshots/37-console-colors.jpg) |
 | **A console's color** | **A game's color** |
 | ![Console color picker](screenshots/38-console-color-picker.jpg) | ![Game light](screenshots/39-game-light.jpg) |
+
+### Spotlight, cleanup and more
+
+| Spotlight | Play together |
+|---|---|
+| ![Spotlight](screenshots/40-spotlight.jpg) | ![Play together](screenshots/41-spotlight-play-together.jpg) |
+| **Library cleanup** | **Didn't pass check** |
+| ![Library cleanup](screenshots/45-library-cleanup.jpg) | ![Didn't pass check](screenshots/42-library-filter.jpg) |
+| **Continue on another device** | **BIOS files** |
+| ![Continue on another device](screenshots/47-continue.jpg) | ![BIOS files](screenshots/48-bios.jpg) |
+| **Profiles** | **Content filter** |
+| ![Profiles](screenshots/51-profiles.jpg) | ![Content filter](screenshots/50-profile-filter.jpg) |
+| **Pack for a trip** | **Backups** |
+| ![Pack for a trip](screenshots/49-pack-trip.jpg) | ![Backups](screenshots/52-backups.jpg) |
 
 ### Guided setup
 

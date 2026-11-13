@@ -7,11 +7,19 @@
 - [Controls](#controls)
 - [Emulators and RetroArch](#emulators-and-retroarch)
 - [Save sync](#save-sync)
+- [Continue on another device](#continue-on-another-device)
+- [Library cleanup](#library-cleanup)
+- [BIOS files](#bios-files)
 - [Artwork](#artwork)
 - [RetroAchievements](#retroachievements)
 - [Themes and layout](#themes-and-layout)
 - [Stick lights](#stick-lights)
+- [Spotlight and play time](#spotlight-and-play-time)
+- [Profiles](#profiles)
 - [Storage](#storage)
+- [Pack for a trip](#pack-for-a-trip)
+- [Backups](#backups)
+- [Home screen widget](#home-screen-widget)
 - [Updates](#updates)
 - [Troubleshooting](#troubleshooting)
 
@@ -68,13 +76,13 @@ After adding a library, press **Sync now**. Mirmire lists your games without dow
 
 ![All games](../screenshots/02-games-list.jpg)
 
-- **Tabs:** Consoles, All games, Recent, Favorites and Apps (your Android apps, handy when Mirmire is the home screen).
+- **Tabs:** Consoles, All games, Recent, Favorites, Spotlight and Apps (your Android apps, handy when Mirmire is the home screen).
 - **Views:** list with a preview pane, cover grid, or showcase. Switch with the buttons at the top or **R2**.
 - **Artwork type:** box art, 3D box, screenshot, title screen, cartridge, fan art and more. Switch with the artwork button or **L2**.
 - **Sort:** by name, last played, recently added or most played. Use the sort button or **Select**.
 - **Search:** the magnifier, or **Y**.
 
-Open a game for its details. **Download & play** downloads it to the device, then starts it. Games already on the device just say **Play**. From the details page you can also:
+Open a game for its details. **Download & play** downloads it to the device, then starts it. Games already on the device just say **Play**. **Offload** removes a game from the device: its saves and states sync to your storage first, and copies that are safely there are removed too. Artwork and play time stay, and downloading it again brings everything back. From the details page you can also:
 
 - favorite (**X**) and pin (**Y**); pinned games are never removed to free space;
 - refresh the game's information;
@@ -82,6 +90,8 @@ Open a game for its details. **Download & play** downloads it to the device, the
 - change its RetroArch settings;
 - choose a performance mode.
 
+
+![Offload on a game's page](../screenshots/44-game-offload.jpg)
 ![Game details](../screenshots/06-game-details.jpg)
 
 ## Controls
@@ -134,7 +144,42 @@ Holding **Start** also opens RetroArch's menu.
 
 ## Save sync
 
-**Settings › Library › Save files on your storage.** With sync on, your in-game saves upload to `Saves/<console>/` on your storage when you come back to Mirmire. Before you play, a newer save on the storage is downloaded. Earlier versions are kept, so you can go back to one. Save states and games from device folders aren't synced.
+**Settings › Library › Save files on your storage.** With sync on, your in-game saves upload to `Saves/<console>/` on your storage when you come back to Mirmire, and save states to `Saves/<console>/states/`. Before you play, newer saves and states on the storage are downloaded. Earlier versions of saves are kept, so you can go back to one.
+
+## Continue on another device
+
+When another of your devices played a game more recently, the home screen offers **Continue**: the game opens here with that device's save and save state, so with **Resume where you left off** on you're right where you stopped.
+
+![Continue on another device](../screenshots/47-continue.jpg)
+
+- **Devices that use the same library storage** need no setup: they share saves, states and "last played" through it.
+- **Devices without shared storage** (for example, games in a folder on each device) pair once over Wi-Fi in **Settings › Library › Continue on another device**: press **Pair** next to the other device, check that both screens show the same 6-digit code, and accept on the other device. Paired devices swap newer saves and states, encrypted, whenever Mirmire is open on both on the same Wi-Fi. A replaced copy is kept in `Mirmire/retroarch/.peer-backup/`.
+
+## Library cleanup
+
+Big libraries often have several versions of each game. **Settings › Library › Cleanup:**
+
+![Library cleanup](../screenshots/45-library-cleanup.jpg)
+
+- **One version of each game** shows one copy per game, picked by your **Preferred regions** in order (a World release counts as your first choice), then the latest revision, preferring clean dumps over bad, hacked or translated ones. A game only released elsewhere shows its best version. Games you've played, pinned or favorited always show.
+- **Hide betas, demos and prototypes.**
+- **Check games against No-Intro:** games are checked against the No-Intro list (from libretro-database) when they're downloaded or already on the device. **Check all** reads the rest from your storage. Disc-based consoles aren't covered. A game's page shows **Verified dump**, **Bad or modified dump** or **Not in No-Intro list**.
+
+The filter button above the games list switches between **Cleaned up**, **Everything** (hidden versions too) and **Didn't pass check**.
+
+| ![Preferred regions](../screenshots/46-preferred-regions.jpg) | ![Didn't pass check filter](../screenshots/42-library-filter.jpg) |
+|---|---|
+
+![Not in No-Intro list on a game's page](../screenshots/43-game-check.jpg)
+
+## BIOS files
+
+**Settings › RetroArch › BIOS files** lists the consoles in your library that use BIOS files, with what's found, missing or the wrong version, checked against libretro's BIOS checksums. Tap a console for the file names and where they go.
+
+![BIOS files](../screenshots/48-bios.jpg)
+
+- **BIOS folder:** pick a folder on your storage, like the saves and artwork folders. Files sync both ways: good files there are copied to the device, and good files on the device are uploaded. Left on automatic, Mirmire looks for a `bios`, `system` or `firmware` folder in your libraries.
+- **Sync BIOS files from storage** brings new files over on every library sync. Files are recognised by checksum, so `SCPH-5501.BIN` is saved as `scph5501.bin`, where RetroArch expects it.
 
 ## Artwork
 
@@ -159,6 +204,35 @@ Sign in under **Settings › Trophies** with your username and **Web API key** (
 - **Layout:** screen orientation, top bar or side menu, consoles view, console tiles or icons only (with icon size), games view, card size, artwork type, what's shown on cards, and video previews.
 
 Making your own theme: see [THEMES.md](THEMES.md).
+
+## Spotlight and play time
+
+The **Spotlight** tab gathers:
+
+![Spotlight](../screenshots/40-spotlight.jpg)
+
+- **Achievement of the week** from RetroAchievements, with a button to the game when it's in your library;
+- **Close to mastery:** games nearest to 100% of their achievements;
+- **Quick to play:** arcade, puzzle, fighting and other pick-up-and-play genres;
+- **Play together:** multiplayer games;
+- **Not tried yet:** a new pick every day;
+- **Your play time:** this week, all time, your top console and most played games.
+
+![Play together](../screenshots/41-spotlight-play-together.jpg)
+
+Mirmire times each play from launch until you come back. A game's page shows its play time and, once there's enough history, about how long the battery will last playing it in its performance mode.
+
+## Profiles
+
+**Settings › Profiles** (or **Who's playing?** during setup) adds a player for each person. Each has their own favorites, recently played, play time, saves and save states. Switch with the player button next to Search.
+
+| ![Profiles](../screenshots/51-profiles.jpg) | ![Content filter](../screenshots/50-profile-filter.jpg) |
+|---|---|
+
+- **PIN:** asked when switching to that player.
+- **Content filter** (for a child's profile): only the consoles you allow, without the genres you hide. A filtered player can't see hidden games and needs a parent's PIN to open Settings, so set a PIN on your own profile.
+
+RetroAchievements uses one account for every player.
 
 ## Stick lights
 
@@ -208,6 +282,28 @@ Good to know:
 - free up space automatically by removing large games you haven't played for a while (saves and pinned games are kept);
 - free up space now.
 
+## Pack for a trip
+
+**Settings › Storage › Pack for a trip** gets games ready to play offline. Pick favorites, recently played, games already on the device or whole consoles. Mirmire downloads them, keeps them from being removed to free space, and syncs their saves, states and BIOS files. While you're away, games start without waiting for your storage. When a network is back, saves, settings and "last played" sync straight away. **Back home: unpack** lets free-up-space remove them again.
+
+![Pack for a trip](../screenshots/49-pack-trip.jpg)
+
+## Backups
+
+**Settings › System › Backups** saves Mirmire's setup to your storage: settings, libraries (without passwords), emulator choices, RetroArch settings, favorites, stick-light colors, imported themes and icon packs. Pick the **Backups folder** like the saves folder (automatic: `Mirmire/backups` in your first network library).
+
+![Backups](../screenshots/52-backups.jpg)
+
+- **Back up automatically:** once a day; the newest 10 backups of each device are kept.
+- **Restore a backup:** from this device or any other. Libraries it adds ask for their password.
+- **Keep settings in sync:** changes back up a minute later, and Mirmire applies newer settings from your other devices when it opens. Screen orientation, menu style and sizes stay per device.
+
+Passwords and keys are never backed up.
+
+## Home screen widget
+
+On a phone with its own launcher, add the **Mirmire: Continue** widget from your launcher's widget list, or from **Settings › System › Add widget to home screen**. It shows your last game with its play time and the four before it; tap one to open it.
+
 ## Updates
 
 **Settings › System › App updates** shows your version and checks this repository for a newer one. When there is one, press **Download**, then **Install**. The first time, Android asks you to allow Mirmire to install apps. Turn on **Check automatically** to check once a day; nothing downloads until you choose to.
@@ -229,5 +325,9 @@ Good to know:
 **An update won't install ("signed with a different key").** That copy of Mirmire came from somewhere else. Uninstall it, then install the release APK. Your library will need to be added again.
 
 **The stick lights don't change.** Check that Shizuku is running and allowed in Settings › Device, and that the lighting effect in your device's settings is set to solid. If Mirmire says no light settings were found, turn the stick lights on once in your device's settings, then press **Check again**.
+
+**A game doesn't start: "BIOS".** Check **Settings › RetroArch › BIOS files** for that console.
+
+**A game is missing from the list.** Library cleanup may show another version instead: switch the filter above the games list to **Everything**.
 
 **Start over.** Settings › System › Reset settings resets each area on its own. Your libraries, downloaded games, saves and artwork are kept.
