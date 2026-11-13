@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mirmire: retro game launcher for Android</title>
+  <meta name="description" content="A retro game launcher for Android handhelds, phones and TVs that plays your whole library straight from your NAS, with save sync, RetroArch set up for you and Theme Studio.">
+  <meta property="og:title" content="Mirmire">
+  <meta property="og:description" content="A retro game launcher for Android handhelds, phones and TVs that plays your whole library straight from your NAS.">
+  <meta property="og:image" content="https://mirmire-launcher.github.io/mirmire/images/social-preview.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="images/mirmire-icon.svg" type="image/svg+xml">
+  <style>
+    @font-face { font-family: Oxanium; src: url("theme-maker/assets/fonts/oxanium_medium.ttf") format("truetype"); font-weight: 500; }
+    @font-face { font-family: Oxanium; src: url("theme-maker/assets/fonts/oxanium_bold.ttf") format("truetype"); font-weight: 700 800; }
+    :root {
+      --bg: #0B1326; --bg-2: #101B33; --panel: #142037; --panel-2: #19283F; --line: #25364F;
+      --ink: #FFF4E4; --ink-2: #C9D2E1; --ink-3: #8D9AB0;
+      --gold: #FFB84D; --pale: #FFD584; --coral: #FF795D; --rose: #F25967;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--pale); }
+    img { max-width: 100%; height: auto; display: block; }
+    h1, h2, h3, .brand { font-family: Oxanium, system-ui, sans-serif; letter-spacing: -.3px; }
+    .wrap { width: min(1160px, 100% - 32px); margin: 0 auto; }
+
+    /* nav */
+    nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid #ffffff10; }
+    nav .wrap { display: flex; align-items: center; gap: 22px; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; color: var(--ink); text-decoration: none; }
+    .brand img { width: 34px; height: 34px; border-radius: 9px; }
+    nav .links { display: flex; gap: 22px; margin-left: auto; align-items: center; }
+    nav .links a { color: var(--ink-2); text-decoration: none; font-weight: 500; font-size: 15px; }
+    nav .links a:hover { color: var(--ink); }
+
+    /* buttons */
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 14px; font-weight: 700; font-size: 16px; text-decoration: none; transition: transform .15s, box-shadow .15s; white-space: nowrap; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn.primary { background: linear-gradient(135deg, var(--pale), var(--gold)); color: #241A11; box-shadow: 0 10px 30px #FFB84D40; }
+    .btn.ghost { color: var(--ink); background: #ffffff0d; border: 1px solid #ffffff22; }
+    .btn.small { padding: 9px 15px; font-size: 14px; border-radius: 11px; }
+    .btn svg { width: 20px; height: 20px; }
+
+    /* hero */
+    .hero { position: relative; overflow: hidden; padding: 72px 0 40px;
+      background: radial-gradient(900px 520px at 80% 115%, #FF795D45, transparent 60%), radial-gradient(700px 420px at 90% 100%, #FFB84D35, transparent 65%), linear-gradient(165deg, #16244A 0%, var(--bg-2) 50%, var(--bg) 100%); }
+    .hero .wrap { display: grid; grid-template-columns: 1fr 1.25fr; gap: 48px; align-items: center; }
+    .hero .icon { width: 84px; height: 84px; border-radius: 20px; box-shadow: 0 16px 40px #0008; margin-bottom: 22px; }
+    .hero h1 { font-size: clamp(44px, 6vw, 76px); line-height: 1.02; margin: 0 0 18px; font-weight: 800; }
+    .hero h1 em { font-style: normal; background: linear-gradient(90deg, var(--pale), var(--coral)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p.lead { font-size: 20px; color: var(--ink-2); margin: 0 0 28px; max-width: 520px; }
+    .hero .ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero .meta { color: var(--ink-3); font-size: 14px; margin-top: 16px; }
+    .device { padding: 12px; border-radius: 34px; background: linear-gradient(160deg, #2A2F3D, #12151D); box-shadow: 0 40px 90px #000a, inset 0 1px 0 #ffffff1a; position: relative; }
+    .device img { border-radius: 16px; }
+    .device::before, .device::after { content: ""; position: absolute; width: 26px; height: 26px; border-radius: 50%; top: 50%; translate: 0 -50%; background: radial-gradient(circle at 40% 35%, #3a4050, #15181f); box-shadow: 0 0 0 2px var(--gold), 0 0 14px 2px var(--gold); }
+    .device::before { left: -40px; } .device::after { right: -40px; display: none; }
+    .stripe { height: 6px; background: linear-gradient(90deg, var(--gold), var(--coral) 50%, var(--rose)); }
+
+    /* sections */
+    section { padding: 88px 0; }
+    .kicker { font-family: Oxanium, sans-serif; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-size: 14px; font-weight: 700; margin: 0 0 10px; }
+    h2 { font-size: clamp(32px, 4vw, 46px); margin: 0 0 14px; line-height: 1.1; font-weight: 800; }
+    .sub { color: var(--ink-2); font-size: 19px; max-width: 720px; margin: 0 0 44px; }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 24px; transition: border-color .2s, transform .2s; }
+    .card:hover { border-color: #FFB84D66; transform: translateY(-3px); }
+    .card .ic { font-size: 28px; line-height: 1; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 14px; background: #FFB84D1A; margin-bottom: 16px; }
+    .card h3 { margin: 0 0 8px; font-size: 21px; }
+    .card p { margin: 0; color: var(--ink-2); font-size: 16px; }
+
+    /* feature rows with screenshots */
+    .rows { display: grid; gap: 80px; }
+    .row { display: grid; grid-template-columns: 1fr 1.3fr; gap: 56px; align-items: center; }
+    .row.flip { grid-template-columns: 1.3fr 1fr; }
+    .row.flip .text { order: 2; }
+    .row h3 { font-size: 32px; margin: 0 0 12px; line-height: 1.15; }
+    .row p { color: var(--ink-2); margin: 0 0 12px; }
+    .row ul { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+    .row li { padding-left: 28px; position: relative; color: var(--ink-2); }
+    .row li::before { content: ""; position: absolute; left: 4px; top: 9px; width: 10px; height: 10px; border-radius: 3px; background: linear-gradient(135deg, var(--gold), var(--coral)); }
+    .shot { border-radius: 18px; border: 1px solid var(--line); box-shadow: 0 30px 70px #0009; overflow: hidden; }
+    .pair { display: grid; gap: 14px; }
+
+    /* theme studio */
+    .studio { background: radial-gradient(800px 400px at 20% 0%, #FF795D22, transparent 70%), var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .studio .wrap > .head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 36px; }
+    .studio .head .sub { margin: 0; }
+    .browser { border-radius: 18px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 40px 90px #000a; background: #1A1E2A; }
+    .browser .chrome { height: 38px; display: flex; align-items: center; gap: 8px; padding: 0 14px; background: #20252F; }
+    .browser .chrome i { width: 11px; height: 11px; border-radius: 50%; background: #3a4050; }
+    .browser .chrome i:nth-child(1) { background: #FF6159; } .browser .chrome i:nth-child(2) { background: #FFBD2E; } .browser .chrome i:nth-child(3) { background: #28C941; }
+    .browser .chrome span { margin-left: 12px; font-size: 13px; color: var(--ink-3); background: #151922; padding: 3px 12px; border-radius: 7px; }
+    .studio .grid { margin-top: 30px; }
+
+    /* gallery */
+    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .gallery figure { margin: 0; }
+    .gallery img { border-radius: 14px; border: 1px solid var(--line); cursor: zoom-in; }
+    .gallery figcaption { color: var(--ink-3); font-size: 14px; margin-top: 8px; }
+    dialog { border: 0; padding: 0; background: transparent; max-width: min(1400px, 96vw); }
+    dialog::backdrop { background: #000c; }
+    dialog img { border-radius: 14px; }
+
+    /* get started */
+    .steps { counter-reset: s; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .step { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 26px; }
+    .step::before { counter-increment: s; content: counter(s); font-family: Oxanium, sans-serif; font-weight: 800; font-size: 20px; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: linear-gradient(135deg, var(--pale), var(--gold)); color: #241A11; margin-bottom: 16px; }
+    .step h3 { margin: 0 0 8px; font-size: 21px; }
+    .step p { margin: 0; color: var(--ink-2); font-size: 16px; }
+    .cta-band { margin-top: 44px; padding: 40px; border-radius: 24px; text-align: center; background: radial-gradient(600px 300px at 50% 120%, #FF795D40, transparent 70%), var(--panel); border: 1px solid var(--line); }
+    .cta-band h3 { font-size: 30px; margin: 0 0 8px; }
+    .cta-band p { color: var(--ink-2); margin: 0 0 22px; }
+    .cta-band .ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    footer { padding: 40px 0 60px; color: var(--ink-3); font-size: 14px; border-top: 1px solid var(--line); }
+    footer .wrap { display: flex; gap: 24px; flex-wrap: wrap; justify-content: space-between; align-items: center; }
+    footer .links { display: flex; gap: 18px; flex-wrap: wrap; }
+    footer a { color: var(--ink-2); text-decoration: none; }
+    footer a:hover { color: var(--ink); }
+
+    @media (max-width: 900px) {
+      nav .links a.hide-sm { display: none; }
+      .hero { padding-top: 44px; }
+      .hero .wrap, .row, .row.flip { grid-template-columns: 1fr; gap: 32px; }
+      .row.flip .text { order: 0; }
+      .grid, .steps { grid-template-columns: 1fr 1fr; }
+      .gallery { grid-template-columns: 1fr 1fr; }
+      .device::before { display: none; }
+      section { padding: 64px 0; }
+    }
+    @media (max-width: 600px) {
+      body { font-size: 16px; }
+      nav .links { gap: 14px; }
+      nav .links a:not(.btn) { display: none; }
+      .grid, .steps, .gallery { grid-template-columns: 1fr; }
+      .hero p.lead { font-size: 18px; }
+      .btn { padding: 13px 18px; }
+      .cta-band { padding: 28px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="wrap">
+      <a class="brand" href="./"><img src="images/mirmire-icon.svg" alt="">Mirmire</a>
+      <div class="links">
+        <a href="#features" class="hide-sm">Features</a>
+        <a href="#theme-studio" class="hide-sm">Theme Studio</a>
+        <a href="#screenshots" class="hide-sm">Screenshots</a>
+        <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/GUIDE.md">Guide</a>
+        <a class="btn primary small" href="https://github.com/Mirmire-Launcher/mirmire/releases/latest">Download</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <div>
+        <img class="icon" src="images/mirmire-icon.svg" alt="Mirmire">
+        <h1>Your whole retro library, <em>straight from your NAS</em></h1>
+        <p class="lead">Mirmire is a launcher for Android handhelds, phones and TVs. It plays games from your network storage, keeps your saves in sync and sets up RetroArch for you.</p>
+        <div class="ctas">
+          <a class="btn primary" href="https://github.com/Mirmire-Launcher/mirmire/releases/latest"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Download for Android</a>
+          <a class="btn ghost" href="theme-maker/">🎨 Try Theme Studio</a>
+        </div>
+        <p class="meta">Free · Android 8.0 or later · Works with RetroArch and standalone emulators</p>
+      </div>
+      <div class="device"><img src="images/site/01-consoles.jpg" alt="Mirmire's console screen with Nintendo 64 selected" width="1200" height="540"></div>
+    </div>
+  </header>
+  <div class="stripe"></div>
+
+  <section id="features">
+    <div class="wrap">
+      <p class="kicker">What makes it different</p>
+      <h2>Built around the library you already have</h2>
+      <p class="sub">Most launchers expect your games on the device and leave emulators, saves and BIOS files to you. Mirmire is built for a library on your storage, and takes care of the rest.</p>
+      <div class="grid">
+        <div class="card"><div class="ic">📡</div><h3>Your NAS is the library</h3><p>Browse thousands of games over SMB, SFTP, WebDAV or FTP. A game downloads when you press Play, and big unplayed games are cleared to free space.</p></div>
+        <div class="card"><div class="ic">🔄</div><h3>Continue anywhere</h3><p>Saves and save states sync with your storage. Pick up another device and carry on from the same moment. Devices without shared storage pair over Wi-Fi.</p></div>
+        <div class="card"><div class="ic">⚙️</div><h3>RetroArch, set up for you</h3><p>Cores, hotkeys, auto-resume and a sharp picture, with settings for all games, one console or one game, and suggestions for your device.</p></div>
+        <div class="card"><div class="ic">🧹</div><h3>A clean library</h3><p>One version of each game by your preferred regions. Betas and demos are hidden, and files are checked against No-Intro.</p></div>
+        <div class="card"><div class="ic">🧩</div><h3>BIOS checker</h3><p>See what each console needs and what's missing or the wrong version, then copy the right files from your storage.</p></div>
+        <div class="card"><div class="ic">✈️</div><h3>Pack for a trip</h3><p>Take games offline and play anywhere. Everything syncs back when you're home, and offloading a game keeps its saves.</p></div>
+        <div class="card"><div class="ic">💡</div><h3>Stick lights that react</h3><p>On Retroid and AYN handhelds the lights follow the theme, the battery, the console, the cover art or the performance mode.</p></div>
+        <div class="card"><div class="ic">👨‍👩‍👧</div><h3>Profiles for the family</h3><p>Each player has their own saves, favorites and play time, with PINs and a content filter for children.</p></div>
+        <div class="card"><div class="ic">💾</div><h3>Backups that travel</h3><p>Back up settings, themes and RetroArch's own settings to your storage, restore on any device, or keep devices in sync.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap rows">
+      <div class="row">
+        <div class="text">
+          <p class="kicker">Continue on another device</p>
+          <h3>Start on your phone, finish on your handheld</h3>
+          <p>When another of your devices played a game more recently, the home screen offers to continue it, with that device's save and save state.</p>
+          <ul><li>No account or sign-up</li><li>Devices sharing storage need no setup</li><li>Others pair once over Wi-Fi with a 6-digit code</li></ul>
+        </div>
+        <img class="shot" src="images/site/47-continue.jpg" alt="Continue on another device settings" loading="lazy">
+      </div>
+      <div class="row flip">
+        <div class="text">
+          <p class="kicker">RetroArch</p>
+          <h3>Tuned without opening RetroArch's menus</h3>
+          <p>Pick settings for every game, a whole console or a single game. Mirmire applies them before each launch, and suggests what suits your device.</p>
+          <ul><li>Cores downloaded for you</li><li>Shaders, hotkeys and auto-resume</li><li>Your RetroArch settings are included in backups</li></ul>
+        </div>
+        <img class="shot" src="images/site/12-settings-retroarch.jpg" alt="RetroArch settings in Mirmire" loading="lazy">
+      </div>
+      <div class="row">
+        <div class="text">
+          <p class="kicker">Library cleanup</p>
+          <h3>One copy of each game, verified</h3>
+          <p>Big collections often have several versions of every game. Mirmire shows the best one for your regions, hides betas and demos, and checks files against No-Intro.</p>
+          <ul><li>Your region order, with fallbacks</li><li>Games you've played always stay</li><li>A filter shows anything that failed the check</li></ul>
+        </div>
+        <div class="pair"><img class="shot" src="images/site/45-library-cleanup.jpg" alt="Library cleanup settings" loading="lazy"><img class="shot" src="images/site/48-bios.jpg" alt="BIOS checker" loading="lazy"></div>
+      </div>
+      <div class="row flip">
+        <div class="text">
+          <p class="kicker">Spotlight</p>
+          <h3>Something to play, every day</h3>
+          <p>The RetroAchievements weekly challenge, games you're close to mastering, quick and multiplayer picks, and your play time with battery estimates.</p>
+        </div>
+        <img class="shot" src="images/site/40-spotlight.jpg" alt="Spotlight tab" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <section class="studio" id="theme-studio">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="kicker">Theme Studio</p>
+          <h2>Design your own look, in your browser</h2>
+          <p class="sub">Build a theme or console icon pack and see it on Mirmire's real screens as you go. Nothing to install, and nothing you add leaves your browser.</p>
+        </div>
+        <a class="btn primary" href="theme-maker/">Open Theme Studio →</a>
+      </div>
+      <a href="theme-maker/" class="browser" style="display:block;text-decoration:none">
+        <div class="chrome"><i></i><i></i><i></i><span>mirmire-launcher.github.io/mirmire/theme-maker</span></div>
+        <img src="images/site/theme-studio.jpg" alt="Theme Studio editing a cyberpunk theme with a live preview" loading="lazy">
+      </a>
+      <div class="grid">
+        <div class="card"><div class="ic">👀</div><h3>Live preview</h3><p>Home, games list, game page, Spotlight and Settings update as you edit. Move around with the arrow keys and hear your sounds.</p></div>
+        <div class="card"><div class="ic">🎨</div><h3>A palette from one color</h3><p>Pick a color and get a full, readable palette, or start from one of Mirmire's built-in themes.</p></div>
+        <div class="card"><div class="ic">📦</div><h3>Drop in your files</h3><p>Wallpapers, console icons, backdrops, sounds and music. Sets named for other frontends are sorted automatically.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screenshots">
+    <div class="wrap">
+      <p class="kicker">Screenshots</p>
+      <h2>Made for controllers, works with touch</h2>
+      <p class="sub">Every screen works with a gamepad, keyboard or touch, in landscape or portrait, with Xbox, PlayStation or Nintendo button labels.</p>
+      <div class="gallery">
+        <figure><img src="images/site/02-games-list.jpg" alt="Games list" loading="lazy"><figcaption>Games list with preview</figcaption></figure>
+        <figure><img src="images/site/03-games-grid.jpg" alt="Cover grid" loading="lazy"><figcaption>Cover grid</figcaption></figure>
+        <figure><img src="images/site/04-games-showcase.jpg" alt="Showcase" loading="lazy"><figcaption>Showcase</figcaption></figure>
+        <figure><img src="images/site/06-game-details.jpg" alt="Game details" loading="lazy"><figcaption>Game page</figcaption></figure>
+        <figure><img src="images/site/36-device-lights.jpg" alt="Stick lights" loading="lazy"><figcaption>Stick lights</figcaption></figure>
+        <figure><img src="images/site/49-pack-trip.jpg" alt="Pack for a trip" loading="lazy"><figcaption>Pack for a trip</figcaption></figure>
+        <figure><img src="images/site/51-profiles.jpg" alt="Profiles" loading="lazy"><figcaption>Profiles</figcaption></figure>
+        <figure><img src="images/site/52-backups.jpg" alt="Backups" loading="lazy"><figcaption>Backups</figcaption></figure>
+        <figure><img src="images/site/01-consoles.jpg" alt="Consoles" loading="lazy"><figcaption>Consoles</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="start" style="padding-top:0">
+    <div class="wrap">
+      <p class="kicker">Get started</p>
+      <h2>Playing in a few minutes</h2>
+      <p class="sub">The setup wizard walks you through everything on first launch.</p>
+      <div class="steps">
+        <div class="step"><h3>Install Mirmire</h3><p>Download the APK from GitHub Releases and open it. Mirmire keeps itself up to date after that.</p></div>
+        <div class="step"><h3>Add your library</h3><p>Point it at your NAS share or a folder on the device. Artwork and game details load automatically.</p></div>
+        <div class="step"><h3>Press Play</h3><p>Mirmire picks an emulator, sets up RetroArch and downloads the game. Your saves sync from then on.</p></div>
+      </div>
+      <div class="cta-band">
+        <h3>Ready to play?</h3>
+        <p>Free, with no account or ads.</p>
+        <div class="ctas">
+          <a class="btn primary" href="https://github.com/Mirmire-Launcher/mirmire/releases/latest">Download for Android</a>
+          <a class="btn ghost" href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/GUIDE.md">Read the guide</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <a class="brand" href="./" style="font-size:17px"><img src="images/mirmire-icon.svg" alt="" style="width:28px;height:28px">Mirmire</a>
+      <div class="links">
+        <a href="https://github.com/Mirmire-Launcher/mirmire/releases">Releases</a>
+        <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/GUIDE.md">User guide</a>
+        <a href="theme-maker/">Theme Studio</a>
+        <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/CREATING.md">Make themes</a>
+        <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/THEMES.md">Theme format</a>
+        <a href="https://github.com/Mirmire-Launcher/mirmire">GitHub</a>
+      </div>
+      <p style="width:100%;margin:8px 0 0">Mirmire doesn't include any games. Mirmire means "early dawn" in Nepali.</p>
+    </div>
+  </footer>
+
+  <dialog id="zoom"><img alt=""></dialog>
+  <script>
+    const dlg = document.getElementById("zoom");
+    document.querySelectorAll(".gallery img, .shot").forEach((img) => img.addEventListener("click", () => {
+      dlg.querySelector("img").src = img.src; dlg.querySelector("img").alt = img.alt; dlg.showModal();
+    }));
+    dlg.addEventListener("click", () => dlg.close());
+  </script>
+</body>
+</html>

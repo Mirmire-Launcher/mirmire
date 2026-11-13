@@ -1,10 +1,60 @@
 <p align="center"><img src="docs/images/mirmire-icon.svg" alt="Mirmire" width="96"></p>
 
-# Mirmire
+<h1 align="center">Mirmire</h1>
 
-A launcher for retro games on Android handhelds, phones and TVs. Mirmire plays your game library from network storage (SMB, SFTP, WebDAV, FTP) or a folder on the device, with box art, videos, RetroAchievements, save sync, themes and full controller navigation. Games launch in RetroArch or standalone emulators.
+<p align="center"><b>A retro game launcher for Android handhelds, phones and TVs that plays your whole library straight from your NAS.</b></p>
+
+<p align="center">
+  <a href="https://github.com/Mirmire-Launcher/mirmire/releases/latest"><b>⬇ Download</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://mirmire-launcher.github.io/mirmire/theme-maker/"><b>🎨 Theme Studio</b></a>
+  &nbsp;·&nbsp;
+  <a href="docs/GUIDE.md"><b>📖 User guide</b></a>
+</p>
 
 ![Consoles](screenshots/01-consoles.jpg)
+
+## What makes Mirmire different
+
+Most launchers expect your games on the device and leave the emulators, saves and BIOS files to you. Mirmire is built around a library that lives on your storage, and takes care of the rest.
+
+- **📡 Your NAS is the library.** Browse thousands of games over SMB, SFTP, WebDAV or FTP with full artwork. Nothing is copied ahead of time: a game downloads when you press Play, and big games you haven't played in a while are cleared to free space.
+- **🔄 Continue on another device.** Saves and save states sync with your storage. Pick up your handheld and the home screen offers to continue the game you were playing on your phone, from the same moment. Devices without shared storage pair over Wi-Fi with a 6-digit code.
+- **⚙️ RetroArch, set up for you.** Mirmire downloads cores, sets hotkeys, auto-resume and a sharp picture, and suggests settings for your device. Change any setting for all games, one console or one game, without opening RetroArch's menus.
+- **🧹 A clean library.** One version of each game, picked by your preferred regions. Betas and demos are hidden, and files are checked against No-Intro, so bad dumps stand out.
+- **🧩 BIOS checker.** See what each console needs and what's missing or the wrong version, then copy the right files from your storage with one tap.
+- **✈️ Pack for a trip.** Choose games to take offline, then play on the plane. Everything syncs back when you're home. Offload a game later without losing its saves.
+- **💡 Stick lights that react.** On Retroid and AYN handhelds, the stick lights follow the theme, the battery level, the console, the game's cover art or its performance mode.
+- **👨‍👩‍👧 Profiles for the whole family.** Each player has their own saves, favorites and play time, with PINs and a content filter for children.
+- **🎨 Design your own look.** [Theme Studio](https://mirmire-launcher.github.io/mirmire/theme-maker/) lets you build a theme or icon pack in your browser with a live preview of the app. Download the ZIP and import it.
+
+| Continue on another device | Library cleanup |
+|---|---|
+| ![Continue on another device](screenshots/47-continue.jpg) | ![Library cleanup](screenshots/45-library-cleanup.jpg) |
+| **BIOS checker** | **Stick lights** |
+| ![BIOS files](screenshots/48-bios.jpg) | ![Stick lights](screenshots/36-device-lights.jpg) |
+
+## Make it yours with Theme Studio
+
+<p align="center"><a href="https://mirmire-launcher.github.io/mirmire/theme-maker/"><b>Open Theme Studio →</b></a></p>
+
+Theme Studio runs in your browser, with nothing to install, and nothing you add is uploaded.
+
+- **Live preview:** see your theme on Mirmire's home screen, games list, game page, Spotlight and Settings as you edit. Move around with the arrow keys, as with a controller, and hear your sounds.
+- **Colors from one color:** pick one color and it builds a full palette, with readability checks.
+- **Remix or start fresh:** begin from Mirmire's built-in themes, or open any theme or icon pack ZIP to edit it.
+- **Bring your own files:** drop in your wallpaper, console icons, backdrops, sounds and music. Files named like other frontends' sets are sorted automatically.
+
+When you're done, download the ZIP and import it in **Settings › Look**. See [Make your own themes and icon packs](docs/CREATING.md) for tips.
+
+## Everything else
+
+- **Built for controllers:** every screen works with a gamepad, keyboard or touch, with Xbox, PlayStation or Nintendo button labels.
+- **Three ways to browse:** a list with a preview pane, a cover grid, or a showcase wheel, with box art, 3D boxes, screenshots, title screens, cartridges or fan art, and video previews.
+- **Spotlight:** the RetroAchievements weekly challenge, games close to mastery, quick and multiplayer picks, and your play time with battery estimates.
+- **RetroAchievements:** progress on every game card and on each game's page.
+- **Backups:** back up settings, themes and RetroArch's settings to your storage, restore on any device, or keep devices in sync.
+- **Home screen:** works as your launcher on handhelds and TVs, with a home screen widget on phones.
 
 ## Download
 
@@ -15,23 +65,6 @@ Once installed, Mirmire checks for new versions once a day and installs them fro
 **Requirements:** Android 8.0 or later, and RetroArch or a standalone emulator for the consoles you want to play.
 
 New here? Read the **[User guide](docs/GUIDE.md)**.
-
-## Features
-
-- **Your library, wherever it lives:** SMB (Windows shares, most NAS), SFTP, WebDAV, FTP or a folder on the device. Games download when you play them, and large unplayed games can be cleared automatically.
-- **Built for controllers:** every screen works with a gamepad, keyboard or touch, with Xbox, PlayStation or Nintendo button labels.
-- **Three ways to browse games:** a list with a preview pane, a cover grid, or a showcase wheel, with box art, 3D boxes, screenshots, title screens, cartridges or fan art.
-- **Video previews** play when a game stays selected.
-- **RetroArch set up for you:** cores, hotkeys, auto-resume and a sharp picture, plus settings for all games, each console and each game, and suggestions for your device.
-- **Save sync and continue anywhere:** saves and save states sync with your storage, and the home screen offers to continue what you last played on another device. Devices without shared storage pair over Wi-Fi.
-- **Library cleanup:** one version of each game by your preferred regions, betas and demos hidden, and files checked against No-Intro.
-- **BIOS checker:** what each console needs, what's missing or wrong, and BIOS files synced from your storage.
-- **Spotlight:** the RetroAchievements weekly challenge, games close to mastery, quick and multiplayer picks, and your play time with battery estimates.
-- **Profiles:** separate players with their own saves and favorites, PINs and a content filter for children.
-- **Backups and trips:** back up and sync settings across devices, pack games for offline play, and offload games without losing saves.
-- **RetroAchievements:** progress on every game card and on each game's page.
-- **Stick lights on Retroid and AYN handhelds:** match the theme, show the battery level, or take each game's color from its console, its cover art or its performance mode.
-- **Themes and icon packs:** built-in themes, downloadable ones, or your own. Design one in **[Theme Studio](https://mirmire-launcher.github.io/mirmire/theme-maker/)** with a live preview of the app, or see [Make your own themes and icon packs](docs/CREATING.md). Works as your home screen on handhelds and TVs.
 
 ## Screenshots
 
