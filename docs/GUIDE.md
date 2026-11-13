@@ -203,7 +203,7 @@ Sign in under **Settings › Trophies** with your username and **Web API key** (
 - **Look:** theme, accent color, corners, animations, console icons, background (theme wallpaper, gradient, solid color, your own photo or video), and navigation sounds and music. **Get Iconic** and **Get Console Icon Pack** download extra art. You can also import theme or icon-pack ZIPs.
 - **Layout:** screen orientation, top bar or side menu, consoles view, console tiles or icons only (with icon size), games view, card size, artwork type, what's shown on cards, and video previews.
 
-Making your own theme: see [THEMES.md](THEMES.md).
+Making your own theme or icon pack: try **[Theme Studio](https://mirmire-launcher.github.io/mirmire/theme-maker/)** in your browser, and see [Make your own themes and icon packs](CREATING.md). The file format is in [THEMES.md](THEMES.md).
 
 ## Spotlight and play time
 

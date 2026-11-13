@@ -29,7 +29,7 @@ New here? Read the **[User guide](docs/GUIDE.md)**.
 - **Backups and trips:** back up and sync settings across devices, pack games for offline play, and offload games without losing saves.
 - **RetroAchievements:** progress on every game card and on each game's page.
 - **Stick lights on Retroid and AYN handhelds:** match the theme, show the battery level, or take each game's color from its console, its cover art or its performance mode.
-- **Themes and icon packs:** built-in themes, downloadable ones, or your own ZIP. Works as your home screen on handhelds and TVs.
+- **Themes and icon packs:** built-in themes, downloadable ones, or your own. Design one in **[Theme Studio](https://mirmire-launcher.github.io/mirmire/theme-maker/)** with a live preview of the app, or see [Make your own themes and icon packs](docs/CREATING.md). Works as your home screen on handhelds and TVs.
 
 ## Screenshots
 

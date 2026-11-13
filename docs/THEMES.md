@@ -1,5 +1,7 @@
 # Mirmire theme packs
 
+This is the file format reference. For a walkthrough, see [Make your own themes and icon packs](CREATING.md), or design a pack in **[Theme Studio](https://mirmire-launcher.github.io/mirmire/theme-maker/)**.
+
 A theme is a ZIP whose **root** contains `theme.json`. Open **Settings › Look › Import ZIP** in the app to install one. Importing the same `id` replaces that pack.
 
 `version` is the schema version and must be `1`. IDs are 1–64 characters: lowercase letters, digits, hyphens or underscores, starting with a letter or digit. Unknown JSON keys are ignored.
@@ -153,4 +155,4 @@ sounds/back.wav
 music/loop.ogg
 ```
 
-ZIP the **contents** of the folder, not the folder itself, so `theme.json` is at the archive root. A sample lives in `themes/neon-pocket`.
+ZIP the **contents** of the folder, not the folder itself, so `theme.json` is at the archive root. 
