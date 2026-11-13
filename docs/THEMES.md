@@ -55,6 +55,7 @@ Paths must stay inside the pack (no `..`, no absolute paths). You can omit the m
 | `surfaceContainer`, `surfaceContainerHigh` | Rows, docks |
 | `outline` | Borders |
 | `error` | Warnings |
+| `lights`, `lightsRight` | Stick lights on Retroid and AYN handhelds (left, right). Omit `lightsRight` to use one color. Without them, the lights follow `primary` |
 
 ## Style
 

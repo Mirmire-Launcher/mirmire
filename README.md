@@ -23,6 +23,7 @@ New here? Read the **[User guide](docs/GUIDE.md)**.
 - **RetroArch set up for you:** cores, hotkeys, auto-resume and a sharp picture, plus settings for all games, each console and each game, and suggestions for your device.
 - **Save sync:** in-game saves sync with your storage before you play and when you come back, with older versions kept.
 - **RetroAchievements:** progress on every game card and on each game's page.
+- **Stick lights on Retroid and AYN handhelds:** match the theme, show the battery level, or take each game's color from its console, its cover art or its performance mode.
 - **Themes and icon packs:** built-in themes, downloadable ones, or your own ZIP. Works as your home screen on handhelds and TVs.
 
 ## Screenshots
@@ -70,6 +71,14 @@ New here? Read the **[User guide](docs/GUIDE.md)**.
 | ![Storage](screenshots/21-settings-storage.jpg) | ![System](screenshots/22-settings-system.jpg) |
 | **App updates** | **Reset settings** |
 | ![Updates](screenshots/23-system-updates.jpg) | ![Reset](screenshots/24-reset-dialog.jpg) |
+
+### Stick lights
+
+| Light options | Console colors |
+|---|---|
+| ![Stick lights](screenshots/36-device-lights.jpg) | ![Console colors](screenshots/37-console-colors.jpg) |
+| **A console's color** | **A game's color** |
+| ![Console color picker](screenshots/38-console-color-picker.jpg) | ![Game light](screenshots/39-game-light.jpg) |
 
 ### Guided setup
 

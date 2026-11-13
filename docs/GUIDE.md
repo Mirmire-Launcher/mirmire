@@ -10,6 +10,7 @@
 - [Artwork](#artwork)
 - [RetroAchievements](#retroachievements)
 - [Themes and layout](#themes-and-layout)
+- [Stick lights](#stick-lights)
 - [Storage](#storage)
 - [Updates](#updates)
 - [Troubleshooting](#troubleshooting)
@@ -159,6 +160,45 @@ Sign in under **Settings › Trophies** with your username and **Web API key** (
 
 Making your own theme: see [THEMES.md](THEMES.md).
 
+## Stick lights
+
+On Retroid and AYN handhelds with lights around the analog sticks (Retroid Pocket 5, 6 and Mini, AYN Odin 2, Odin 2 Portal, Odin 3 and Thor), Mirmire can set their color. Open **Settings › Device**. This section only appears on those devices.
+
+![Stick lights](../screenshots/36-device-lights.jpg)
+
+**You need [Shizuku](https://shizuku.rikka.app/)**, the same app performance modes use. Install it, start it, and press **Allow** in Settings › Device. Mirmire then checks which light settings your device has.
+
+**In Mirmire**, the lights can:
+
+- **Device setting:** stay as set in your device's own settings;
+- **Theme color:** follow the theme. Some themes have their own pair of light colors (Cyberpunk, Comic, Insert Coin); otherwise the lights use your accent color;
+- **Battery level:** go from green when full, through yellow, to red when low;
+- **Off:** stay off while Mirmire is open.
+
+**While playing**, a game can start with:
+
+- **Same as Mirmire:** the light doesn't change;
+- **Console color:** for example red for NES, blue for Genesis, blue and green for N64;
+- **Game's cover art:** the main colors of the game's box art, one per stick;
+- **Performance mode:** green for battery saver, the theme's color for standard, red-orange for performance;
+- **Off:** the lights turn off when the game starts.
+
+| Console colors | A console's color |
+|---|---|
+| ![Console colors](../screenshots/37-console-colors.jpg) | ![Console color picker](../screenshots/38-console-color-picker.jpg) |
+
+With **Console color** or **Game's cover art**, you can change any console's color in the list below. To give one game its own color, press the light button on its details page.
+
+![Game light](../screenshots/39-game-light.jpg)
+
+**Brightness** sets how bright the lights are. Mirmire saves your device's own light settings before its first change. **Put back my device's lights**, or setting both options back to the device's own, restores them.
+
+Good to know:
+
+- Lighting effects in your device's settings, such as breathing or rainbow, replace Mirmire's colors. Set the effect to solid there.
+- Mirmire sets the color when you switch themes, when the battery level changes and when a game starts. It doesn't run during a game, so the light stays the same until you come back.
+- Lights that react to sound aren't supported: they'd need Mirmire running and recording audio during games.
+
 ## Storage
 
 **Settings › Storage:**
@@ -187,5 +227,7 @@ Making your own theme: see [THEMES.md](THEMES.md).
 **My library doesn't find the server.** Enter the address yourself, check the share or folder name, and make sure the device is on the same network.
 
 **An update won't install ("signed with a different key").** That copy of Mirmire came from somewhere else. Uninstall it, then install the release APK. Your library will need to be added again.
+
+**The stick lights don't change.** Check that Shizuku is running and allowed in Settings › Device, and that the lighting effect in your device's settings is set to solid. If Mirmire says no light settings were found, turn the stick lights on once in your device's settings, then press **Check again**.
 
 **Start over.** Settings › System › Reset settings resets each area on its own. Your libraries, downloaded games, saves and artwork are kept.
