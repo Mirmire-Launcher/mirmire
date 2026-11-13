@@ -124,6 +124,24 @@ async function restore() {
     return true;
   } catch { return false; }
 }
+/** Throws away the draft saved in this browser and starts fresh. */
+async function deleteDraft() {
+  clearTimeout(saveTimer);
+  try {
+    const db = await idb();
+    await new Promise((ok) => { const t = db.transaction(DB.store, "readwrite"); t.objectStore(DB.store).clear(); t.oncomplete = ok; t.onerror = ok; });
+  } catch { /* nothing saved */ }
+  booting = true;
+  P = Object.assign(blankProject(), { colors: pal.generate("#FFD18A") });
+  hasSaved = false; savedName = "";
+  await loadFont();
+  setMode("theme", true);
+  redraw();
+  booting = false;
+  drawStart();
+  toast("Draft deleted.");
+}
+
 function walkRecs(fn) {
   for (const k of ["fontFile", "wallpaper", "wallpaperVideo"]) if (P[k]) fn(P[k], k);
   for (const bag of ["icons", "backgrounds", "backgroundVideos", "sounds"]) for (const [id, r] of Object.entries(P[bag])) if (r) fn(r, `${bag}.${id}`);
@@ -805,7 +823,7 @@ function drawStart() {
       <label class="way"><span class="ic">${icon("download", 22)}</span><b>Open a ZIP</b><span>Edit a theme or icon pack you already have.</span><input type="file" accept=".zip" data-openzip></label>
       <label class="way"><span class="ic">${icon("folder", 22)}</span><b>Open a folder</b><span>Or drop one anywhere. Files are sorted by name.</span><input type="file" webkitdirectory multiple data-openfolder></label>
     </div>
-    ${hasSaved ? `<div class="note" style="margin:-14px 0 28px;display:flex;align-items:center;gap:12px;justify-content:space-between"><span>You have unsaved work in this browser: <b>${esc(savedName || "Untitled")}</b></span><button class="btn small primary" data-start="resume">Keep editing</button></div>` : ""}
+    ${hasSaved ? `<div class="note" style="margin:-14px 0 28px;display:flex;align-items:center;gap:12px;justify-content:space-between"><span>You have a draft saved in this browser: <b>${esc(savedName || "Untitled")}</b></span><span style="display:flex;gap:8px"><button class="btn small" data-action="deleteDraft">Delete draft</button><button class="btn small primary" data-start="resume">Keep editing</button></span></div>` : ""}
     <h2>Or remix one of Mirmire's themes</h2>
     <div class="gallery">
       <button class="tpl" data-start="firstlight">${mini(fl, { cardKind: "rounded", cardRadius: 18, cardBorder: "#596A83" }, "assets/first-light/wallpaper.jpg")}<div class="meta"><b>First Light</b><small>wallpaper, sounds, music</small></div></button>
@@ -1004,6 +1022,12 @@ function wire() {
     if (action === "download") download();
     if (action === "copyJson") { await navigator.clipboard.writeText(JSON.stringify(manifest(), null, 2)).catch(() => {}); toast("Copied."); }
     if (action === "start") openStart();
+    if (action === "deleteDraft") {
+      const btn = d("[data-action]");
+      // Two presses, so a stray click can't throw work away.
+      if (!btn.dataset.armed) { btn.dataset.armed = "1"; btn.textContent = "Delete for good?"; btn.classList.add("danger"); setTimeout(() => { if (btn.isConnected) { delete btn.dataset.armed; btn.textContent = "Delete draft"; btn.classList.remove("danger"); } }, 4000); return; }
+      await deleteDraft();
+    }
     if (t.closest("#downloadTop")) download();
     if (t.closest("#newBtn")) openStart();
     if (t.closest("#musicBtn")) toggleMusic();

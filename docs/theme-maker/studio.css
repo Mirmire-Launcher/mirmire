@@ -57,6 +57,7 @@ a { color: var(--accent); }
 .btn.primary:disabled { opacity: .45; cursor: not-allowed; }
 .btn.small { padding: 5px 10px; font-size: 13px; border-radius: 8px; }
 .btn.ghost { background: none; }
+.btn.danger { background: var(--bad); color: #fff; border-color: transparent; }
 .btn svg { width: 18px; height: 18px; }
 .iconbtn { border: 0; background: none; color: var(--ink-2); padding: 6px; border-radius: 8px; display: inline-grid; place-items: center; }
 .iconbtn:hover { background: var(--panel-3); color: var(--ink); }
