@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/images/mirmire-logo.svg" alt="Mirmire" width="360"></p>
+<p align="center"><img src="docs/images/mirmire-icon.svg" alt="Mirmire" width="96"></p>
 
 # Mirmire
 
