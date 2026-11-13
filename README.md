@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/images/mirmire-logo.svg" alt="Mirmire" width="360"></p>
+
 # Mirmire
 
 A launcher for retro games on Android handhelds, phones and TVs. Mirmire plays your game library from network storage (SMB, SFTP, WebDAV, FTP) or a folder on the device, with box art, videos, RetroAchievements, save sync, themes and full controller navigation. Games launch in RetroArch or standalone emulators.

@@ -296,6 +296,7 @@ Good to know:
 
 - **Back up automatically:** once a day; the newest 10 backups of each device are kept.
 - **Restore a backup:** from this device or any other. Libraries it adds ask for their password.
+- **Include RetroArch's own settings** (on by default): also backs up `retroarch.cfg` and the core options, overrides and remaps in RetroArch's config folder. Anything tied to one device is left out: folder paths, video and audio drivers, controller button numbers and screen size. RetroArch's sign-in isn't included either. Restoring merges these into the device's own RetroArch setup. Settings sync doesn't change RetroArch's files; they only come back when you restore a backup.
 - **Keep settings in sync:** changes back up a minute later, and Mirmire applies newer settings from your other devices when it opens. Screen orientation, menu style and sizes stay per device.
 
 Passwords and keys are never backed up.

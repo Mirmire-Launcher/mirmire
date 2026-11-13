@@ -237,8 +237,10 @@ const previewAssets = {
   count: (id) => 12 + (SYSTEMS.findIndex((s) => s[0] === id) * 7) % 40,
   consoleOrder() {
     const mine = SYSTEMS.map((s) => s[0]).filter((id) => P.icons[id] || P.backgrounds[id] || P.backgroundVideos[id]);
-    const base = ["nes", "snes", "n64", "gba", "megadrive", "psx", "nds", "gb"];
-    return [...new Set([...mine, ...base])].slice(0, Math.max(8, mine.length));
+    const base = ["nes", "snes", "n64", "gb", "gbc", "gba", "megadrive", "psx"];
+    const pick = new Set([...mine, ...base].slice(0, Math.max(8, mine.length)));
+    // In the app's order: alphabetical by console name.
+    return SYSTEMS.map((s) => s[0]).filter((id) => pick.has(id));
   },
 };
 

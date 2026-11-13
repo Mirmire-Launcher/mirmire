@@ -43,6 +43,8 @@ export const SYSTEMS = [
   ["wonderswan", "WonderSwan", "Bandai", "#9B59D0", ["wonderswan", "ws"]],
   ["wonderswancolor", "WonderSwan Color", "Bandai", "#9B59D0", ["wonderswancolor", "wsc"]],
 ];
+// Alphabetical, like the app's console list.
+SYSTEMS.sort((a, b) => a[1].localeCompare(b[1], "en", { sensitivity: "base" }));
 export const SYSTEM = Object.fromEntries(SYSTEMS.map((s) => [s[0], s]));
 
 // Color keys in theme.json, grouped the way the editor shows them.
