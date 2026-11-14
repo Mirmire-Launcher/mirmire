@@ -41,6 +41,7 @@ Put `plugin.json` at the top of the ZIP. A ZIP holding one folder with `plugin.j
 | `sizes` | The sizes your widget can be: `small` (1×1), `wide` (2×1), `medium` (2×2) and `large` (4×2). |
 | `defaultSize` | The size it starts at. One of `sizes`. |
 | `permissions` | What else it may do: `internet`, `library` and `achievements`. Leave it empty if it needs none. |
+| `settings` | Optional. A page for the widget's own options, such as choosing a pet. Players open it from **Widget options** in the widget's edit menu. |
 
 ### Permissions
 
@@ -49,7 +50,7 @@ Players see a plugin's permissions before they install it, so ask only for what 
 | Permission | Allows |
 |---|---|
 | *(none)* | Drawing itself, reacting to being selected, and keeping up to 64 KB of its own data. |
-| `internet` | Loading images and data from the web. Without it, every request outside the plugin's own files is blocked. |
+| `internet` | Loading images and data from the web. Without it, every request outside the plugin's own files is blocked. With it, web requests go through Mirmire: they're cached, so what the plugin loaded once also works offline, and any site can be read with `fetch()`, whatever its CORS settings. |
 | `library` | `mirmire.games.recent()`, `all()` and `open(id)`. |
 | `achievements` | `mirmire.achievements()`: RetroAchievements points, rank, this week's unlocks and the streak. |
 
@@ -59,7 +60,7 @@ Mirmire adds `window.mirmire` before your own scripts run.
 
 ```js
 mirmire.version        // 1
-mirmire.size           // "small", "wide", "medium" or "large"
+mirmire.size           // "small", "wide", "medium" or "large"; "settings" on the options page
 mirmire.theme          // { dark: true, colors: { primary: "#F5B54A", surface: "#1C1B22", ... } }
 
 mirmire.storage.get("key")          // a string, or null
@@ -69,6 +70,9 @@ mirmire.storage.set("key", "value") // pass null to remove it
 mirmire.games.recent(5)  // the last games played, newest first
 mirmire.games.all()      // every visible game (up to 5,000)
 mirmire.games.open(id)   // opens that game's page
+
+mirmire.openSettings() // opens the plugin's options page (needs "settings" in plugin.json)
+mirmire.close()        // on the options page: closes it
 
 // With the "achievements" permission:
 mirmire.achievements()   // { user, points, rank, weekUnlocks, weekPoints, streakDays, mastered, beaten } or null
@@ -105,6 +109,12 @@ The theme's colors are set as CSS variables on the page, so your widget matches 
 The variables are `--primary`, `--on-primary`, `--secondary`, `--tertiary`, `--background`, `--on-background`, `--surface`, `--on-surface`, `--surface-variant`, `--on-surface-variant`, `--outline` and `--error`.
 
 The page background is transparent: Mirmire draws the card behind your widget, with the theme's shape, and the focus outline around it.
+
+### An options page
+
+Add `"settings": "settings.html"` to `plugin.json` and a `settings.html` next to `index.html`. It opens full screen, with the same `window.mirmire` and the same storage as the widget, so save choices with `mirmire.storage.set()`. When it closes, the widget reloads to pick them up. On a controller, the arrow keys reach the page as `keydown` events and A clicks the focused element, so use real buttons and inputs and move focus with the arrows. B closes the page.
+
+Theme Studio previews the widget page only; add an options page to the ZIP by hand.
 
 ## Tips
 

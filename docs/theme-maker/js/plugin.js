@@ -20,7 +20,7 @@ export const PERMISSIONS = [
 
 export const TEMPLATES = [
   { id: "blank", name: "Blank", detail: "A starting point that remembers how often it's selected", sizes: ["wide", "small"], permissions: [] },
-  { id: "pixel-pet", name: "Pixel Pet", detail: "A pixel creature to feed. The one that comes with Mirmire", sizes: ["small", "wide", "medium"], permissions: [] },
+  { id: "pixel-pet", name: "Mochi", detail: "A pixel creature to feed: a simple version of Mirmire's Pixel Pet", sizes: ["small", "wide", "medium"], permissions: [] },
   { id: "led-clock", name: "LED clock", detail: "A glowing retro clock", sizes: ["small", "wide", "large"], permissions: [] },
   { id: "game-of-the-day", name: "Game of the day", detail: "Picks a game from your library each day", sizes: ["wide", "medium"], permissions: ["library"] },
   { id: "trophy-meter", name: "Trophy meter", detail: "This week's RetroAchievements points toward a goal", sizes: ["wide"], permissions: ["achievements"] },
