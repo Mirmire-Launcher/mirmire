@@ -6,6 +6,7 @@
 - [Browsing and playing](#browsing-and-playing)
 - [Home page and widgets](#home-page-and-widgets)
 - [Big Picture](#big-picture)
+- [Dual screen](#dual-screen)
 - [Controls](#controls)
 - [Emulators and RetroArch](#emulators-and-retroarch)
 - [Save sync](#save-sync)
@@ -129,6 +130,23 @@ Big Picture is a full-screen home made for controllers and TVs. Turn it on with 
 
 
 **Big Picture when docked** (Settings › Layout, on by default): connecting a TV or monitor (HDMI, a USB-C display or a dock) switches to Big Picture in landscape. Unplugging puts your layout back, unless you changed it while docked.
+
+## Dual screen
+
+On handhelds with two screens, like the AYN Thor and AYANEO Pocket DS, or with a clip-on screen like the Retroid Dual Screen add-on, Mirmire uses both. The menu stays on the main screen and the second screen shows one of these:
+
+- **Game details** (the default): big cover art, the description, year, genre and players, when you last played, and your RetroAchievements progress for the game you've selected. Select a console and it shows that console with the games you played lately. With nothing selected, it shows the clock and your last game. Tap **Play** or **Details** there, or tap a cover to open that game on the main screen.
+- **Home page widgets**: your widget board, used by touch. While it's there, the Home tab leaves the main screen.
+
+Your controller always works the menu, never the second screen, so nothing gets lost between them.
+
+**Swap screens** puts the menu on the second screen and the details or widgets on the main one, for example the menu on the AYN Thor's bottom touch screen and the art on the big top screen. Games still open on the main screen. Some devices keep the home app on the main screen; Mirmire tells you if swapping isn't possible.
+
+**DS, 3DS and Wii U games** need the second screen for themselves, so Mirmire leaves it free while you play them and comes back when you return. Set your emulator's dual-screen layout in the emulator itself (melonDS, Azahar, Cemu and DraStic have it). Other games leave the details up while you play.
+
+**A clip-on screen or a TV?** Built-in screens are recognized on their own. The first time an external screen is connected, Mirmire asks whether it's a second screen or a TV or monitor, and remembers the answer. A TV switches to Big Picture, if **Big Picture when docked** is on.
+
+Find all of this in **Settings › Layout › Dual screen**, where **Ask again about connected screens** forgets your answers.
 
 ## Controls
 
