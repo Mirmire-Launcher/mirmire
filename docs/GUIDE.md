@@ -94,6 +94,25 @@ Open a game for its details. **Download & play** downloads it to the device, the
 ![Offload on a game's page](../screenshots/44-game-offload.jpg)
 ![Game details](../screenshots/06-game-details.jpg)
 
+## Big Picture
+
+Big Picture is a full-screen home made for controllers and TVs. Turn it on with the **⛶** button next to Search on the home screen, or in **Settings › Layout › Big Picture**. It stays on, even after a restart, until you exit it.
+
+- **The main menu** is a row of large cards: **Continue** (your last game), **Consoles**, **All games**, **Recent**, **Favorites**, **Apps**, **Settings** and **Exit Big Picture**.
+- **Consoles, games and apps** open as a row of tiles: just the icon or cover, with its name underneath. The selected one sits in the middle.
+- **The Android status and navigation bars are hidden.** Swipe in from the edge to see them for a moment.
+- **The bottom bar** shows the Mirmire logo and name, the buttons you can press, your RetroAchievements points (plus unlocks this week and your streak, when you have them), the time and battery, and **Settings** and **Exit** buttons. Press down to reach it.
+
+| Button | Does |
+|---|---|
+| Left / right | Move along the row |
+| A | Open, or play a game (a game that isn't on the device opens its page to download) |
+| B | Back |
+| X | Favorite the selected game |
+| Y | Open the selected game's page |
+| L1 / R1 | Jump 10 games at a time |
+| Start | Settings |
+
 ## Controls
 
 | Button | Action |
