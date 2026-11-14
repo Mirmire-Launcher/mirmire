@@ -157,7 +157,9 @@
     .browser .chrome i { width: 11px; height: 11px; border-radius: 50%; background: #3a4050; }
     .browser .chrome i:nth-child(1) { background: #FF6159; } .browser .chrome i:nth-child(2) { background: #FFBD2E; } .browser .chrome i:nth-child(3) { background: #28C941; }
     .browser .chrome span { margin-left: 12px; font-size: 13px; color: var(--ink-3); background: #151922; padding: 3px 12px; border-radius: 7px; }
-    .studio .grid { margin-top: 30px; }
+    .studio .grid { margin-top: 30px; grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 1100px) { .studio .grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .studio .grid { grid-template-columns: 1fr; } }
 
     /* gallery */
     .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
@@ -261,6 +263,25 @@
     </div>
   </section>
 
+  <section id="home-and-tv" style="padding-top:0">
+    <div class="wrap">
+      <p class="kicker">From the couch to the plane</p>
+      <h2>A home page, a TV mode, and saves that follow you</h2>
+      <p class="sub">Things you won't find in other retro launchers: a Home page you build from widgets, a full-screen mode for the TV, and saves that move with you.</p>
+      <div class="grid">
+        <div class="card"><div class="ic">🧱</div><h3>A Home page you build</h3><p>Clock, weather, calendar, your last game, achievements and play time, plus widgets from your other apps. Resize and arrange them with a controller.</p></div>
+        <div class="card"><div class="ic">🧩</div><h3>Widget plugins</h3><p>Players make widgets, like a pixel pet or a game of the day, and share them as a ZIP. You see what each one may do before you install it.</p></div>
+        <div class="card"><div class="ic">📺</div><h3>Big Picture</h3><p>A full-screen home for TVs and controllers: big cards for consoles and games, with the time, battery and RetroAchievements on a small bar.</p></div>
+        <div class="card"><div class="ic">🔌</div><h3>Dock and play</h3><p>Plug into a TV, monitor or dock and Mirmire switches to Big Picture in landscape. Unplug and your layout comes back.</p></div>
+        <div class="card"><div class="ic">😴</div><h3>Saves upload when you sleep</h3><p>Press power in the middle of a game and its saves go to your storage, so your other device offers to continue.</p></div>
+        <div class="card"><div class="ic">🎮</div><h3>Play together</h3><p>Invite a paired device on the same Wi-Fi to a netplay game. Your device starts hosting by itself; theirs opens the same game.</p></div>
+        <div class="card"><div class="ic">🌡️</div><h3>Learns how hot games run</h3><p>A battery, standard or performance mode for each console, stepping down for games that ran hot. You can turn it off.</p></div>
+        <div class="card"><div class="ic">🏆</div><h3>RetroAchievements everywhere</h3><p>Progress on every game card, the weekly challenge, games close to mastery, and your points and streak at a glance.</p></div>
+        <div class="card"><div class="ic">🖥️</div><h3>Your launcher, if you like</h3><p>Set Mirmire as the home app on a handheld or TV box, with your other apps one press away.</p></div>
+      </div>
+    </div>
+  </section>
+
   <section style="padding-top:0">
     <div class="wrap rows">
       <div class="row">
@@ -307,7 +328,7 @@
         <div>
           <p class="kicker">Theme Studio</p>
           <h2>Design your own look, in your browser</h2>
-          <p class="sub">Build a theme or console icon pack and see it on Mirmire's real screens as you go. Nothing to install, and nothing you add leaves your browser.</p>
+          <p class="sub">Build a theme, a console icon pack or a Home page widget and see it on Mirmire's real screens as you go. Nothing to install, and nothing you add leaves your browser.</p>
         </div>
         <a class="btn primary" href="theme-maker/">Open Theme Studio →</a>
       </div>
@@ -319,6 +340,7 @@
         <div class="card"><div class="ic">👀</div><h3>Live preview</h3><p>Home, games list, game page, Spotlight and Settings update as you edit. Move around with the arrow keys and hear your sounds.</p></div>
         <div class="card"><div class="ic">🎨</div><h3>A palette from one color</h3><p>Pick a color and get a full, readable palette, or start from one of Mirmire's built-in themes.</p></div>
         <div class="card"><div class="ic">📦</div><h3>Drop in your files</h3><p>Wallpapers, console icons, backdrops, sounds and music. Sets named for other frontends are sorted automatically.</p></div>
+        <div class="card"><div class="ic">🧩</div><h3>Widget plugins</h3><p>Start from a template, write a little HTML and JavaScript, and try it on the Home page with sample games and achievements.</p></div>
       </div>
     </div>
   </section>

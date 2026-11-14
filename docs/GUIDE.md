@@ -4,6 +4,8 @@
 - [First-time setup](#first-time-setup)
 - [Adding your games](#adding-your-games)
 - [Browsing and playing](#browsing-and-playing)
+- [Home page and widgets](#home-page-and-widgets)
+- [Big Picture](#big-picture)
 - [Controls](#controls)
 - [Emulators and RetroArch](#emulators-and-retroarch)
 - [Save sync](#save-sync)
@@ -94,11 +96,22 @@ Open a game for its details. **Download & play** downloads it to the device, the
 ![Offload on a game's page](../screenshots/44-game-offload.jpg)
 ![Game details](../screenshots/06-game-details.jpg)
 
+## Home page and widgets
+
+Turn on **Settings › Layout › Home page with widgets** to add a **Home** tab before Consoles. Mirmire opens on it, like a phone's home screen, with widgets you choose.
+
+- **Edit** (or press Select) lets you change the page. **Add widget** opens the list; select a widget to change its size, move it earlier or later, or remove it.
+- **Mirmire's widgets:** Clock, Weather (pick a city; forecasts from Open-Meteo), Calendar (your next events, once you allow it), Continue playing, Recently played, Recently added, RetroAchievements, Achievement of the week, Play time and Library.
+- **Plugins:** widgets made by players, such as **Pixel Pet**, which comes with Mirmire. Import more under **Plugins › Import a plugin ZIP**, or in **Settings › Look › Widget plugins**. Before installing, Mirmire shows what the plugin is allowed to do. To make your own, see [Make widget plugins](PLUGINS.md).
+- **Apps:** widgets from other apps on the device, as on a phone's home screen. The first time, Android asks you to allow Mirmire to add them.
+
+Sizes are **Small** (1×1), **Wide** (2×1), **Medium** (2×2) and **Large** (4×2). Widgets fill the page in order, four across (two on a narrow screen).
+
 ## Big Picture
 
 Big Picture is a full-screen home made for controllers and TVs. Turn it on with the **⛶** button next to Search on the home screen, or in **Settings › Layout › Big Picture**. It stays on, even after a restart, until you exit it.
 
-- **The main menu** is a row of large cards: **Continue** (your last game), **Consoles**, **All games**, **Recent**, **Favorites**, **Apps**, **Settings** and **Exit Big Picture**.
+- **The main menu** is a row of large cards: **Widgets** (your Home page, when it's on), **Continue** (your last game), **Consoles**, **All games**, **Recent**, **Favorites**, **Apps**, **Settings** and **Exit Big Picture**.
 - **Consoles, games and apps** open as a row of tiles: just the icon or cover, with its name underneath. The selected one sits in the middle.
 - **The Android status and navigation bars are hidden.** Swipe in from the edge to see them for a moment.
 - **The bottom bar** shows the Mirmire logo and name, the buttons you can press, your RetroAchievements points (plus unlocks this week and your streak, when you have them), the time and battery, and **Settings** and **Exit** buttons. Press down to reach it.
@@ -230,7 +243,7 @@ Sign in under **Settings › Trophies** with your username and **Web API key** (
 - **Look:** theme, accent color, corners, animations, console icons, background (theme wallpaper, gradient, solid color, your own photo or video), and navigation sounds and music. **Get Iconic** and **Get Console Icon Pack** download extra art. You can also import theme or icon-pack ZIPs.
 - **Layout:** screen orientation, top bar or side menu, consoles view, console tiles or icons only (with icon size), games view, card size, artwork type, what's shown on cards, and video previews.
 
-Making your own theme or icon pack: try **[Theme Studio](https://mirmire-launcher.github.io/mirmire/theme-maker/)** in your browser, and see [Make your own themes and icon packs](CREATING.md). The file format is in [THEMES.md](THEMES.md).
+Making your own theme, icon pack or widget plugin: try **[Theme Studio](https://mirmire-launcher.github.io/mirmire/theme-maker/)** in your browser, and see [Make your own themes and icon packs](CREATING.md) and [Make widget plugins](PLUGINS.md). The file format is in [THEMES.md](THEMES.md).
 
 ## Spotlight and play time
 
@@ -265,7 +278,7 @@ RetroAchievements uses one account for every player.
 
 ## Stick lights
 
-On Retroid and AYN handhelds with lights around the analog sticks (Retroid Pocket 5, 6 and Mini, AYN Odin 2, Odin 2 Portal, Odin 3 and Thor), Mirmire can set their color. Open **Settings › Device**. This section only appears on those devices.
+On Retroid and AYN handhelds with lights around the analog sticks (Retroid Pocket 5, 6 and Mini, AYN Odin 2, Odin 2 Portal, Odin 3 and Thor), Mirmire can set their color. Open **Settings › Device**. This section only appears on those devices, and its light options only once Mirmire has found the lights.
 
 ![Stick lights](../screenshots/36-device-lights.jpg)
 
@@ -319,7 +332,7 @@ Good to know:
 
 ## Backups
 
-**Settings › System › Backups** saves Mirmire's setup to your storage: settings, libraries (without passwords), emulator choices, RetroArch settings, favorites, stick-light colors, imported themes and icon packs. Pick the **Backups folder** like the saves folder (automatic: `Mirmire/backups` in your first network library).
+**Settings › System › Backups** saves Mirmire's setup to your storage: settings, libraries (without passwords), emulator choices, RetroArch settings, favorites, stick-light colors, imported themes, icon packs and widget plugins, and your Home page widgets (widgets from other apps are left out). Pick the **Backups folder** like the saves folder (automatic: `Mirmire/backups` in your first network library).
 
 ![Backups](../screenshots/52-backups.jpg)
 
@@ -332,7 +345,7 @@ Passwords and keys are never backed up.
 
 ## Home screen widget
 
-On a phone with its own launcher, add the **Mirmire: Continue** widget from your launcher's widget list, or from **Settings › System › Add widget to home screen**. It shows your last game with its play time and the four before it; tap one to open it.
+This is Mirmire's widget for your phone's own home screen (for widgets inside Mirmire, see [Home page and widgets](#home-page-and-widgets)). On a phone with its own launcher, add the **Mirmire: Continue** widget from your launcher's widget list, or from **Settings › System › Add widget to home screen**. It shows your last game with its play time and the four before it; tap one to open it.
 
 ## Updates
 

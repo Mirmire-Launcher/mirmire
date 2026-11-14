@@ -26,7 +26,12 @@ Most launchers expect your games on the device and leave the emulators, saves an
 - **✈️ Pack for a trip.** Choose games to take offline, then play on the plane. Everything syncs back when you're home. Offload a game later without losing its saves.
 - **💡 Stick lights that react.** On Retroid and AYN handhelds, the stick lights follow the theme, the battery level, the console, the game's cover art or its performance mode.
 - **👨‍👩‍👧 Profiles for the whole family.** Each player has their own saves, favorites and play time, with PINs and a content filter for children.
-- **🎨 Design your own look.** [Theme Studio](https://mirmire-launcher.github.io/mirmire/theme-maker/) lets you build a theme or icon pack in your browser with a live preview of the app. Download the ZIP and import it.
+- **🧱 A Home page you build.** Turn on the Home page for widgets: clock, weather, calendar, your last game, achievements, play time, widgets from your other apps, and **plugins** made by players and shared as a ZIP.
+- **📺 Big Picture.** A full-screen, controller-first home for TVs: big cards for your consoles and games, with the time, battery and RetroAchievements on a small bar at the bottom. Plug into a TV or dock and it switches on by itself.
+- **😴 Saves upload when you sleep.** Press power mid-game and the saves go to your storage, so your other device can carry on.
+- **🎮 Play together.** Invite a paired device on the same Wi-Fi to a netplay game. Your device starts hosting by itself.
+- **🌡️ Learns how hot each game runs.** Mirmire picks a battery, standard or performance mode per console, and steps down for games that ran hot.
+- **🎨 Design your own look.** [Theme Studio](https://mirmire-launcher.github.io/mirmire/theme-maker/) lets you build a theme, an icon pack or a widget plugin in your browser with a live preview of the app. Download the ZIP and import it.
 
 | Continue on another device | Library cleanup |
 |---|---|
@@ -43,9 +48,10 @@ Theme Studio runs in your browser, with nothing to install, and nothing you add 
 - **Live preview:** see your theme on Mirmire's home screen, games list, game page, Spotlight and Settings as you edit. Move around with the arrow keys, as with a controller, and hear your sounds.
 - **Colors from one color:** pick one color and it builds a full palette, with readability checks.
 - **Remix or start fresh:** begin from Mirmire's built-in themes, or open any theme or icon pack ZIP to edit it.
+- **Widget plugins:** write a Home page widget from a template and try it on a copy of the Home page, with sample games and achievements.
 - **Bring your own files:** drop in your wallpaper, console icons, backdrops, sounds and music. Files named like other frontends' sets are sorted automatically.
 
-When you're done, download the ZIP and import it in **Settings › Look**. See [Make your own themes and icon packs](docs/CREATING.md) for tips.
+When you're done, download the ZIP and import it in **Settings › Look**. See [Make your own themes and icon packs](docs/CREATING.md) and [Make widget plugins](docs/PLUGINS.md) for tips.
 
 ## Everything else
 

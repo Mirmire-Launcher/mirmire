@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  body { font-family: var(--font, system-ui, sans-serif); color: var(--on-surface, #fff); display: flex; align-items: center; justify-content: center; gap: 18px; padding: 10px 16px; box-sizing: border-box; height: 100%; }
+  .pet { height: 86%; aspect-ratio: 1; image-rendering: pixelated; flex: none; cursor: pointer; transition: transform .2s; }
+  .pet.bounce { animation: bounce .5s; }
+  @keyframes bounce { 30% { transform: translateY(-12%) } 60% { transform: translateY(2%) } }
+  .pet.idle { animation: bob 2.4s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(-4%) } }
+  .info { min-width: 0; }
+  .name { font-weight: 800; font-size: 20px; line-height: 1.1; }
+  .mood { color: var(--on-surface-variant, #bbb); font-size: 13px; margin-top: 4px; }
+  .bars { margin-top: 10px; display: grid; gap: 6px; width: 160px; max-width: 100%; }
+  .bar { height: 7px; border-radius: 4px; background: color-mix(in srgb, var(--on-surface, #fff) 15%, transparent); overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--primary, #ffd18a); border-radius: 4px; transition: width .4s; }
+  .bar.love i { background: var(--tertiary, #ff8fa3); }
+  body.small { flex-direction: column; gap: 4px; }
+  body.small .pet { height: 70%; }
+  body.medium .pet { height: 60%; }
+  body.medium { flex-direction: column; }
+  body.medium .info { text-align: center; }
+  body.small .info { text-align: center; }
+  body.small .bars, body.small .name { display: none; }
+</style>
+</head>
+<body>
+  <svg class="pet idle" id="pet" viewBox="0 0 16 16" shape-rendering="crispEdges"></svg>
+  <div class="info">
+    <div class="name" id="name">Mochi</div>
+    <div class="mood" id="mood"></div>
+    <div class="bars"><div class="bar"><i id="food"></i></div><div class="bar love"><i id="love"></i></div></div>
+  </div>
+<script>
+  // Pixel Pet: a sample Mirmire widget plugin. See PLUGINS.md for the API.
+  const m = window.mirmire;
+  const HOUR = 3600e3;
+  const state = Object.assign({ fed: Date.now(), pets: 0, born: Date.now() }, JSON.parse(m.storage.get("pet") || "{}"));
+  const save = () => m.storage.set("pet", JSON.stringify(state));
+
+  // 16x16 sprite: . empty, o outline, b body, w white, e eye, c cheek
+  const SPRITE = [
+    "................",
+    "......oooo......",
+    "....oobbbboo....",
+    "...obbbbbbbbo...",
+    "..obbbbbbbbbbo..",
+    "..obwebbbbwebo..",
+    ".obbeebbbbeebbo.",
+    ".obcbbbbbbbbcbo.",
+    ".obbbbboobbbbbo.",
+    ".obbbbbbbbbbbbo.",
+    ".obbbbbbbbbbbbo.",
+    "..obbbbbbbbbbo..",
+    "..obbbbbbbbbbo..",
+    "...oobbbbbboo...",
+    "....oo....oo....",
+    "................",
+  ];
+  function draw(sad) {
+    const css = getComputedStyle(document.documentElement);
+    const color = { o: "#1a1a22", b: css.getPropertyValue("--primary") || "#ffd18a", w: "#ffffff", e: "#1a1a22", c: css.getPropertyValue("--tertiary") || "#ff8fa3" };
+    let rects = "";
+    SPRITE.forEach((row, y) => [...row].forEach((ch, x) => {
+      if (ch === ".") return;
+      if (sad && ch === "c") return;
+      rects += `<rect x="${x}" y="${y}" width="1" height="1" fill="${color[ch]}"/>`;
+    }));
+    if (sad) rects += `<rect x="7" y="9" width="2" height="1" fill="#1a1a22"/>`;
+    document.getElementById("pet").innerHTML = rects;
+  }
+
+  function update() {
+    const hungry = Math.min(1, (Date.now() - state.fed) / (12 * HOUR));
+    const food = 1 - hungry;
+    const love = Math.min(1, state.pets / 20);
+    document.getElementById("food").style.width = Math.round(food * 100) + "%";
+    document.getElementById("love").style.width = Math.round(love * 100) + "%";
+    const days = Math.floor((Date.now() - state.born) / (24 * HOUR));
+    document.getElementById("mood").textContent =
+      food < 0.25 ? "Hungry! Select to feed" : food < 0.6 ? "Could use a snack" : days > 0 ? `Happy · ${days} day${days === 1 ? "" : "s"} old` : "Happy to meet you";
+    draw(food < 0.25);
+  }
+
+  function feed() {
+    state.fed = Date.now();
+    state.pets++;
+    save();
+    const pet = document.getElementById("pet");
+    pet.classList.remove("idle", "bounce"); void pet.offsetWidth; pet.classList.add("bounce");
+    setTimeout(() => { pet.classList.remove("bounce"); pet.classList.add("idle"); }, 520);
+    update();
+  }
+
+  document.body.classList.add(m.size);
+  document.addEventListener("click", feed);
+  window.addEventListener("mirmire:select", feed);   // A on a controller
+  window.addEventListener("mirmire:theme", update);  // theme changed
+  update();
+  setInterval(update, 60e3);
+</script>
+</body>
+</html>

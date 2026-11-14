@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html, body { margin: 0; height: 100%; }
+  body { display: flex; align-items: center; gap: 16px; padding: 12px 18px; box-sizing: border-box; font-family: system-ui, sans-serif; color: var(--on-surface); }
+  svg { height: 82%; flex: none; }
+  .k { font-size: 11px; font-weight: 800; letter-spacing: 1.4px; color: var(--tertiary); text-transform: uppercase; }
+  .n { font-size: 26px; font-weight: 800; }
+  .s { font-size: 13px; color: var(--on-surface-variant); }
+</style>
+</head>
+<body>
+  <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--surface-variant)" stroke-width="10"/>
+    <circle id="arc" cx="50" cy="50" r="42" fill="none" stroke="var(--tertiary)" stroke-width="10" stroke-linecap="round"
+      stroke-dasharray="264" stroke-dashoffset="264" transform="rotate(-90 50 50)"/></svg>
+  <div><div class="k">Weekly goal</div><div class="n" id="n">—</div><div class="s" id="s">Sign in to RetroAchievements in Mirmire</div></div>
+<script>
+  // Needs the "achievements" permission in plugin.json.
+  const a = window.mirmire.achievements();
+  const GOAL = 100; // points this week
+  if (a) {
+    const pct = Math.min(1, a.weekPoints / GOAL);
+    document.getElementById("arc").style.strokeDashoffset = 264 * (1 - pct);
+    document.getElementById("n").textContent = `${a.weekPoints} / ${GOAL} points`;
+    document.getElementById("s").textContent = `${a.weekUnlocks} unlocks this week` + (a.streakDays > 1 ? ` · ${a.streakDays} day streak` : "");
+  }
+</script>
+</body>
+</html>

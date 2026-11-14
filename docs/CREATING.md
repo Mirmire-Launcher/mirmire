@@ -5,6 +5,8 @@ Mirmire can wear two kinds of packs, and you can make both:
 - A **theme** changes the whole look: colors, card shapes, font, wallpaper, console icons and backdrops, sounds and music.
 - An **icon pack** changes only the console icons, and works with any theme.
 
+Theme Studio also makes **widget plugins** for the Home page: see [Make widget plugins](PLUGINS.md).
+
 Both are ZIP files you import in the app. The easiest way to make one is **[Mirmire Theme Studio](https://mirmire-launcher.github.io/mirmire/theme-maker/)**. It runs in your browser and shows your pack on Mirmire's real screens as you go. You can also build a pack by hand; [THEMES.md](THEMES.md) has the full file format.
 
 ## Quick start with Theme Studio
@@ -13,6 +15,7 @@ Both are ZIP files you import in the app. The easiest way to make one is **[Mirm
 2. Choose a starting point:
    - **New theme** builds a palette from one color.
    - **New icon pack** starts an empty set of console icons.
+   - **New widget plugin** starts a Home page widget from a template ([more](PLUGINS.md)).
    - **Remix** starts from one of Mirmire's own themes.
    - **Open a ZIP** edits a pack you already have.
 3. Work through the sections on the left. The preview updates as you go:

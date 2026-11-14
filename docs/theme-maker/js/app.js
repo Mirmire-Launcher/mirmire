@@ -4,6 +4,7 @@ import * as pal from "./palette.js";
 import { render, resolveColors, SCREENS, SCENES, GLYPHS } from "./preview.js";
 import { writeZip, readZip } from "./zip.js";
 import { icon } from "./icons.js";
+import * as plug from "./plugin.js";
 
 /* ============================== state ============================== */
 
@@ -16,6 +17,7 @@ function blankProject(mode = "theme") {
     fontFile: null, wallpaper: null, wallpaperVideo: null,
     icons: {}, backgrounds: {}, backgroundVideos: {}, sounds: {}, music: [],
     seed: "#FFD18A", mood: "deep", harmony: "analogous",
+    plugin: plug.blankPlugin(),
   };
 }
 
@@ -96,6 +98,7 @@ function idb() {
   });
 }
 let saveTimer = 0;
+let codeTimer = 0;
 let booting = true;
 function save() {
   if (booting) return;
@@ -146,11 +149,14 @@ function walkRecs(fn) {
   for (const k of ["fontFile", "wallpaper", "wallpaperVideo"]) if (P[k]) fn(P[k], k);
   for (const bag of ["icons", "backgrounds", "backgroundVideos", "sounds"]) for (const [id, r] of Object.entries(P[bag])) if (r) fn(r, `${bag}.${id}`);
   P.music.forEach((r, i) => r && fn(r, `music.${i}`));
+  for (const [name, r] of Object.entries(P.plugin?.files || {})) if (r) fn(r, `pfile.${name}`);
 }
 function pruneMissing() {
   for (const k of ["fontFile", "wallpaper", "wallpaperVideo"]) if (P[k] && !P[k].blob) P[k] = null;
   for (const bag of ["icons", "backgrounds", "backgroundVideos", "sounds"]) for (const [id, r] of Object.entries(P[bag])) if (!r?.blob) delete P[bag][id];
   P.music = P.music.filter((r) => r?.blob);
+  P.plugin = Object.assign(plug.blankPlugin(), P.plugin || {});
+  for (const [name, r] of Object.entries(P.plugin.files)) if (!r?.blob) delete P.plugin.files[name];
 }
 
 /* ============================== theme output ============================== */
@@ -173,6 +179,10 @@ function packPaths() {
     files.push({ key, path, rec });
   };
   const safe = (n) => n.replace(/[^a-zA-Z0-9._-]+/g, "-");
+  if (P.mode === "plugin") {
+    for (const [name, r] of Object.entries(P.plugin.files)) add(`files/${name}`, name, r);
+    return files;
+  }
   if (P.mode === "icons") {
     for (const [id, r] of Object.entries(P.icons)) add(`icons/${id}`, `icons/${id}.${r.ext}`, r);
     return files;
@@ -195,6 +205,7 @@ function manifest() {
   if (P.mode === "icons") {
     return { id: P.id, name: P.name, ...(P.author ? { author: P.author } : {}), icons: by("icons") };
   }
+  if (P.mode === "plugin") return plug.pluginManifest(P);
   const colors = {};
   for (const k of COLOR_KEYS) if (hasColor(k)) colors[k] = norm(P.colors[k]);
   const s = P.style;
@@ -222,6 +233,7 @@ function problems() {
   if (!ID_RE.test(P.id)) out.push(["basics", "The ID needs 1–64 lowercase letters, digits, - or _, starting with a letter or digit."]);
   const files = packPaths().filter((f) => !f.shared);
   if (P.mode === "icons" && !files.length) out.push(["icons", "Add at least one console icon."]);
+  if (P.mode === "plugin") out.push(...plug.pluginProblems(P));
   if (files.length + 1 > MAX_FILES) out.push(["export", `More than ${MAX_FILES} files.`]);
   const total = files.reduce((n, f) => n + f.rec.size, 0);
   if (total > MAX_BYTES) out.push(["export", "Over 1 GB."]);
@@ -270,9 +282,26 @@ function themeForPreview() {
   return { name: P.name, dark: P.dark, colors: P.colors, style: P.style };
 }
 
+let pluginFrameDoc = "";
+function drawPluginPreview() {
+  const preset = BUILT_IN.find((t) => t.id === P.plugin.previewTheme) || { id: "firstlight", name: "First Light", dark: true, colors: FIRST_LIGHT, style: { ...blankStyle(), cardRadius: 18 } };
+  const wall = preset.id === "firstlight" ? "assets/first-light/wallpaper.jpg" : "assets/default/wallpaper.jpg";
+  const inner = $("#screenInner");
+  inner.innerHTML = `<div class="mock" style="width:${view.screen.w}px;height:${view.screen.h}px">${plug.homeMock(P, preset, wall)}</div>`;
+  const frame = inner.querySelector("#pluginFrame");
+  pluginFrameDoc = plug.previewDoc(P, plug.themeColors(preset), (name) => urlOf(P.plugin.files[name]));
+  frame.srcdoc = pluginFrameDoc;
+  frame.closest(".pm-card").addEventListener("click", (e) => { if (e.target === e.currentTarget) frame.contentWindow?.dispatchEvent(new Event("mirmire:select")); });
+  fit();
+  requestAnimationFrame(fit);
+  $("#checks").innerHTML = `<span class="tip">Click the widget, or press Enter, to send it <code>mirmire:select</code></span>`;
+  $("#strip").innerHTML = "";
+}
+
 function drawPreview() {
   const host = $("#screen");
   if (!host) return;
+  if (P.mode === "plugin") return drawPluginPreview();
   view.rail = P.style.navigation === "rail" ? !view.forceTop : !!view.forceRail;
   const order = previewAssets.consoleOrder();
   if (!order.includes(view.system)) view.system = order[0];
@@ -363,9 +392,10 @@ const NAV_THEME = [
   ["export", "Export", "download"],
 ];
 const NAV_ICONS = [["basics", "Name", "info"], ["icons", "Icons", "gamepad"], ["export", "Export", "download"]];
+const NAV_PLUGIN = [["basics", "Name", "info"], ["code", "Code", "code"], ["options", "Options", "tune"], ["export", "Export", "download"]];
 
 function drawNav() {
-  const items = P.mode === "icons" ? NAV_ICONS : NAV_THEME;
+  const items = P.mode === "icons" ? NAV_ICONS : P.mode === "plugin" ? NAV_PLUGIN : NAV_THEME;
   if (!items.some(([id]) => id === section)) section = "basics";
   const done = {
     basics: P.name && ID_RE.test(P.id), colors: COLOR_KEYS.some(hasColor), style: true,
@@ -394,13 +424,15 @@ const acc = (list) => list.map((e) => "." + e).join(",");
 
 const PANELS = {
   basics() {
-    const iconMode = P.mode === "icons";
-    return `<h2>${iconMode ? "Your icon pack" : "Your theme"}</h2>
-      <p class="lede">${iconMode ? "An icon pack swaps just the console icons, and works with any theme." : "This is how the theme appears in Settings › Look."}</p>
+    const iconMode = P.mode === "icons" || P.mode === "plugin";
+    const pluginMode = P.mode === "plugin";
+    return `<h2>${pluginMode ? "Your widget plugin" : iconMode ? "Your icon pack" : "Your theme"}</h2>
+      <p class="lede">${pluginMode ? "A widget for Mirmire's Home page, made from a small web page. Players add it from the widget picker." : iconMode ? "An icon pack swaps just the console icons, and works with any theme." : "This is how the theme appears in Settings › Look."}</p>
       ${field("Name", `<input class="input" data-bind="name" value="${esc(P.name)}" placeholder="${iconMode ? "Pixel Consoles" : "Neon Rider"}" maxlength="60">`)}
       ${field("ID", `<input class="input ${P.id && !ID_RE.test(P.id) ? "bad" : ""}" data-bind="id" value="${esc(P.id)}" placeholder="neon-rider" maxlength="64">`, "Made from the name. Importing a pack with the same ID replaces the old one.")}
       ${field("Author", `<input class="input" data-bind="author" value="${esc(P.author)}" placeholder="Your name or handle">`, "Optional. Credit anyone whose art you used here too.")}
-      ${iconMode ? "" : `<div class="toggle"><div><b>Dark theme</b><div class="hint">Any color you leave out uses Material's ${P.dark ? "dark" : "light"} default.</div></div><input type="checkbox" class="switch" data-bind="dark" ${P.dark ? "checked" : ""}></div>`}
+      ${pluginMode ? field("Description", `<input class="input" data-pbind="description" value="${esc(P.plugin.description)}" placeholder="What it shows, in a sentence" maxlength="160">`, "Shown in the widget picker and when installing.") : ""}
+      ${iconMode || pluginMode ? "" : `<div class="toggle"><div><b>Dark theme</b><div class="hint">Any color you leave out uses Material's ${P.dark ? "dark" : "light"} default.</div></div><input type="checkbox" class="switch" data-bind="dark" ${P.dark ? "checked" : ""}></div>`}
       <h3>Start over</h3>
       <button class="btn small" data-action="start">${icon("apps", 16)} Pick a different starting point</button>`;
   },
@@ -519,21 +551,25 @@ const PANELS = {
       <p class="hint">Music is off until a player turns it on in Look.</p>`;
   },
 
+  code() { return plug.codePanel(P); },
+  options() { return plug.optionsPanel(P, [{ id: "firstlight", name: "First Light" }, ...BUILT_IN]); },
+
   export() {
     const { out, files, total } = problems();
     const iconMode = P.mode === "icons";
+    const pluginMode = P.mode === "plugin";
     const warned = files.filter((f) => f.rec.warn);
     return `<h2>Export</h2>
-      <p class="lede">${iconMode ? "Download the ZIP, copy it to your device, then in Mirmire open <b>Settings › Look › Console icons › Import icon pack</b>." : "Download the ZIP, copy it to your device, then in Mirmire open <b>Settings › Look › Import ZIP</b>."}</p>
+      <p class="lede">${pluginMode ? "Download the ZIP, copy it to your device, then in Mirmire open <b>Settings › Look › Widget plugins › Import plugin</b>, or <b>Add widget › Plugins › Import</b> on the Home page. Turn on the Home page in <b>Settings › Layout</b>." : iconMode ? "Download the ZIP, copy it to your device, then in Mirmire open <b>Settings › Look › Console icons › Import icon pack</b>." : "Download the ZIP, copy it to your device, then in Mirmire open <b>Settings › Look › Import ZIP</b>."}</p>
       ${out.length ? `<div class="note warn">${out.map(([sec, m]) => `<div><a href="#" data-section="${sec}">${esc(m)}</a></div>`).join("")}</div>` : `<div class="note">Ready: ${files.length + 1} files, ${fmt(total)}.</div>`}
       ${warned.length ? `<div class="note warn" style="margin-top:8px"><b>Over the recommended limits</b> (they'll still import):${warned.map((f) => `<div class="hint">${esc(f.path)}: ${esc(f.rec.warn)}</div>`).join("")}</div>` : ""}
       <div style="display:flex;gap:8px;margin:14px 0">
         <button class="btn primary" data-action="download" ${out.length ? "disabled" : ""}>${icon("download", 18)} Download ZIP</button>
-        <button class="btn" data-action="copyJson">Copy ${iconMode ? "pack" : "theme"}.json</button>
+        <button class="btn" data-action="copyJson">Copy ${pluginMode ? "plugin" : iconMode ? "pack" : "theme"}.json</button>
       </div>
       <h3>What's inside</h3>
-      <div class="filelist">${iconMode ? "pack.json" : "theme.json"}<br>${files.map((f) => `${esc(f.path)} <span style="opacity:.6">${fmt(f.rec.size)}</span>`).join("<br>")}</div>
-      <h3>${iconMode ? "pack" : "theme"}.json</h3>
+      <div class="filelist">${pluginMode ? "plugin.json<br>index.html" : iconMode ? "pack.json" : "theme.json"}<br>${files.map((f) => `${esc(f.path)} <span style="opacity:.6">${fmt(f.rec.size)}</span>`).join("<br>")}</div>
+      <h3>${pluginMode ? "plugin" : iconMode ? "pack" : "theme"}.json</h3>
       <pre class="filelist" style="white-space:pre-wrap">${esc(JSON.stringify(manifest(), null, 2))}</pre>
       <p class="hint">Your work is saved in this browser as you go. Nothing is uploaded. <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/CREATING.md" target="_blank" rel="noopener">How to make themes and icon packs</a></p>`;
   },
@@ -564,7 +600,7 @@ function drawEditor() {
   const dl = $("#downloadTop");
   dl.disabled = out.length > 0;
   dl.title = out[0]?.[1] || "Download the ZIP";
-  $("#title").textContent = P.name || (P.mode === "icons" ? "Untitled icon pack" : "Untitled theme");
+  $("#title").textContent = P.name || (P.mode === "icons" ? "Untitled icon pack" : P.mode === "plugin" ? "Untitled plugin" : "Untitled theme");
 }
 
 function redraw() { drawEditor(); drawPreview(); save(); }
@@ -663,6 +699,30 @@ async function importEntries(entries, label) {
     entries = entries.map((e) => ({ ...e, path: e.path.slice(r.length) }));
   }
   const find = (p) => entries.find((e) => e.path === p || e.path.toLowerCase() === p.toLowerCase());
+  const pluginJson = find("plugin.json");
+  if (pluginJson) {
+    let m;
+    try { m = JSON.parse(await pluginJson.blob.text()); } catch { toast("plugin.json isn't valid JSON."); return; }
+    P = blankProject("plugin");
+    P.name = m.name || ""; P.id = m.id || slug(P.name); P.idTouched = true; P.author = m.author || "";
+    P.plugin.description = m.description || "";
+    P.plugin.sizes = (m.sizes || ["wide"]).map((x) => String(x).toLowerCase());
+    P.plugin.defaultSize = (m.defaultSize || P.plugin.sizes[0]).toLowerCase();
+    P.plugin.previewSize = P.plugin.defaultSize;
+    P.plugin.permissions = m.permissions || [];
+    const entry = find(m.entry || "index.html");
+    P.plugin.code = entry ? await entry.blob.text() : "";
+    for (const e of entries) {
+      if (e === pluginJson || e === entry || /(^|\/)\.DS_Store$/.test(e.path)) continue;
+      P.plugin.files[e.path] = { blob: e.blob, name: e.path.split("/").pop(), size: e.blob.size, ext: ext(e.path), kind: kindOf(e.path) };
+    }
+    closeStart();
+    section = "code";
+    setMode("plugin", true);
+    redraw();
+    toast(`Opened ${P.name || label}.`);
+    return;
+  }
   const themeJson = find("theme.json"), packJson = find("pack.json");
   if (themeJson) {
     let m;
@@ -792,12 +852,15 @@ async function startFrom(kind, arg) {
     P = blankProject("theme");
     Object.assign(P, { name: "", seed: "#7C9CFF" });
     P.colors = pal.generate(P.seed, { dark: true, mood: "deep" });
+  } else if (kind === "plugin") {
+    P = blankProject("plugin");
+    await startPlugin(arg || "pixel-pet");
   } else if (kind === "icons") {
     P = blankProject("icons");
   }
   await loadFont();
   closeStart();
-  section = P.mode === "icons" ? "icons" : kind === "blank" ? "colors" : "basics";
+  section = P.mode === "icons" ? "icons" : P.mode === "plugin" ? "code" : kind === "blank" ? "colors" : "basics";
   setMode(P.mode, true);
   redraw();
 }
@@ -820,7 +883,8 @@ function drawStart() {
     <div class="ways">
       <button class="way" data-start="blank"><span class="ic">${icon("palette", 22)}</span><b>New theme</b><span>Start from one color and build out.</span></button>
       <button class="way" data-start="icons"><span class="ic">${icon("gamepad", 22)}</span><b>New icon pack</b><span>Console icons that work with any theme.</span></button>
-      <label class="way"><span class="ic">${icon("download", 22)}</span><b>Open a ZIP</b><span>Edit a theme or icon pack you already have.</span><input type="file" accept=".zip" data-openzip></label>
+      <button class="way" data-start="plugin"><span class="ic">${icon("dashboard", 22)}</span><b>New widget plugin</b><span>A widget for the Home page, from a template.</span></button>
+      <label class="way"><span class="ic">${icon("download", 22)}</span><b>Open a ZIP</b><span>Edit a theme, icon pack or plugin you already have.</span><input type="file" accept=".zip" data-openzip></label>
       <label class="way"><span class="ic">${icon("folder", 22)}</span><b>Open a folder</b><span>Or drop one anywhere. Files are sorted by name.</span><input type="file" webkitdirectory multiple data-openfolder></label>
     </div>
     ${hasSaved ? `<div class="note" style="margin:-14px 0 28px;display:flex;align-items:center;gap:12px;justify-content:space-between"><span>You have a draft saved in this browser: <b>${esc(savedName || "Untitled")}</b></span><span style="display:flex;gap:8px"><button class="btn small" data-action="deleteDraft">Delete draft</button><button class="btn small primary" data-start="resume">Keep editing</button></span></div>` : ""}
@@ -836,13 +900,28 @@ let hasSaved = false, savedName = "";
 function openStart() { drawStart(); $("#start").classList.remove("hidden"); }
 function closeStart() { $("#start").classList.add("hidden"); }
 
+/** Loads a plugin template's page, sizes and permissions. */
+async function startPlugin(id) {
+  const t = plug.TEMPLATES.find((x) => x.id === id) || plug.TEMPLATES[0];
+  P.plugin.code = await plug.loadTemplate(t.id);
+  P.plugin.template = t.id;
+  P.plugin.sizes = [...t.sizes];
+  P.plugin.defaultSize = t.sizes.includes("wide") ? "wide" : t.sizes[0];
+  P.plugin.previewSize = P.plugin.defaultSize;
+  P.plugin.permissions = [...t.permissions];
+  if (!P.name || P.idTouched === false) { P.name = t.id === "blank" ? "My widget" : t.name; P.id = slug(P.name); }
+  redraw();
+}
+
 function setMode(mode, keep = false) {
   if (!keep && mode !== P.mode) {
     if (mode === "icons") { P = { ...blankProject("icons"), icons: P.icons, name: P.name ? `${P.name} icons` : "", author: P.author }; P.id = slug(P.name); }
+    else if (mode === "plugin") { P = { ...blankProject("plugin"), author: P.author }; startPlugin("blank"); }
     else { const icons = P.icons; P = blankProject("theme"); P.icons = icons; P.colors = pal.generate("#7C9CFF"); }
   }
   $$("#mode button").forEach((b) => b.classList.toggle("on", b.dataset.mode === P.mode));
   if (P.mode === "icons") view.scene = "consoles";
+  document.body.classList.toggle("mode-plugin", P.mode === "plugin");
 }
 
 /* ============================== events ============================== */
@@ -870,7 +949,8 @@ async function download() {
   // files from problems() are already unique
   const enc = new TextEncoder();
   const json = JSON.stringify(manifest(), null, 2);
-  const entries = [{ path: P.mode === "icons" ? "pack.json" : "theme.json", data: enc.encode(json) }];
+  const entries = [{ path: P.mode === "icons" ? "pack.json" : P.mode === "plugin" ? "plugin.json" : "theme.json", data: enc.encode(json) }];
+  if (P.mode === "plugin") entries.push({ path: "index.html", data: enc.encode(P.plugin.code) });
   for (const f of files) entries.push({ path: f.path, data: new Uint8Array(await f.rec.blob.arrayBuffer()) });
   const blob = writeZip(entries);
   const a = document.createElement("a");
@@ -936,6 +1016,10 @@ function drawScenes() {
 
 function key(e) {
   if (e.target.closest("input, textarea, select, [contenteditable]")) return;
+  if (P.mode === "plugin") {
+    if (e.key === "Enter" || e.key === " ") { $("#pluginFrame")?.contentWindow?.dispatchEvent(new Event("mirmire:select")); e.preventDefault(); }
+    return;
+  }
   const k = e.key;
   const order = previewAssets.consoleOrder();
   const move = (d) => {
@@ -994,6 +1078,21 @@ function wire() {
       return startFrom(kind, arg);
     }
     if (d("[data-jump]")) return jumpToColor(d("[data-jump]").dataset.jump);
+    if (d("[data-ptemplate]")) {
+      const id = d("[data-ptemplate]").dataset.ptemplate;
+      if (P.plugin.code.trim() && P.plugin.template !== id && !confirm("Replace your code with this template?")) return;
+      P.idTouched = false; await startPlugin(id); return;
+    }
+    if (d("[data-psize]")) {
+      const k = d("[data-psize]").dataset.psize, sz = P.plugin.sizes;
+      P.plugin.sizes = sz.includes(k) ? sz.filter((x) => x !== k) : [...sz, k];
+      if (!P.plugin.sizes.includes(P.plugin.defaultSize)) P.plugin.defaultSize = P.plugin.sizes[0] || "wide";
+      if (!P.plugin.sizes.includes(P.plugin.previewSize)) P.plugin.previewSize = P.plugin.defaultSize;
+      return redraw();
+    }
+    if (d("[data-pdefault]")) { P.plugin.defaultSize = P.plugin.previewSize = d("[data-pdefault]").dataset.pdefault; return redraw(); }
+    if (d("[data-ptheme]")) { P.plugin.previewTheme = d("[data-ptheme]").dataset.ptheme; return redraw(); }
+    if (d("[data-pfile-remove]")) { delete P.plugin.files[d("[data-pfile-remove]").dataset.pfileRemove]; return redraw(); }
     if (d("[data-clear]")) { e.preventDefault(); setSlot(d("[data-clear]").dataset.clear, null); return redraw(); }
     if (d("[data-try]")) { e.preventDefault(); const k = d("[data-try]").dataset.try; const was = view.sound; view.sound = true; playSound(k.startsWith("button_") && !P.sounds[k] ? "select" : k); view.sound = was; return; }
     if (d("[data-seedpick]")) { P.seed = d("[data-seedpick]").dataset.seedpick; applyPalette(); return redraw(); }
@@ -1052,6 +1151,13 @@ function wire() {
       const { out } = problems(); $("#downloadTop").disabled = out.length > 0;
     }
     if (t.dataset.color) { P.colors[t.dataset.color] = t.value.toUpperCase(); liveColor(t.dataset.color); }
+    if (t.dataset.pbind) { P.plugin[t.dataset.pbind] = t.value; save(); }
+    if (t.id === "pcode") {
+      P.plugin.code = t.value;
+      P.plugin.template = "";
+      clearTimeout(codeTimer);
+      codeTimer = setTimeout(() => { drawPreview(); save(); }, 500);
+    }
     if (t.dataset.hex !== undefined) {
       const k = t.dataset.hex;
       if (!t.value.trim()) delete P.colors[k];
@@ -1072,6 +1178,15 @@ function wire() {
       const key = t.dataset.file;
       if (key.startsWith("music.") || t.files.length === 1) await fileInto(key, t.files[0]);
       for (const f of [...t.files].slice(1)) if (key.startsWith("music.")) await fileInto(`music.${P.music.length}`, f);
+    }
+    if (t.dataset.pperm) {
+      const k = t.dataset.pperm;
+      P.plugin.permissions = t.checked ? [...new Set([...P.plugin.permissions, k])] : P.plugin.permissions.filter((x) => x !== k);
+      redraw();
+    }
+    if (t.dataset.pfiles !== undefined && t.files.length) {
+      for (const f of t.files) P.plugin.files[f.name.replace(/[^a-zA-Z0-9._-]+/g, "-")] = { blob: f, name: f.name, size: f.size, ext: ext(f.name), kind: kindOf(f.name) };
+      redraw();
     }
     if (t.dataset.openzip !== undefined && t.files[0]) await openAny([{ path: t.files[0].name, blob: t.files[0] }]);
     if (t.dataset.openfolder !== undefined && t.files.length) await openAny([...t.files].map((f) => ({ path: f.webkitRelativePath || f.name, blob: f })), "folder");
@@ -1154,3 +1269,10 @@ async function boot() {
 }
 
 boot();
+
+// Messages from the plugin preview: game opens and script errors.
+window.addEventListener("message", (e) => {
+  const d = e.data || {};
+  if (d.mirmireOpen) toast(`In Mirmire, this opens "${SAMPLE_GAMES[d.mirmireOpen - 1]?.title || "the game"}"`);
+  if (d.mirmireError) toast(`Plugin: ${d.mirmireError}`);
+});

@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  /* Theme colors arrive as CSS variables: --primary, --on-surface, --on-surface-variant, --tertiary… */
+  html, body { margin: 0; height: 100%; }
+  body { display: grid; place-items: center; font-family: system-ui, sans-serif; color: var(--on-surface); }
+  h1 { margin: 0; font-size: 22px; color: var(--primary); }
+  p { margin: 4px 0 0; color: var(--on-surface-variant); font-size: 13px; text-align: center; }
+</style>
+</head>
+<body>
+  <div>
+    <h1 id="hello">Hello from my plugin</h1>
+    <p>Select me with A, or tap me.</p>
+  </div>
+<script>
+  const m = window.mirmire;
+  let taps = Number(m.storage.get("taps") || 0);
+  function show() { document.getElementById("hello").textContent = taps ? `Selected ${taps} time${taps === 1 ? "" : "s"}` : "Hello from my plugin"; }
+  function select() { taps++; m.storage.set("taps", taps); show(); }
+  document.addEventListener("click", select);
+  window.addEventListener("mirmire:select", select);
+  show();
+</script>
+</body>
+</html>

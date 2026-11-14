@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html, body { margin: 0; height: 100%; }
+  body { display: flex; align-items: center; gap: 14px; padding: 12px 16px; box-sizing: border-box; font-family: system-ui, sans-serif; color: var(--on-surface); cursor: pointer; }
+  img { height: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 8px; flex: none; background: var(--surface-variant); }
+  .k { font-size: 11px; font-weight: 800; letter-spacing: 1.4px; color: var(--primary); text-transform: uppercase; }
+  .t { font-size: 18px; font-weight: 800; margin-top: 2px; }
+  .s { font-size: 13px; color: var(--on-surface-variant); margin-top: 2px; }
+  .empty { margin: auto; color: var(--on-surface-variant); font-size: 13px; }
+</style>
+</head>
+<body>
+<script>
+  // Needs the "library" permission in plugin.json.
+  const m = window.mirmire;
+  const games = m.games.all();
+  if (!games.length) {
+    document.body.innerHTML = '<div class="empty">No games yet</div>';
+  } else {
+    // The same pick all day: today's date picks the game.
+    const day = Math.floor(Date.now() / 864e5);
+    const g = games[(day * 2654435761 >>> 0) % games.length];
+    document.body.innerHTML = `
+      ${g.cover ? `<img src="${g.cover}" alt="">` : ""}
+      <div><div class="k">Game of the day</div><div class="t"></div><div class="s"></div></div>`;
+    document.querySelector(".t").textContent = g.title;
+    document.querySelector(".s").textContent = g.systemName + (g.playTimeMinutes ? ` · ${Math.round(g.playTimeMinutes / 60)} h played` : " · Not played yet");
+    const open = () => m.games.open(g.id);
+    document.addEventListener("click", open);
+    window.addEventListener("mirmire:select", open);
+  }
+</script>
+</body>
+</html>
