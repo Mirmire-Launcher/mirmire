@@ -26,7 +26,7 @@ Most launchers expect your games on the device and leave the emulators, saves an
 - **✈️ Pack for a trip.** Choose games to take offline, then play on the plane. Everything syncs back when you're home. Offload a game later without losing its saves.
 - **💡 Stick lights that react.** On Retroid and AYN handhelds, the stick lights follow the theme, the battery level, the console, the game's cover art or its performance mode.
 - **👨‍👩‍👧 Profiles for the whole family.** Each player has their own saves, favorites and play time, with PINs and a content filter for children.
-- **🧱 A Home page you build.** Turn on the Home page for widgets: clock, weather, calendar, your last game, achievements, play time, widgets from your other apps, and **plugins** made by players and shared as a ZIP.
+- **🧱 A Home page you build.** Turn on the Home page for widgets: clock, weather, calendar, your last game, achievements, play time, widgets from your other apps, and **plugins** made by players and shared as a ZIP. Drag and resize them by touch, as on a phone, or arrange them with a controller.
 - **📺 Big Picture.** A full-screen, controller-first home for TVs: big cards for your consoles and games, with the time, battery and RetroAchievements on a small bar at the bottom. Plug into a TV or dock and it switches on by itself.
 - **😴 Saves upload when you sleep.** Press power mid-game and the saves go to your storage, so your other device can carry on.
 - **🎮 Play together.** Invite a paired device on the same Wi-Fi to a netplay game. Your device starts hosting by itself.
