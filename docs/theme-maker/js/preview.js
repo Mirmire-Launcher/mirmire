@@ -11,6 +11,9 @@ export const SCREENS = {
   tablet: { label: "Tablet · 16:10", w: 1000, h: 625 },
 };
 
+/** A dual-screen handheld's second screen (AYN Thor, Retroid Dual Screen add-on): 1240×1080 px. */
+export const SECOND_SCREEN = { w: 620, h: 540 };
+
 export const SCENES = [
   ["consoles", "Consoles"],
   ["games", "Games"],
@@ -329,4 +332,73 @@ export function render(theme, view, assets, fontFamily) {
     </div>
     ${view.glyphs !== "off" ? hintBar(scene, view.glyphs) : ""}
   </div>`;
+}
+
+/**
+ * The second screen of a dual-screen handheld, following what's selected on the main one: a console on Consoles,
+ * a game on Games and the game page, nothing (the clock) on Settings. Mirrors SecondScreenUi.kt.
+ * second: { background: "art"|"console"|"wallpaper", dim: 0–90, idle: "clock"|"art" }
+ * assets also needs secondWall() → {url, video} and consoleArt(id) → {url, video} | null.
+ */
+export function renderSecond(theme, view, assets, fontFamily, second) {
+  const c = resolveColors(theme);
+  const { w, h } = SECOND_SCREEN;
+  const bg = c.background;
+  const media = (m, cls = "m-wall", extra = "") => m.video
+    ? `<video class="${cls}" src="${m.url}" autoplay muted loop playsinline ${extra}></video>` : `<img class="${cls}" src="${m.url}" alt="" ${extra}>`;
+  const dim = second.dim / 100;
+  const wall = assets.secondWall();
+  let layers = wall
+    ? `${media(wall)}<div class="m-wall" style="background:linear-gradient(180deg, ${css(bg, dim * 0.6)}, ${css(bg, Math.min(dim * 0.6 + 0.25, 0.97))})"></div>`
+    : `<div class="m-wall" style="background:linear-gradient(180deg, ${css(c.primary, 0.2)}, ${bg})"></div>`;
+  const consoleLayer = (id) => {
+    const m = assets.consoleArt(id);
+    return m ? `${media(m)}<div class="m-wall" style="background:linear-gradient(180deg, ${css(bg, 0.4)}, ${css(bg, 0.88)})"></div>` : "";
+  };
+  const artLayer = (g) => `<div class="m-wall s2-blur">${art(g, "shot").replace(' loading="lazy"', "")}</div><div class="m-wall" style="background:linear-gradient(180deg, ${css(bg, 0.35)}, ${css(bg, 0.9)})"></div>`;
+  let body = "";
+  const scene = view.scene;
+  // The app's rule: side by side when the space inside the padding is wider than 1.15 × its height.
+  const wide = w - 40 > (h - 40) * 1.15;
+  if (scene === "consoles") {
+    const id = view.system, sys = SYSTEM[id];
+    if (second.background !== "wallpaper") layers += consoleLayer(id);
+    const games = SAMPLE_GAMES.filter((g) => g.system === id);
+    const shown = (games.length ? games : SAMPLE_GAMES).slice(0, 8);
+    const url = assets.icon(id);
+    body = `<div class="s2-pad">
+      <div class="s2-sys"><span class="s2-sysicon">${url ? `<img src="${url}" alt="">` : icon("gamepad", 64)}</span>
+        <div><div class="m-kicker" style="color:var(--primary)">${esc((sys?.[2] || "").toUpperCase())}</div>
+          <div class="s2-title">${esc(sys?.[1] || id)}</div><div class="m-body-m m-muted">${assets.count(id)} games</div></div></div>
+      <div class="m-kicker" style="color:var(--primary);margin:16px 0 10px">PLAYED LATELY</div>
+      <div class="s2-covers" style="grid-template-columns:repeat(${wide ? 6 : 4}, 1fr)">${shown.slice(0, wide ? 6 : 4).map((g) => `<span class="s2-cover">${art(g)}</span>`).join("")}</div>
+    </div>`;
+  } else if (scene === "games" || scene === "game" || scene === "spotlight") {
+    const g = SAMPLE_GAMES[view.game] || SAMPLE_GAMES[0];
+    const sys = SYSTEM[g.system];
+    if (second.background === "art") layers += artLayer(g);
+    else if (second.background === "console") layers += consoleLayer(g.system) || artLayer(g);
+    body = `<div class="s2-pad s2-game ${wide ? "wide" : ""}">
+      <div class="s2-box">${art(g)}</div>
+      <div class="s2-text">
+        <div class="m-kicker" style="color:var(--primary)">${esc((sys?.[1] || "").toUpperCase())}</div>
+        <div class="s2-title">${esc(g.title)}</div>
+        <div class="m-body-m m-muted">${[g.year, g.genre, g.players, g.dev].filter(Boolean).map(esc).join(" · ")}</div>
+        <div class="m-body-s m-muted" style="margin-top:6px">Last played yesterday · 14 plays · On device</div>
+        <div class="s2-bar"><span style="width:30%"></span></div>
+        <div class="m-actions" style="margin-top:10px">${playButton(true)}<button class="m-tile m-action" data-sfx="select">${icon("info", 20)}<span>Details</span></button></div>
+      </div>
+    </div>`;
+  } else if (second.idle === "clock") {
+    const g = SAMPLE_GAMES[0];
+    body = `<div class="s2-pad s2-idle">
+      <div><div class="s2-clock">9:41</div><div class="m-body-m m-muted" style="font-size:18px">Saturday, November 14</div>
+        <div class="m-body-m" style="margin-top:10px;display:flex;gap:6px;align-items:center"><span style="color:var(--tertiary)">${icon("trophy", 20)}</span>1,240 points · 35 this week</div></div>
+      <div class="s2-continue"><span class="s2-continue-art">${art(g, "shot")}</span>
+        <div class="s2-continue-foot"><div><div class="m-kicker" style="color:var(--primary)">CONTINUE</div><div class="s2-continue-title">${esc(g.title)}</div></div>${playButton(true)}</div></div>
+    </div>`;
+  }
+  const cut = theme.style.cardKind === "cut" ? "cut" : "";
+  return `<div class="mock s2 ${cut}" style="${cssVars(theme, c)};font-family:${fontStack(theme, fontFamily)};width:${w}px;height:${h}px;background:${bg};color:${c.onSurface}">
+    ${layers}<div class="s2-content">${body}</div></div>`;
 }

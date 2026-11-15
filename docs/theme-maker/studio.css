@@ -474,3 +474,39 @@ body.mode-plugin #scenes, body.mode-plugin #pickBtn, body.mode-plugin #soundBtn,
 .pm-mut { font-size: 13px; color: var(--mut); }
 .pm-strip { display: flex; gap: 6px; height: 70px; }
 .pm-strip img { height: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 6px; }
+
+/* Dual-screen handheld: the main screen above, the second screen below, like the AYN Thor. */
+.screen2 { display: none; }
+.device.dual { display: flex; flex-direction: column; align-items: center; gap: 26px; padding: 18px 22px; border-radius: 26px; }
+.device.dual::before, .device.dual::after, .device.dual .grip { display: none; }
+.device.dual .screen2 { display: block; }
+.device.dual .screen { box-shadow: 0 0 0 8px #05070A, 0 0 0 9px #ffffff14; }
+.s2-content { position: absolute; inset: 0; }
+.s2-pad { position: absolute; inset: 0; padding: 22px; display: flex; flex-direction: column; }
+.s2-blur { overflow: hidden; }
+.s2-blur > * { width: 100%; height: 100%; object-fit: cover; filter: blur(28px); transform: scale(1.15); opacity: .55; }
+.s2-title { font-size: 26px; font-weight: 800; color: var(--on-bg); line-height: 1.15; margin: 2px 0 4px; }
+.s2-sys { display: flex; gap: 18px; align-items: center; }
+.s2-sysicon { width: 96px; height: 96px; display: grid; place-items: center; flex: none; }
+.s2-sysicon img { width: 100%; height: 100%; object-fit: contain; }
+.s2-covers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.s2-cover { aspect-ratio: .75; border-radius: 10px; overflow: hidden; display: block; }
+.s2-game { gap: 14px; }
+.s2-box { flex: 0 0 40%; min-height: 0; display: flex; justify-content: center; overflow: hidden; }
+.s2-box > * { height: 100% !important; width: auto !important; max-width: 100%; aspect-ratio: .72; border-radius: var(--radius); object-fit: cover; }
+.s2-text { flex: 1; min-height: 0; overflow: hidden; }
+.s2-bar { height: 6px; border-radius: 3px; background: var(--sv); margin-top: 10px; overflow: hidden; }
+.s2-bar span { display: block; height: 100%; background: var(--tertiary); }
+.s2-idle { gap: 20px; }
+.s2-clock { font-size: 64px; font-weight: 800; color: var(--on-bg); line-height: 1; }
+.s2-continue { flex: 1; position: relative; border-radius: 18px; overflow: hidden; background: var(--sc); }
+.s2-continue-art > * { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.s2-continue::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent, #000c); }
+.s2-continue-foot { position: absolute; left: 14px; right: 14px; bottom: 14px; z-index: 1; display: flex; align-items: center; gap: 12px; }
+.s2-continue-foot > div { flex: 1; min-width: 0; }
+.s2-continue-title { font-size: 22px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Keep the stage to the window so the preview scales down instead of growing past it (the dual frame is tall). */
+@media (min-width: 1101px) { .stage { min-height: 0; grid-template-rows: auto minmax(0, 1fr) auto; } }
+.s2-game.wide { flex-direction: row; gap: 22px; }
+.s2-game.wide .s2-box { flex: 0 0 36%; align-items: center; }
+.s2-game.wide .s2-box > * { height: auto !important; width: 100% !important; }

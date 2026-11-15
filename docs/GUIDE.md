@@ -103,11 +103,15 @@ Turn on **Settings › Layout › Home page with widgets** to add a **Home** tab
 
 - **Edit** (or press Select) lets you change the page. **Add widget** opens the list; select a widget to change its size, move it earlier or later, or remove it.
 - **With touch,** it works like a phone's home screen: long-press a widget to pick it up and drag it to a new spot. In edit mode, drag a widget's right edge, bottom edge or corner handle to resize it, and press **×** to remove it.
-- **Mirmire's widgets:** Clock, Weather (pick a city; forecasts from Open-Meteo), Calendar (your next events, once you allow it), Continue playing, Recently played, Recently added, RetroAchievements, Achievement of the week, Play time and Library.
+- **Mirmire's widgets:** Clock, Weather (pick a city and °C or °F; forecasts from Open-Meteo), Calendar (your next events, once you allow it), Continue playing, Recently played, Recently added, RetroAchievements, Achievement of the week, Play time and Library.
 - **Plugins:** widgets made by players, such as **Pixel Pet**, which comes with Mirmire. Your pet walks around, gets hungry, bored and sleepy, naps at night, cheers when you come back from a game or earn achievements, and wears outfits on a schedule (pajamas at night, Halloween…). Select it to feed it, play ball or give it a pat. In its **Widget options**, name it and choose from hundreds of pets from [OpenPets](https://openpets.dev); the one you pick downloads once and works offline after that. Import more under **Plugins › Import a plugin ZIP**, or in **Settings › Look › Widget plugins**. Before installing, Mirmire shows what the plugin is allowed to do. To make your own, see [Make widget plugins](PLUGINS.md).
 - **Apps:** widgets from other apps on the device, as on a phone's home screen. The first time, Android asks you to allow Mirmire to add them.
 
 Sizes are **Small** (1×1), **Wide** (2×1), **Medium** (2×2) and **Large** (4×2). Widgets fill the page in order, four across (two on a narrow screen).
+
+| The Home page | Pixel Pet's options |
+|---|---|
+| ![Home page](../screenshots/53-home-page.jpg) | ![Pixel Pet](../screenshots/55-pixel-pet.jpg) |
 
 ## Big Picture
 
@@ -131,6 +135,10 @@ Big Picture is a full-screen home made for controllers and TVs. Turn it on with 
 
 **Big Picture when docked** (Settings › Layout, on by default): connecting a TV or monitor (HDMI, a USB-C display or a dock) switches to Big Picture in landscape. Unplugging puts your layout back, unless you changed it while docked.
 
+| The main menu | Consoles |
+|---|---|
+| ![Big Picture](../screenshots/56-big-picture.jpg) | ![Big Picture consoles](../screenshots/56b-big-picture-consoles.jpg) |
+
 ## Dual screen
 
 On handhelds with two screens, like the AYN Thor and AYANEO Pocket DS, or with a clip-on screen like the Retroid Dual Screen add-on, Mirmire uses both. The menu stays on the main screen and the second screen shows one of these:
@@ -147,6 +155,12 @@ Your controller always works the menu, never the second screen, so nothing gets 
 **A clip-on screen or a TV?** Built-in screens are recognized on their own. The first time an external screen is connected, Mirmire asks whether it's a second screen or a TV or monitor, and remembers the answer. A TV switches to Big Picture, if **Big Picture when docked** is on.
 
 Find all of this in **Settings › Layout › Dual screen**, where **Ask again about connected screens** forgets your answers.
+
+**Themes** can dress the second screen too: its own wallpaper, what goes behind a game's details (the game's art, the console's backdrop, or just the wallpaper), how dark it is, and whether the clock shows when nothing is selected. Theme Studio has a dual-screen preview for this.
+
+| Both screens | A console | Widgets |
+|---|---|---|
+| ![Dual screen](../screenshots/57-dual-screen.jpg) | ![Console on the second screen](../screenshots/58-second-screen-console.jpg) | ![Widgets on the second screen](../screenshots/59-second-screen-widgets.jpg) |
 
 ## Controls
 
@@ -260,7 +274,7 @@ Sign in under **Settings › Trophies** with your username and **Web API key** (
 ## Themes and layout
 
 - **Look:** theme, accent color, corners, animations, console icons, background (theme wallpaper, gradient, solid color, your own photo or video), and navigation sounds and music. **Get Iconic** and **Get Console Icon Pack** download extra art. You can also import theme or icon-pack ZIPs.
-- **Layout:** screen orientation, top bar or side menu, consoles view, console tiles or icons only (with icon size), games view, card size, artwork type, what's shown on cards, and video previews.
+- **Layout:** screen orientation, **Keep the screen on** (off, while charging, or always, while Mirmire is open), top bar or side menu, consoles view, console tiles or icons only (with icon size), games view, card size, artwork type, what's shown on cards, and video previews.
 
 Making your own theme, icon pack or widget plugin: try **[Theme Studio](https://mirmire-launcher.github.io/mirmire/theme-maker/)** in your browser, and see [Make your own themes and icon packs](CREATING.md) and [Make widget plugins](PLUGINS.md). The file format is in [THEMES.md](THEMES.md).
 

@@ -138,6 +138,8 @@ export const LIMITS = {
   backgroundVideo: { kind: "video", maxBytes: 20 << 20, minSec: 8, maxSec: 20 },
   sound: { kind: "audio", maxBytes: 200 << 10 },
   music: { kind: "audio", maxBytes: 8 << 20, maxSec: 120 },
+  secondWallpaper: { kind: "image", maxBytes: 4 << 20, minW: 720, minH: 540 },
+  secondWallpaperVideo: { kind: "video", maxBytes: 30 << 20, minSec: 8, maxSec: 30 },
 };
 
 // Sample library for the preview: freely licensed homebrew games (credits in assets/games/CREDITS.md).

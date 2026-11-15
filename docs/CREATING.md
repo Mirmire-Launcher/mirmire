@@ -22,6 +22,7 @@ Both are ZIP files you import in the app. The easiest way to make one is **[Mirm
    - Use the tabs above the preview to switch between Consoles, Games, a game's page, Spotlight and Settings.
    - Click the preview, then use the arrow keys, **Enter** and **Esc** to move around as a controller would. You'll hear your sounds.
    - Turn on **Pick**, then click anything in the preview to jump to its color.
+   - Pick **Dual screen** under the preview to see a dual-screen handheld's second screen too.
 4. Open **Export** and press **Download ZIP**.
 5. Copy the ZIP to your device and import it in Mirmire:
    - a theme: **Settings › Look › Import ZIP**;
@@ -73,6 +74,10 @@ Tips:
 - **Console backdrops** show while a console is selected. Give each console its own image or loop, or reuse one picture for several consoles. Theme Studio stores a reused picture once.
 - Mirmire darkens backdrops so text stays readable, and the preview shows exactly how. Very busy or bright pictures still benefit from being darker to begin with.
 - Videos add up quickly. A loop for every console can reach hundreds of megabytes, so use them for a few consoles and images for the rest.
+
+### Second screen
+
+On dual-screen handhelds like the AYN Thor, the second screen shows the selected game's details. In the **Second screen** section you can give it its own wallpaper (1240×1080, or a looping video), choose what goes behind a game's details (the game's blurred art, your console backdrop, or just the wallpaper), how dark it is, and whether the clock shows when nothing is selected. A picture drawn for the small screen, like the art under a DS game, works well with **Just the wallpaper**.
 
 ### Console icons
 

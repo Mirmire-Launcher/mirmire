@@ -1,13 +1,14 @@
 import { SYSTEMS, SYSTEM, COLOR_GROUPS, COLOR_KEYS, SOUNDS, BUTTON_SOUNDS, SOUND_ALIASES, LIMITS, IMAGES, VIDEOS, AUDIO, FONTS, ID_RE, MAX_FILES, MAX_BYTES, SAMPLE_GAMES } from "./data.js";
 import { BUILT_IN } from "./presets.js";
 import * as pal from "./palette.js";
-import { render, resolveColors, SCREENS, SCENES, GLYPHS } from "./preview.js";
+import { render, renderSecond, resolveColors, SCREENS, SECOND_SCREEN, SCENES, GLYPHS } from "./preview.js";
 import { writeZip, readZip } from "./zip.js";
 import { icon } from "./icons.js";
 import * as plug from "./plugin.js";
 
 /* ============================== state ============================== */
 
+const blankSecond = () => ({ background: "art", dim: 45, idle: "clock" });
 const blankStyle = () => ({ cardKind: "rounded", cardRadius: 12, cardBorder: "", borderWidth: 1, focusW: 3, font: "", headerStyle: "PLAIN", navigation: "" });
 
 function blankProject(mode = "theme") {
@@ -15,6 +16,7 @@ function blankProject(mode = "theme") {
     mode, name: "", id: "", idTouched: false, author: "", dark: true,
     colors: {}, style: blankStyle(),
     fontFile: null, wallpaper: null, wallpaperVideo: null,
+    secondWallpaper: null, secondWallpaperVideo: null, second: blankSecond(),
     icons: {}, backgrounds: {}, backgroundVideos: {}, sounds: {}, music: [],
     seed: "#FFD18A", mood: "deep", harmony: "analogous",
     plugin: plug.blankPlugin(),
@@ -23,7 +25,7 @@ function blankProject(mode = "theme") {
 
 let P = blankProject();
 let section = "basics";
-const view = { scene: "consoles", system: "snes", game: 0, row: 0, focus: true, screen: SCREENS.wide, rail: false, glyphs: "xbox", video: true, sound: true, pick: false };
+const view = { scene: "consoles", system: "snes", game: 0, row: 0, focus: true, screen: SCREENS.wide, rail: false, frame: "device", glyphs: "xbox", video: true, sound: true, pick: false };
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -122,6 +124,7 @@ async function restore() {
     const blobs = (await get("blobs")) || {};
     P = Object.assign(blankProject(), meta);
     P.style = Object.assign(blankStyle(), meta.style);
+    P.second = Object.assign(blankSecond(), meta.second);
     walkRecs((rec, path) => { rec.blob = blobs[path]; });
     pruneMissing();
     return true;
@@ -146,13 +149,13 @@ async function deleteDraft() {
 }
 
 function walkRecs(fn) {
-  for (const k of ["fontFile", "wallpaper", "wallpaperVideo"]) if (P[k]) fn(P[k], k);
+  for (const k of ["fontFile", "wallpaper", "wallpaperVideo", "secondWallpaper", "secondWallpaperVideo"]) if (P[k]) fn(P[k], k);
   for (const bag of ["icons", "backgrounds", "backgroundVideos", "sounds"]) for (const [id, r] of Object.entries(P[bag])) if (r) fn(r, `${bag}.${id}`);
   P.music.forEach((r, i) => r && fn(r, `music.${i}`));
   for (const [name, r] of Object.entries(P.plugin?.files || {})) if (r) fn(r, `pfile.${name}`);
 }
 function pruneMissing() {
-  for (const k of ["fontFile", "wallpaper", "wallpaperVideo"]) if (P[k] && !P[k].blob) P[k] = null;
+  for (const k of ["fontFile", "wallpaper", "wallpaperVideo", "secondWallpaper", "secondWallpaperVideo"]) if (P[k] && !P[k].blob) P[k] = null;
   for (const bag of ["icons", "backgrounds", "backgroundVideos", "sounds"]) for (const [id, r] of Object.entries(P[bag])) if (!r?.blob) delete P[bag][id];
   P.music = P.music.filter((r) => r?.blob);
   P.plugin = Object.assign(plug.blankPlugin(), P.plugin || {});
@@ -189,6 +192,8 @@ function packPaths() {
   }
   if (P.wallpaper) add("wallpaper", `wallpaper.${P.wallpaper.ext}`, P.wallpaper);
   if (P.wallpaperVideo) add("wallpaperVideo", `wallpaper.${P.wallpaperVideo.ext}`, P.wallpaperVideo);
+  if (P.secondWallpaper) add("secondWallpaper", `second-screen/wallpaper.${P.secondWallpaper.ext}`, P.secondWallpaper);
+  if (P.secondWallpaperVideo) add("secondWallpaperVideo", `second-screen/wallpaper.${P.secondWallpaperVideo.ext}`, P.secondWallpaperVideo);
   if (P.fontFile) add("font", `fonts/${safe(P.fontFile.name)}`, P.fontFile);
   for (const [id, r] of Object.entries(P.icons)) add(`icons/${id}`, `icons/${id}.${r.ext}`, r);
   for (const [id, r] of Object.entries(P.backgrounds)) add(`backgrounds/${id}`, `backgrounds/${id}.${r.ext}`, r);
@@ -224,7 +229,15 @@ function manifest() {
   put("sounds", "sounds");
   const mus = files.filter((f) => f.key.startsWith("music/")).map((f) => f.path);
   if (mus.length) assets.music = mus;
-  return { id: P.id, name: P.name, ...(P.author ? { author: P.author } : {}), version: 1, dark: P.dark, colors, style, assets };
+  if (one("secondWallpaper")) assets.secondScreenWallpaper = one("secondWallpaper");
+  if (one("secondWallpaperVideo")) assets.secondScreenWallpaperVideo = one("secondWallpaperVideo");
+  const sec = P.second, def = blankSecond();
+  const secondScreen = {};
+  if (sec.background !== def.background) secondScreen.background = sec.background;
+  if (sec.dim !== def.dim) secondScreen.dim = sec.dim / 100;
+  if (sec.idle !== def.idle) secondScreen.idle = sec.idle;
+  return { id: P.id, name: P.name, ...(P.author ? { author: P.author } : {}), version: 1, dark: P.dark, colors, style, assets,
+    ...(Object.keys(secondScreen).length ? { secondScreen } : {}) };
 }
 
 function problems() {
@@ -264,6 +277,19 @@ const previewAssets = {
     const pick = (img, vid) => (view.video && vid ? { url: urlOf(vid), video: true } : img ? { url: urlOf(img) } : vid ? { url: urlOf(vid), video: true } : null);
     return (id && pick(P.backgrounds[id], P.backgroundVideos[id])) || pick(P.wallpaper, P.wallpaperVideo) || { url: "assets/default/wallpaper.jpg" };
   },
+  /** The second screen's own wallpaper, or the main one. */
+  secondWall() {
+    if (P.mode !== "theme") return { url: "assets/default/wallpaper.jpg" };
+    const own = view.video && P.secondWallpaperVideo ? { url: urlOf(P.secondWallpaperVideo), video: true }
+      : P.secondWallpaper ? { url: urlOf(P.secondWallpaper) } : P.secondWallpaperVideo ? { url: urlOf(P.secondWallpaperVideo), video: true } : null;
+    return own || this.backdrop(null);
+  },
+  /** Only the theme's own art for a console: null when it has none. */
+  consoleArt(id) {
+    if (P.mode !== "theme") return null;
+    const img = P.backgrounds[id], vid = P.backgroundVideos[id];
+    return view.video && vid ? { url: urlOf(vid), video: true } : img ? { url: urlOf(img) } : vid ? { url: urlOf(vid), video: true } : null;
+  },
   count: (id) => 12 + (SYSTEMS.findIndex((s) => s[0] === id) * 7) % 40,
   consoleOrder() {
     const mine = SYSTEMS.map((s) => s[0]).filter((id) => P.icons[id] || P.backgrounds[id] || P.backgroundVideos[id]);
@@ -301,7 +327,8 @@ function drawPluginPreview() {
 function drawPreview() {
   const host = $("#screen");
   if (!host) return;
-  if (P.mode === "plugin") return drawPluginPreview();
+  $("#device").classList.toggle("dual", view.frame === "dual" && P.mode !== "plugin");
+  if (P.mode === "plugin") { $("#screen2Inner").innerHTML = ""; return drawPluginPreview(); }
   view.rail = P.style.navigation === "rail" ? !view.forceTop : !!view.forceRail;
   const order = previewAssets.consoleOrder();
   if (!order.includes(view.system)) view.system = order[0];
@@ -312,6 +339,13 @@ function drawPreview() {
   inner.innerHTML = html;
   const newVideo = inner.querySelector("video.m-wall");
   if (keepVideo && newVideo && keepVideo.src === newVideo.src) { newVideo.currentTime = keepVideo.currentTime; }
+  const inner2 = $("#screen2Inner");
+  if (view.frame === "dual") {
+    const keep2 = inner2.querySelector("video.m-wall");
+    inner2.innerHTML = renderSecond(themeForPreview(), view, previewAssets, fontFamily, P.second);
+    const new2 = inner2.querySelector("video.m-wall");
+    if (keep2 && new2 && keep2.src === new2.src) new2.currentTime = keep2.currentTime;
+  } else inner2.innerHTML = "";
   fit();
   requestAnimationFrame(fit);
   const c = resolveColors(themeForPreview());
@@ -329,11 +363,27 @@ function fit() {
   const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + parseFloat(vcs.paddingLeft) + parseFloat(vcs.paddingRight);
   const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + parseFloat(vcs.paddingTop) + parseFloat(vcs.paddingBottom);
   const narrow = innerWidth <= 640;
-  const avail = { w: vp.clientWidth - padX, h: narrow ? 10000 : vp.clientHeight - padY };
-  const scale = Math.max(0.3, Math.min(avail.w / w, avail.h / h, 1.6));
+  const dual = view.frame === "dual" && P.mode !== "plugin";
+  const s2 = SECOND_SCREEN, gap = dual ? parseFloat(cs.rowGap) || 0 : 0;
+  const avail = { w: vp.clientWidth - padX, h: (narrow ? 10000 : vp.clientHeight - padY) - gap };
+  const scale = Math.max(0.2, Math.min(avail.w / w, avail.h / (dual ? h + s2.h : h), 1.6));
   host.style.width = `${w * scale}px`;
   host.style.height = `${h * scale}px`;
   $("#screenInner").style.transform = `scale(${scale})`;
+  const host2 = $("#screen2");
+  host2.style.width = `${s2.w * scale}px`;
+  host2.style.height = `${s2.h * scale}px`;
+  $("#screen2Inner").style.transform = `scale(${scale})`;
+}
+
+/** Handheld, screen only, or a dual-screen handheld with the second screen below. */
+function setFrame(frame) {
+  view.frame = ["device", "flat", "dual"].includes(frame) ? frame : "device";
+  const dev = $("#device");
+  dev.classList.toggle("flat", view.frame === "flat");
+  dev.classList.toggle("dual", view.frame === "dual" && P.mode !== "plugin");
+  $("#frame").value = view.frame;
+  drawPreview();
 }
 
 function drawChecks(c) {
@@ -387,6 +437,7 @@ const NAV_THEME = [
   ["colors", "Colors", "palette"],
   ["style", "Shape & type", "dashboard"],
   ["wallpaper", "Wallpaper", "image"],
+  ["second", "Second screen", "viewAgenda"],
   ["consoles", "Console art", "gamepad"],
   ["sounds", "Sounds & music", "music"],
   ["export", "Export", "download"],
@@ -507,6 +558,26 @@ const PANELS = {
       <p class="hint" style="margin-top:14px">Without a wallpaper, Mirmire uses its own (the one you see now). The app darkens wallpapers so text stays readable, as in the preview.</p>`;
   },
 
+  second() {
+    const sec = P.second;
+    const chips = (key, opts) => `<div class="chips">${opts.map(([k, l]) => `<button class="chip ${sec[key] === k ? "on" : ""}" data-second="${key}:${k}">${l}</button>`).join("")}</div>`;
+    return `<h2>Second screen</h2>
+      <p class="lede">On handhelds with two screens, like the AYN Thor or a Retroid with the Dual Screen add-on, Mirmire shows the selected game's details on the second screen. Pick <b>Dual screen</b> under the preview to see both.</p>
+      <h3>Wallpaper</h3>
+      <div class="stack">
+        ${dropSlot("secondWallpaper", "Image", "1240×1080 PNG, WebP or JPEG, under 4 MB", P.secondWallpaper, acc([...IMAGES, ...VIDEOS]))}
+        ${dropSlot("secondWallpaperVideo", "Video loop", "8–30 s MP4 or WebM, under 30 MB, plays muted", P.secondWallpaperVideo, acc(VIDEOS))}
+      </div>
+      <p class="hint">Without one, the second screen uses the main wallpaper.</p>
+      <h3>Behind a game's details</h3>
+      ${chips("background", [["art", "Game artwork"], ["console", "Console backdrop"], ["wallpaper", "Just the wallpaper"]])}
+      <p class="hint">Game artwork blurs the selected game's screenshot. Console backdrop uses your Console art, falling back to the game's artwork.</p>
+      <div class="field"><span>Darken the wallpaper</span><div class="slider"><input type="range" min="0" max="90" value="${sec.dim}" data-second-dim><output>${sec.dim}%</output></div></div>
+      <h3>When nothing is selected</h3>
+      ${chips("idle", [["clock", "Clock and Continue"], ["art", "Just the wallpaper"]])}
+      <p class="hint">"Just the wallpaper" suits a picture made for the second screen, like the art under a DS game.</p>`;
+  },
+
   consoles() {
     const have = Object.keys(P.icons).length, bgs = new Set([...Object.keys(P.backgrounds), ...Object.keys(P.backgroundVideos)]).size;
     return `<h2>Console art</h2>
@@ -609,6 +680,7 @@ function redraw() { drawEditor(); drawPreview(); save(); }
 
 function setSlot(key, rec) {
   if (key === "fontFile") { P.fontFile = rec; loadFont().then(drawPreview); return; }
+  if (key === "secondWallpaper" && rec?.kind === "video") { P.secondWallpaperVideo = rec; return; }
   if (!key.includes(".")) { P[key] = rec; return; }
   const [bag, id] = key.split(".");
   if (bag === "music") {
@@ -625,6 +697,8 @@ function limitFor(key, kind) {
   if (key === "fontFile") return "font";
   if (key === "wallpaper") return "wallpaper";
   if (key === "wallpaperVideo") return "wallpaperVideo";
+  if (key === "secondWallpaper") return "secondWallpaper";
+  if (key === "secondWallpaperVideo") return "secondWallpaperVideo";
   const bag = key.split(".")[0];
   if (bag === "icons") return "icon";
   if (bag === "backgrounds") return kind === "video" ? "backgroundVideo" : "background";
@@ -751,6 +825,11 @@ async function importEntries(entries, label) {
     const wall = a.wallpaper && find(a.wallpaper);
     if (wall) await take(a.wallpaper, kindOf(a.wallpaper) === "video" ? "wallpaperVideo" : "wallpaper");
     await take(a.wallpaperVideo, "wallpaperVideo");
+    if (a.secondScreenWallpaper) await take(a.secondScreenWallpaper, kindOf(a.secondScreenWallpaper) === "video" ? "secondWallpaperVideo" : "secondWallpaper");
+    await take(a.secondScreenWallpaperVideo, "secondWallpaperVideo");
+    const ss = m.secondScreen || {};
+    P.second = { background: ["art", "console", "wallpaper"].includes(ss.background) ? ss.background : "art",
+      dim: typeof ss.dim === "number" ? Math.round(Math.min(0.9, Math.max(0, ss.dim)) * 100) : 45, idle: ss.idle === "art" ? "art" : "clock" };
     for (const [id, p] of Object.entries(a.systemIcons || {})) if (SYSTEM[id]) await take(p, `icons.${id}`);
     for (const [id, p] of Object.entries(a.systemBackgrounds || {})) if (SYSTEM[id]) await take(p, `backgrounds.${id}`);
     for (const [id, p] of Object.entries(a.systemBackgroundVideos || {})) if (SYSTEM[id]) await take(p, `backgrounds.${id}`);
@@ -1098,6 +1177,13 @@ function wire() {
     if (d("[data-seedpick]")) { P.seed = d("[data-seedpick]").dataset.seedpick; applyPalette(); return redraw(); }
     if (d("[data-mood]")) { P.mood = d("[data-mood]").dataset.mood; applyPalette(); return redraw(); }
     if (d("[data-harmony]")) { P.harmony = d("[data-harmony]").dataset.harmony; applyPalette(); return redraw(); }
+    if (d("[data-second]")) {
+      const [k, v] = d("[data-second]").dataset.second.split(":");
+      P.second[k] = v;
+      if (view.frame !== "dual") setFrame("dual");
+      view.scene = k === "idle" ? "settings" : "game"; drawScenes();
+      return redraw();
+    }
     if (d("[data-stylepick]")) {
       const [k, v] = d("[data-stylepick]").dataset.stylepick.split(":");
       if (k === "font") { P.fontFile = null; await loadFont(); }
@@ -1165,6 +1251,7 @@ function wire() {
       liveColor(k, false);
     }
     if (t.dataset.seed !== undefined) { P.seed = t.value.toUpperCase(); applyPalette(); t.parentElement.style.background = P.seed; drawPreview(); save(); }
+    if (t.dataset.secondDim !== undefined) { P.second.dim = +t.value; t.nextElementSibling.textContent = `${t.value}%`; drawPreview(); save(); }
     if (t.dataset.style) { P.style[t.dataset.style] = +t.value; t.nextElementSibling.textContent = `${t.value} dp`; drawPreview(); save(); }
     if (t.dataset.border !== undefined) { P.style.cardBorder = t.value.toUpperCase(); const h = $("[data-borderhex]"); if (h) h.value = P.style.cardBorder; drawPreview(); save(); }
     if (t.dataset.borderhex !== undefined) { if (!t.value.trim() || pal.valid(t.value)) { P.style.cardBorder = t.value.trim() ? norm(t.value) : ""; drawPreview(); save(); } }
@@ -1192,7 +1279,7 @@ function wire() {
     if (t.dataset.openfolder !== undefined && t.files.length) await openAny([...t.files].map((f) => ({ path: f.webkitRelativePath || f.name, blob: f })), "folder");
     if (t.id === "screenSize") { view.screen = SCREENS[t.value]; drawPreview(); }
     if (t.id === "glyphs") { view.glyphs = t.value; drawPreview(); }
-    if (t.id === "frame") { $("#device").classList.toggle("flat", t.value === "flat"); fit(); }
+    if (t.id === "frame") setFrame(t.value);
   });
 
   // Drag and drop: onto a slot fills that slot; anywhere else sorts the files by name.
@@ -1258,7 +1345,7 @@ async function boot() {
     const [kind, arg] = q.get("start").split(":");
     await startFrom(kind, arg);
     if (q.get("scene")) { view.scene = q.get("scene"); drawScenes(); }
-    if (q.get("frame") === "flat") $("#device").classList.add("flat");
+    if (q.get("frame")) setFrame(q.get("frame"));
     if (q.get("glyphs") && GLYPHS[q.get("glyphs")]) { view.glyphs = q.get("glyphs"); $("#glyphs").value = view.glyphs; }
     if (q.get("screen") && SCREENS[q.get("screen")]) { view.screen = SCREENS[q.get("screen")]; $("#screenSize").value = q.get("screen"); }
     if (q.get("section")) section = q.get("section");

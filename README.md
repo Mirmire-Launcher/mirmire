@@ -28,7 +28,7 @@ Most launchers expect your games on the device and leave the emulators, saves an
 - **👨‍👩‍👧 Profiles for the whole family.** Each player has their own saves, favorites and play time, with PINs and a content filter for children.
 - **🧱 A Home page you build.** Turn on the Home page for widgets: clock, weather, calendar, your last game, achievements, play time, widgets from your other apps, and **plugins** made by players and shared as a ZIP, like Pixel Pet, with hundreds of pets from OpenPets to choose from. Drag and resize them by touch, as on a phone, or arrange them with a controller.
 - **📺 Big Picture.** A full-screen, controller-first home for TVs: big cards for your consoles and games, with the time, battery and RetroAchievements on a small bar at the bottom. Plug into a TV or dock and it switches on by itself.
-- **🪟 Dual screen.** On the AYN Thor, AYANEO Pocket DS or with a Retroid Dual Screen add-on, the second screen shows the selected game's art, description and achievements, or your widgets. Swap the screens to put the menu on the bottom one. DS and 3DS games get the second screen to themselves.
+- **🪟 Dual screen.** On the AYN Thor, AYANEO Pocket DS or with a Retroid Dual Screen add-on, the second screen shows the selected game's art, description and achievements, or your widgets. Swap the screens to put the menu on the bottom one. DS and 3DS games get the second screen to themselves, and themes can give the second screen its own wallpaper.
 - **😴 Saves upload when you sleep.** Press power mid-game and the saves go to your storage, so your other device can carry on.
 - **🎮 Play together.** Invite a paired device on the same Wi-Fi to a netplay game. Your device starts hosting by itself.
 - **🌡️ Learns how hot each game runs.** Mirmire picks a battery, standard or performance mode per console, and steps down for games that ran hot.
@@ -50,6 +50,7 @@ Theme Studio runs in your browser, with nothing to install, and nothing you add 
 - **Colors from one color:** pick one color and it builds a full palette, with readability checks.
 - **Remix or start fresh:** begin from Mirmire's built-in themes, or open any theme or icon pack ZIP to edit it.
 - **Widget plugins:** write a Home page widget from a template and try it on a copy of the Home page, with sample games and achievements.
+- **Dual-screen preview:** see your theme on both screens of a dual-screen handheld, and choose the second screen's wallpaper, what's behind a game's details and what shows when nothing is selected.
 - **Bring your own files:** drop in your wallpaper, console icons, backdrops, sounds and music. Files named like other frontends' sets are sorted automatically.
 
 When you're done, download the ZIP and import it in **Settings › Look**. See [Make your own themes and icon packs](docs/CREATING.md) and [Make widget plugins](docs/PLUGINS.md) for tips.
@@ -62,6 +63,7 @@ When you're done, download the ZIP and import it in **Settings › Look**. See [
 - **RetroAchievements:** progress on every game card and on each game's page.
 - **Backups:** back up settings, themes and RetroArch's settings to your storage, restore on any device, or keep devices in sync.
 - **Home screen:** works as your launcher on handhelds and TVs, with a home screen widget on phones.
+- **Keep the screen on:** while Mirmire is open, always or only while charging.
 
 ## Download
 
@@ -86,6 +88,28 @@ New here? Read the **[User guide](docs/GUIDE.md)**.
 | ![Console games](screenshots/05-console-games.jpg) | ![Search](screenshots/08-search.jpg) |
 | **Android apps** | |
 | ![Apps](screenshots/09-apps.jpg) | |
+
+### Home page and widgets
+
+| Home page | Add a widget |
+|---|---|
+| ![Home page](screenshots/53-home-page.jpg) | ![Widget plugins](screenshots/54-widget-plugins.jpg) |
+| **Pixel Pet's options** | |
+| ![Pixel Pet](screenshots/55-pixel-pet.jpg) | |
+
+### Big Picture
+
+| Main menu | Consoles |
+|---|---|
+| ![Big Picture](screenshots/56-big-picture.jpg) | ![Big Picture consoles](screenshots/56b-big-picture-consoles.jpg) |
+
+### Dual screen
+
+| Both screens (AYN Thor style) | A console on the second screen |
+|---|---|
+| ![Dual screen](screenshots/57-dual-screen.jpg) | ![Console on the second screen](screenshots/58-second-screen-console.jpg) |
+| **Widgets on the second screen** | |
+| ![Widgets on the second screen](screenshots/59-second-screen-widgets.jpg) | |
 
 ### Game details
 

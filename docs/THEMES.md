@@ -34,8 +34,10 @@ The app accepts at most **1024 files** and **1 GB** uncompressed. Stay well unde
     "systemBackgrounds": { "snes": "backgrounds/snes.png" },
     "systemBackgroundVideos": { "snes": "backgrounds/snes.mp4" },
     "sounds": { "move": "sounds/move.wav", "button_x": "sounds/button_x.wav" },
-    "music": ["music/loop.ogg"]
-  }
+    "music": ["music/loop.ogg"],
+    "secondScreenWallpaper": "second-screen/wallpaper.png"
+  },
+  "secondScreen": { "background": "art", "dim": 0.45, "idle": "clock" }
 }
 ```
 
@@ -84,6 +86,20 @@ Shown on Settings and every screen that is not a console page.
 | Notes | A dim overlay keeps text readable. | Plays muted on a loop. Pauses while a game is running. |
 
 A pack can ship both. The user picks **Video** or **Image** in Look.
+
+## Second screen
+
+For handhelds with two screens (AYN Thor, AYANEO Pocket DS, a Retroid with the Dual Screen add-on), where Mirmire shows the selected game's details or the player's widgets on the second screen. All of it is optional.
+
+| Key | Values | Default |
+| --- | --- | --- |
+| `assets.secondScreenWallpaper` | An image or a video for the second screen. 1240×1080 suits the AYN Thor and the Retroid add-on; it's cropped to fill other sizes. Under 4 MB for an image, 8–30 s and under 30 MB for a video. | The main wallpaper |
+| `assets.secondScreenWallpaperVideo` | A video, when you ship both | |
+| `secondScreen.background` | What's behind a game's details: `art` (the game's screenshot, blurred), `console` (this theme's backdrop for the game's console, or the game's art when there's none) or `wallpaper` (nothing over the wallpaper) | `art` |
+| `secondScreen.dim` | How much the wallpaper is darkened, `0` to `0.9` | `0.45` |
+| `secondScreen.idle` | When nothing is selected: `clock` (the clock and the Continue card) or `art` (just the wallpaper, for a picture made for the second screen) | `clock` |
+
+The second-screen wallpaper is used when the player has their background set to the theme's. Theme Studio's **Dual screen** preview shows both screens.
 
 ## Console icons
 
@@ -153,6 +169,7 @@ sounds/move.wav
 sounds/select.wav
 sounds/back.wav
 music/loop.ogg
+second-screen/wallpaper.png
 ```
 
 ZIP the **contents** of the folder, not the folder itself, so `theme.json` is at the archive root. 
