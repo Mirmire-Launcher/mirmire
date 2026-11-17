@@ -557,6 +557,17 @@ const PANELS = {
       ${range("borderWidth", 0, 8, "Border width")}
       ${range("focusW", 1, 8, "Focus outline", "dp")}
       <p class="hint">The focus outline is what a controller user sees moving around. Use the arrow keys on the preview to try it.</p>
+      <h3>Focus style</h3>
+      <div class="chips" style="margin-bottom:10px">${[["", "Outline"], ["corners", "Corner brackets"], ["frame", "Thick frame"]].map(([k, l]) => `<button class="chip ${(s.focus || "") === k ? "on" : ""}" data-stylepick="focus:${k}">${l}</button>`).join("")}</div>
+      <div class="crow ${pal.valid(s.focusColor) ? "" : "unset"}" style="padding-left:0">
+        <div class="sw"><i style="background:${pal.css(s.focusColor || P.colors.primary || "#0000")}"></i><input type="color" data-focuscolor value="${pal.rgbOnly(s.focusColor || P.colors.primary || "#888888")}"></div>
+        <div><b>Focus color</b><small>${pal.valid(s.focusColor) ? "Its own color" : "The main color"}</small></div>
+        ${pal.valid(s.focusColor) ? `<button class="btn small" data-action="focusColorReset">Use main color</button>` : ""}
+      </div>
+      <p class="hint">Corner brackets sit just outside the tile, like a handheld home menu; a thick frame colors the tile's whole edge.</p>
+      <h3>Card style</h3>
+      <div class="chips">${[["", "Standard"], ["1", "Plain white cards"]].map(([k, l]) => `<button class="chip ${(s.bezel ? "1" : "") === k ? "on" : ""}" data-stylepick="bezel:${k}" data-goscene="consoles">${l}</button>`).join("")}</div>
+      <p class="hint">Plain cards are flat in the theme's surface color with a soft shadow; console icons fill the card and game art sits inset, like apps on a handheld home menu.</p>
       <h3>Font</h3>
       <div class="chips" style="margin-bottom:10px">${[["", "Oxanium"], ["sans", "Sans"], ["serif", "Serif"], ["monospace", "Mono"], ["cursive", "Cursive"]].map(([k, l]) => `<button class="chip ${!P.fontFile && s.font === k ? "on" : ""}" data-stylepick="font:${k}">${l}</button>`).join("")}</div>
       ${dropSlot("fontFile", "Your own font", "TTF or OTF, under 2 MB, licensed for sharing", P.fontFile, acc(FONTS))}
@@ -576,7 +587,11 @@ const PANELS = {
         ${dropSlot("wallpaperVideo", "Video loop", "8–30 s MP4 or WebM, under 40 MB, plays muted", P.wallpaperVideo, acc(VIDEOS))}
       </div>
       ${P.wallpaper ? `<button class="btn small" style="margin-top:12px" data-action="fromWall">${icon("palette", 16)} Build colors from this picture</button><div id="wallSeeds" class="picks" style="margin-top:10px"></div>` : ""}
-      <p class="hint" style="margin-top:14px">Without a wallpaper, Mirmire uses its own (the one you see now). The app darkens wallpapers so text stays readable, as in the preview.</p>`;
+      <p class="hint" style="margin-top:14px">Without a wallpaper, Mirmire uses its own (the one you see now). The app darkens wallpapers so text stays readable, as in the preview.</p>
+      <h3>Or a drawn pattern</h3>
+      <div class="chips">${[["", "None"], ["grid", "Grid"], ["stripes", "Stripes"], ["dots", "Dots"], ["blocks", "Blocks"]].map(([k, l]) => `<button class="chip ${(P.style.tiles?.kind || "") === k ? "on" : ""}" data-tilekind="${k}">${l}</button>`).join("")}</div>
+      ${P.style.tiles ? `<div class="field"><span>Pattern size</span><div class="slider"><input type="range" min="6" max="80" value="${P.style.tiles.size || 28}" data-tilesize><output>${P.style.tiles.size || 28} dp</output></div></div>` : ""}
+      <p class="hint">A soft repeating backdrop in your background color, used when the theme has no wallpaper picture or video.</p>`;
   },
 
   second() {
@@ -1207,6 +1222,15 @@ function wire() {
       view.scene = k === "idle" ? "settings" : "game"; drawScenes();
       return redraw();
     }
+    if (d("[data-tilekind]")) {
+      const kind = d("[data-tilekind]").dataset.tilekind;
+      const bg = pal.valid(P.colors.background) ? norm(P.colors.background) : "#EEF1F4";
+      const ink = pal.mix(bg, pal.valid(P.colors.outline) ? norm(P.colors.outline) : "#888888", 0.18);
+      P.style.tiles = kind ? { kind, base: bg, ink, size: P.style.tiles?.size || (kind === "stripes" ? 6 : 28), ...(P.style.tiles?.glow ? { glow: P.style.tiles.glow } : {}) } : null;
+      if (!P.style.tiles) delete P.style.tiles;
+      view.scene = "consoles"; drawScenes();
+      return redraw();
+    }
     if (d("[data-stylepick]")) {
       const [k, v] = d("[data-stylepick]").dataset.stylepick.split(":");
       if (k === "font") { P.fontFile = null; await loadFont(); }
@@ -1217,6 +1241,7 @@ function wire() {
       return redraw();
     }
     const action = d("[data-action]")?.dataset.action;
+    if (action === "focusColorReset") { delete P.style.focusColor; return redraw(); }
     if (action === "generate") { applyPalette(); redraw(); toast("Palette built from your main color."); }
     if (action === "surprise") { P.seed = pal.randomSeed(); P.mood = ["deep", "vivid", "soft"][Math.floor(Math.random() * 3)]; P.harmony = ["analogous", "complement", "triad"][Math.floor(Math.random() * 3)]; applyPalette(); redraw(); }
     if (action === "fromWall") {
@@ -1276,6 +1301,8 @@ function wire() {
     if (t.dataset.seed !== undefined) { P.seed = t.value.toUpperCase(); applyPalette(); t.parentElement.style.background = P.seed; drawPreview(); save(); }
     if (t.dataset.secondDim !== undefined) { P.second.dim = +t.value; t.nextElementSibling.textContent = `${t.value}%`; drawPreview(); save(); }
     if (t.dataset.style) { P.style[t.dataset.style] = +t.value; t.nextElementSibling.textContent = `${t.value} dp`; drawPreview(); save(); }
+    if (t.dataset.focuscolor !== undefined) { P.style.focusColor = t.value.toUpperCase(); drawPreview(); save(); }
+    if (t.dataset.tilesize !== undefined && P.style.tiles) { P.style.tiles = { ...P.style.tiles, size: +t.value }; const o = t.nextElementSibling; if (o) o.textContent = `${t.value} dp`; drawPreview(); save(); }
     if (t.dataset.border !== undefined) { P.style.cardBorder = t.value.toUpperCase(); const h = $("[data-borderhex]"); if (h) h.value = P.style.cardBorder; drawPreview(); save(); }
     if (t.dataset.borderhex !== undefined) { if (!t.value.trim() || pal.valid(t.value)) { P.style.cardBorder = t.value.trim() ? norm(t.value) : ""; drawPreview(); save(); } }
   });

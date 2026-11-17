@@ -148,6 +148,12 @@ New here? Read the **[User guide](docs/GUIDE.md)**.
 | **App updates** | **Reset settings** |
 | ![Updates](screenshots/23-system-updates.jpg) | ![Reset](screenshots/24-reset-dialog.jpg) |
 
+### Console themes
+
+Blue, Neon, Sky and Pearl Console (Green Console is the fifth):
+
+![Console themes](screenshots/60-console-themes.jpg)
+
 ### Stick lights
 
 | Light options | Console colors |

@@ -46,6 +46,7 @@ function cssVars(t, c) {
     "--radius": `${s.cardRadius}px`,
     "--rest-border": parse(s.cardBorder) ? `${Math.max(0, s.borderWidth)}px solid ${css(s.cardBorder)}` : `1px solid ${css(c.outline, 0.35)}`,
     "--focus-w": `${Math.max(1, Math.min(8, s.focusW))}px`,
+    "--focus": parse(s.focusColor) ? s.focusColor : c.primary,
   };
   return Object.entries(v).map(([k, x]) => `${k}:${x}`).join(";");
 }
@@ -321,7 +322,7 @@ export function render(theme, view, assets, fontFamily) {
   else if (scene === "spotlight") body = spotlightScene(t, view, assets);
   else body = settingsScene(t, view);
   const chrome = scene === "consoles" || scene === "games" || scene === "spotlight";
-  const cut = theme.style.cardKind === "cut" ? "cut" : "";
+  const cut = [theme.style.cardKind === "cut" ? "cut" : "", theme.style.bezel ? "bezel" : "", theme.style.focus ? `f-${theme.style.focus}` : ""].join(" ");
   return `<div class="mock ${cut} ${useRail && chrome ? "with-rail" : ""} scene-${scene}" style="${cssVars(theme, c)};font-family:${fontStack(theme, fontFamily)};width:${view.screen.w}px;height:${view.screen.h}px;background:${c.background};color:${c.onSurface}">
     ${scene === "game" ? "" : backdrop(t, assets, view.system, scene)}
     ${useRail && chrome ? rail(tab) : ""}
@@ -398,7 +399,7 @@ export function renderSecond(theme, view, assets, fontFamily, second) {
         <div class="s2-continue-foot"><div><div class="m-kicker" style="color:var(--primary)">CONTINUE</div><div class="s2-continue-title">${esc(g.title)}</div></div>${playButton(true)}</div></div>
     </div>`;
   }
-  const cut = theme.style.cardKind === "cut" ? "cut" : "";
+  const cut = [theme.style.cardKind === "cut" ? "cut" : "", theme.style.bezel ? "bezel" : "", theme.style.focus ? `f-${theme.style.focus}` : ""].join(" ");
   return `<div class="mock s2 ${cut}" style="${cssVars(theme, c)};font-family:${fontStack(theme, fontFamily)};width:${w}px;height:${h}px;background:${bg};color:${c.onSurface}">
     ${layers}<div class="s2-content">${body}</div></div>`;
 }

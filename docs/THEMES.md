@@ -75,7 +75,7 @@ Paths must stay inside the pack (no `..`, no absolute paths). You can omit the m
 | `tiles` | object, see below | A soft repeating pattern behind everything, used when the theme has no wallpaper. |
 | `focus` | `outline`, `corners` or `frame` | How the selected tile is marked: the usual outline, corner brackets, or a thick frame. Default `outline`. |
 | `focusColor` | color | Color of that mark. Defaults to `primary`. |
-| `bezel` | `true` / `false` | Glossy tile frames with a soft shadow, with game art set inside them, like a handheld's menu. |
+| `bezel` | `true` / `false` | Plain cards in the surface color with a soft shadow; console icons fill the card and game art sits inset, like apps on a handheld's home menu. |
 
 ### Tiles
 

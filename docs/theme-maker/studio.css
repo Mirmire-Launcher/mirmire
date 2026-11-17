@@ -342,6 +342,18 @@ dialog h2 { margin: 0 0 6px; font-family: Oxanium, sans-serif; }
 .m-console { display: block; overflow: hidden; flex: none; transition: transform .25s, opacity .25s; }
 .m-console.far { transform: scale(.8); opacity: .55; }
 .m-console.sel.foc { transform: scale(1); }
+/* Theme focus styles and plain bezel cards (MirmireStyle.focusLook / cardBezel). */
+.mock .m-tile.foc { border-color: var(--focus) !important; }
+.mock.bezel .m-tile:not(.m-play):not(.sel):not(.on) { background: var(--surface) !important; box-shadow: 0 2px 6px rgba(0,0,0,.18); }
+.mock.bezel .m-console-tint { display: none; }
+.mock.bezel .m-console .m-console-icon { inset: 6%; }
+.mock.bezel .m-card .m-art, .mock.bezel .m-card svg { margin: 6px; width: calc(100% - 12px); border-radius: 10px; }
+.mock.f-frame .m-tile.foc:not(.m-play) { border-width: calc(var(--focus-w) + 3px) !important; background: color-mix(in srgb, var(--focus) 28%, var(--surface)) !important; box-shadow: 0 6px 16px color-mix(in srgb, var(--focus) 40%, transparent); }
+.mock.f-corners .m-tile.foc:not(.m-play) { border: var(--rest-border) !important; box-shadow: 0 4px 12px color-mix(in srgb, var(--focus) 30%, transparent); overflow: visible; }
+.mock.f-corners.bezel .m-tile.foc:not(.m-play) { background: var(--surface) !important; }
+.mock.f-corners .m-tile.foc::after { content: ""; position: absolute; inset: -8px; border: 3.5px solid var(--focus); border-radius: calc(var(--radius) + 8px); pointer-events: none;
+  -webkit-mask: linear-gradient(90deg, #000 0 28%, transparent 28% 72%, #000 72%), linear-gradient(180deg, #000 0 28%, transparent 28% 72%, #000 72%);
+  -webkit-mask-composite: source-in; mask: linear-gradient(90deg, #000 0 28%, transparent 28% 72%, #000 72%), linear-gradient(180deg, #000 0 28%, transparent 28% 72%, #000 72%); mask-composite: intersect; }
 .m-console-tint { position: absolute; inset: 0; }
 .m-console-icon { position: absolute; inset: 14%; display: grid; place-items: center; }
 .m-console-icon img { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 4px 8px #0006); }
