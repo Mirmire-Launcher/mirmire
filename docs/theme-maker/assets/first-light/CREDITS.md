@@ -10,7 +10,7 @@ Pinned upstream revision: `b4facf0720a0bfaa8befc8234d714b29141f3b99`
 
 25 icons are reproduced byte-for-byte from KyleBing's PNGs. Only the filenames were changed to Mirmire system IDs; no recoloring, cropping, resizing or other artwork modification. Mirmire fits/trims transparency at display time. NES uses the upstream FC asset; SNES uses the SFC asset. Neo Geo Pocket Color uses TrimUI NGC.png (NGC denotes Neo Geo Color in this library, not GameCube). All supplied icons use TrimUI 600w artwork.
 
-Seven additional icons come from **RetroArch assets contributors**, using **RetroSystem** (based on RetroActive/Systematic by **baxysquare**) and **Systematic**. All 32 shipped icons are existing third-party artwork; no generated console drawings remain in the theme.
+Ten additional icons come from **RetroArch assets contributors**, using **RetroSystem** (based on RetroActive/Systematic by **baxysquare**) and **Systematic**. All 35 shipped icons are existing third-party artwork; no generated console drawings remain in the theme.
 
 RetroArch source: https://github.com/libretro/retroarch-assets
 Original RetroActive/Systematic source: https://github.com/baxysquare/baxy-retroarch-themes
@@ -18,7 +18,7 @@ License: CC BY 4.0 — https://creativecommons.org/licenses/by/4.0/
 Full license: `licenses/RetroArch-assets-CC-BY-4.0.txt`
 Pinned revision: `8c918e2872482139273374ef4cc6c7aff34d7585`
 
-These seven PNGs are also unchanged except for their filenames. The Switch uses the red/blue handheld variant, not its dock. Console/controller designs and trademarks identify the respective systems; no endorsement is implied. Mirmire's wallpaper, audio and font are separate from these icon libraries.
+These ten PNGs are also unchanged except for their filenames. The Switch uses the red/blue handheld variant, not its dock. Console/controller designs and trademarks identify the respective systems; no endorsement is implied. Mirmire's wallpaper, audio and font are separate from these icon libraries.
 
 ## System-to-source mapping
 
@@ -61,3 +61,6 @@ These seven PNGs are also unchanged except for their filenames. The Switch uses 
 | switch | `xmb/systematic/png/Nintendo - Switch HAC-001 BR.png` |
 | wii | `xmb/retrosystem/png/Nintendo - Wii.png` |
 | wiiu | `xmb/retrosystem/png/Nintendo - Wii U.png` |
+| ps3 | `xmb/retrosystem/png/Sony - PlayStation 3.png` |
+| xbox | `xmb/retrosystem/png/Microsoft - Xbox.png` |
+| xbox360 | `xmb/retrosystem/png/Microsoft - Xbox 360.png` |

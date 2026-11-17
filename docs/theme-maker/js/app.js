@@ -219,6 +219,11 @@ function manifest() {
   if (P.fontFile) style.font = "file:" + one("font");
   else if (s.font) style.font = s.font;
   if (s.navigation) style.navigation = s.navigation;
+  if (s.tiles) style.tiles = s.tiles;
+  // Kept from a starting theme or imported ZIP (Theme Studio doesn't edit these yet).
+  if (s.focus) style.focus = s.focus;
+  if (s.focusColor) style.focusColor = s.focusColor;
+  if (s.bezel) style.bezel = true;
   const assets = {};
   if (one("wallpaper")) assets.wallpaper = one("wallpaper");
   if (one("wallpaperVideo")) assets.wallpaperVideo = one("wallpaperVideo");
@@ -270,12 +275,28 @@ async function loadFont() {
   } catch { fontFamily = ""; toast("That font file couldn't be read."); }
 }
 
+/** A theme's "tiles" backdrop (shown when it has no wallpaper), drawn like the app's TiledBackdrop, as an SVG. */
+function tilesUrl(t, background) {
+  const W = 1280, H = 720, n = Math.min(160, Math.max(8, +t.size || 28)) * 2; // dp to roughly preview pixels
+  const css = (c, fallback) => (pal.valid(c) ? pal.css(norm(c)) : fallback);
+  const base = css(t.base, css(background, "#EEF1F4")), ink = css(t.ink, "rgba(0,0,0,.06)");
+  let marks = "";
+  if (t.kind === "stripes") for (let y = 0; y < H; y += n * 2) marks += `<rect x="0" y="${y}" width="${W}" height="${n}" fill="${ink}"/>`;
+  else if (t.kind === "dots") for (let y = n / 2; y < H; y += n) for (let x = n / 2; x < W; x += n) marks += `<circle cx="${x}" cy="${y}" r="${n / 6}" fill="${ink}"/>`;
+  else if (t.kind === "blocks") for (let r = 0, y = 0; y < H; y += n, r++) for (let x = (r % 2) * n / 2 - n; x < W; x += n) marks += `<rect x="${x + 3}" y="${y + 3}" width="${n - 6}" height="${n - 6}" rx="6" fill="${ink}"/>`;
+  else { for (let x = 0; x < W; x += n) marks += `<rect x="${x}" y="0" width="1.5" height="${H}" fill="${ink}"/>`; for (let y = 0; y < H; y += n) marks += `<rect x="0" y="${y}" width="${W}" height="1.5" fill="${ink}"/>`; }
+  const glow = pal.valid(t.glow) ? `<radialGradient id="g" cx=".5" cy="0" r=".9"><stop offset="0" stop-color="${pal.css(norm(t.glow))}"/><stop offset="1" stop-color="transparent"/></radialGradient><rect width="${W}" height="${H}" fill="url(#g)"/>` : "";
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><defs></defs><rect width="${W}" height="${H}" fill="${base}"/>${marks}${glow}</svg>`;
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+
 const previewAssets = {
   icon: (id) => (P.icons[id] ? urlOf(P.icons[id]) : `assets/icons/${id}.png`),
   backdrop(id) {
     if (P.mode === "icons") return { url: "assets/first-light/wallpaper.jpg" };
     const pick = (img, vid) => (view.video && vid ? { url: urlOf(vid), video: true } : img ? { url: urlOf(img) } : vid ? { url: urlOf(vid), video: true } : null);
-    return (id && pick(P.backgrounds[id], P.backgroundVideos[id])) || pick(P.wallpaper, P.wallpaperVideo) || { url: "assets/default/wallpaper.jpg" };
+    return (id && pick(P.backgrounds[id], P.backgroundVideos[id])) || pick(P.wallpaper, P.wallpaperVideo)
+      || (P.style.tiles ? { url: tilesUrl(P.style.tiles, P.colors.background) } : null) || { url: "assets/default/wallpaper.jpg" };
   },
   /** The second screen's own wallpaper, or the main one. */
   secondWall() {
@@ -809,7 +830,9 @@ async function importEntries(entries, label) {
     P.style = { ...blankStyle(), cardKind: kindS === "cut" ? "cut" : "rounded", cardRadius: Math.min(48, Math.max(0, +rad || 12)),
       cardBorder: st.cardBorder || "", borderWidth: st.borderWidth ?? 1, focusW: st.focusedBorderWidth ?? 3,
       font: String(st.font || "").startsWith("file:") ? "" : st.font || "", headerStyle: (st.headerStyle || "PLAIN").toUpperCase(),
-      navigation: st.navigation === "side" ? "rail" : st.navigation || "" };
+      navigation: st.navigation === "side" ? "rail" : st.navigation || "",
+      ...(st.tiles && typeof st.tiles === "object" ? { tiles: st.tiles } : {}),
+      ...(st.focus ? { focus: String(st.focus) } : {}), ...(st.focusColor ? { focusColor: String(st.focusColor) } : {}), ...(st.bezel ? { bezel: true } : {}) };
     P.seed = P.colors.primary || P.seed;
     const used = new Set(["theme.json"]);
     const take = async (path, key) => {

@@ -72,6 +72,26 @@ Paths must stay inside the pack (no `..`, no absolute paths). You can omit the m
 | `font` | `monospace`, `sans`, `serif`, `cursive`, `file:fonts/Custom.ttf` | TTF or OTF, licensed for distribution. Prefer under 2 MB. |
 | `headerStyle` | `PLAIN`, `BOLD_CAPS`, `UNDERLINED` | Section titles. |
 | `navigation` | `rail` / `side` or `top` | Home menu this theme is designed for. Users can override it in Layout. |
+| `tiles` | object, see below | A soft repeating pattern behind everything, used when the theme has no wallpaper. |
+| `focus` | `outline`, `corners` or `frame` | How the selected tile is marked: the usual outline, corner brackets, or a thick frame. Default `outline`. |
+| `focusColor` | color | Color of that mark. Defaults to `primary`. |
+| `bezel` | `true` / `false` | Glossy tile frames with a soft shadow, with game art set inside them, like a handheld's menu. |
+
+### Tiles
+
+A light, handheld-menu-style backdrop without an image file. Pearl Console (stripes) and Sky Console (blocks) use it.
+
+```json
+"tiles": { "kind": "blocks", "base": "#EDF1F5", "ink": "#E2E8EE", "size": 34, "glow": "#2600A9E0" }
+```
+
+| Field | Notes |
+| --- | --- |
+| `kind` | `grid`, `stripes`, `dots` or `blocks` |
+| `base` | The background color. Defaults to the theme's `background` |
+| `ink` | The pattern's color. Keep it close to `base` so text stays readable |
+| `size` | Size of one step of the pattern, 8–160 dp. Default 28 |
+| `glow` | Optional soft light from the top, usually your accent with some transparency (`#AARRGGBB`) |
 
 ## Wallpaper
 

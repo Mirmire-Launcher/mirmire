@@ -18,17 +18,19 @@
 
 Most launchers expect your games on the device and leave the emulators, saves and BIOS files to you. Mirmire is built around a library that lives on your storage, and takes care of the rest.
 
+- **🗂️ Bring what you already have.** Artwork that ES-DE, RetroArch or LaunchBox downloaded on the device shows up straight away, and saves, states, RetroArch settings and BIOS files from RetroArch come over with one tap.
 - **📡 Your NAS is the library.** Browse thousands of games over SMB, SFTP, WebDAV or FTP with full artwork. Nothing is copied ahead of time: a game downloads when you press Play, and big games you haven't played in a while are cleared to free space.
 - **🔄 Continue on another device.** Saves and save states sync with your storage. Pick up your handheld and the home screen offers to continue the game you were playing on your phone, from the same moment. Devices without shared storage pair over Wi-Fi with a 6-digit code.
-- **⚙️ RetroArch, set up for you.** Mirmire downloads cores, sets hotkeys, auto-resume and a sharp picture, and suggests settings for your device. Change any setting for all games, one console or one game, without opening RetroArch's menus.
+- **⚙️ RetroArch, set up for you.** Mirmire downloads cores, sets hotkeys, auto-resume and a sharp picture, and suggests settings for your device. Change any setting for all games, one console or one game, without opening RetroArch's menus, and frame the picture with console or game bezels from The Bezel Project.
+- **🟩 Xbox, PlayStation 2 and 3, and faster drivers.** Original Xbox games play in hakuX, Xbox 360 games in Xendroid Plus, PS2 in ARMSX2 and PS3 in ARMSX3 or aPS3e. On Snapdragon devices, Mirmire detects your Adreno GPU and finds the latest custom GPU drivers for the emulators that can load them.
 - **🧹 A clean library.** One version of each game, picked by your preferred regions. Betas and demos are hidden, and files are checked against No-Intro, so bad dumps stand out.
 - **🧩 BIOS checker.** See what each console needs and what's missing or the wrong version, then copy the right files from your storage with one tap.
 - **✈️ Pack for a trip.** Choose games to take offline, then play on the plane. Everything syncs back when you're home. Offload a game later without losing its saves.
-- **💡 Stick lights that react.** On Retroid and AYN handhelds, the stick lights follow the theme, the battery level, the console, the game's cover art or its performance mode.
+- **💡 Stick lights that react.** On Retroid and AYN handhelds, the stick lights follow the theme, the battery level, the console, the game's cover art or its performance mode. A one-time setup right on the device turns this on, with no computer or Shizuku needed.
 - **👨‍👩‍👧 Profiles for the whole family.** Each player has their own saves, favorites and play time, with PINs and a content filter for children.
-- **🧱 A Home page you build.** Turn on the Home page for widgets: clock, weather, calendar, your last game, achievements, play time, widgets from your other apps, and **plugins** made by players and shared as a ZIP, like Pixel Pet, with hundreds of pets from OpenPets to choose from. Drag and resize them by touch, as on a phone, or arrange them with a controller.
+- **🧱 A Home page you build.** Turn on the Home page for widgets: clock, weather, calendar, your last game, achievements, play time, background music from your storage, widgets from your other apps, and **plugins** made by players and shared as a ZIP, like Pixel Pet, with hundreds of pets from OpenPets to choose from. Drag and resize them by touch, as on a phone, or arrange them with a controller.
 - **📺 Big Picture.** A full-screen, controller-first home for TVs: big cards for your consoles and games, with the time, battery and RetroAchievements on a small bar at the bottom. Plug into a TV or dock and it switches on by itself.
-- **🪟 Dual screen.** On the AYN Thor, AYANEO Pocket DS or with a Retroid Dual Screen add-on, the second screen shows the selected game's art, description and achievements, or your widgets. Swap the screens to put the menu on the bottom one. DS and 3DS games get the second screen to themselves, and themes can give the second screen its own wallpaper.
+- **🪟 Dual screen.** On the AYN Thor, AYANEO Pocket DS or with a Retroid Dual Screen add-on, the second screen shows the selected game's art, description, achievements, manual and map, or your widgets, at the main screen's size. Swap the screens to put the menu on the bottom one. DS and 3DS games get the second screen to themselves, and themes can give the second screen its own wallpaper.
 - **😴 Saves upload when you sleep.** Press power mid-game and the saves go to your storage, so your other device can carry on.
 - **🎮 Play together.** Invite a paired device on the same Wi-Fi to a netplay game. Your device starts hosting by itself.
 - **🌡️ Learns how hot each game runs.** Mirmire picks a battery, standard or performance mode per console, and steps down for games that ran hot.
@@ -48,7 +50,7 @@ Theme Studio runs in your browser, with nothing to install, and nothing you add 
 
 - **Live preview:** see your theme on Mirmire's home screen, games list, game page, Spotlight and Settings as you edit. Move around with the arrow keys, as with a controller, and hear your sounds.
 - **Colors from one color:** pick one color and it builds a full palette, with readability checks.
-- **Remix or start fresh:** begin from Mirmire's built-in themes, or open any theme or icon pack ZIP to edit it.
+- **Remix or start fresh:** begin from any of Mirmire's 15 built-in themes, including the patterned Pearl and Sky Console, or open any theme or icon pack ZIP to edit it.
 - **Widget plugins:** write a Home page widget from a template and try it on a copy of the Home page, with sample games and achievements.
 - **Dual-screen preview:** see your theme on both screens of a dual-screen handheld, and choose the second screen's wallpaper, what's behind a game's details and what shows when nothing is selected.
 - **Bring your own files:** drop in your wallpaper, console icons, backdrops, sounds and music. Files named like other frontends' sets are sorted automatically.
@@ -58,11 +60,14 @@ When you're done, download the ZIP and import it in **Settings › Look**. See [
 ## Everything else
 
 - **Built for controllers:** every screen works with a gamepad, keyboard or touch, with Xbox, PlayStation or Nintendo button labels.
+- **Text and icon size:** make everything bigger or smaller, like Android's display size, with a separate size for a second screen.
+- **Manuals and maps:** read a game's manual or look at its map, from ScreenScraper, your gamelists or ES-DE and LaunchBox.
+- **Console-menu themes:** Green, Blue, Neon, Pearl and Sky Console, each with matching stick-light colors.
 - **Three ways to browse:** a list with a preview pane, a cover grid, or a showcase wheel, with box art, 3D boxes, screenshots, title screens, cartridges or fan art, and video previews.
 - **Spotlight:** the RetroAchievements weekly challenge, games close to mastery, quick and multiplayer picks, and your play time with battery estimates.
 - **RetroAchievements:** progress on every game card and on each game's page.
 - **Backups:** back up settings, themes and RetroArch's settings to your storage, restore on any device, or keep devices in sync.
-- **Home screen:** works as your launcher on handhelds and TVs, with a home screen widget on phones.
+- **Home screen:** works as your launcher on handhelds and TVs, with a home screen widget on phones and shortcuts to Android's own Wi-Fi, Bluetooth, display and other settings.
 - **Keep the screen on:** while Mirmire is open, always or only while charging.
 
 ## Download

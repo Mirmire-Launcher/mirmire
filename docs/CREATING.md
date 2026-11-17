@@ -71,6 +71,7 @@ Tips:
 ### Wallpaper and console backdrops
 
 - **Wallpaper:** 1920×1080, under 4 MB. A looping video (8–30 s, MP4, muted) can go alongside it, and players choose video or image in **Look**.
+- **No wallpaper?** A light theme can use a soft pattern instead: stripes, dots, small blocks or a grid in two close colors, like a handheld's menu. Pearl Console and Sky Console do this. Start from one of them in Theme Studio to keep the pattern, or add `tiles` by hand (see [THEMES.md](THEMES.md#tiles)).
 - **Console backdrops** show while a console is selected. Give each console its own image or loop, or reuse one picture for several consoles. Theme Studio stores a reused picture once.
 - Mirmire darkens backdrops so text stays readable, and the preview shows exactly how. Very busy or bright pictures still benefit from being darker to begin with.
 - Videos add up quickly. A loop for every console can reach hundreds of megabytes, so use them for a few consoles and images for the rest.

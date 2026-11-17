@@ -9,6 +9,8 @@
 - [Dual screen](#dual-screen)
 - [Controls](#controls)
 - [Emulators and RetroArch](#emulators-and-retroarch)
+- [GPU drivers](#gpu-drivers)
+- [Performance modes and stick lights: one-time setup](#performance-modes-and-stick-lights-one-time-setup)
 - [Save sync](#save-sync)
 - [Continue on another device](#continue-on-another-device)
 - [Library cleanup](#library-cleanup)
@@ -24,6 +26,7 @@
 - [Backups](#backups)
 - [Home screen widget](#home-screen-widget)
 - [Updates](#updates)
+- [Android settings](#android-settings)
 - [Troubleshooting](#troubleshooting)
 
 ## Install
@@ -42,12 +45,12 @@ The guided setup walks through everything in about two minutes. Each step can be
 2. **Make it yours:** a theme and an accent color.
 3. **Your layout:** how consoles and games are shown.
 4. **Download folder:** where games are saved on this device.
-5. **Connect your library:** your network storage or a device folder.
+5. **Connect your library:** your network storage or a device folder. If ES-DE, RetroArch or LaunchBox already downloaded artwork on this device, **Found on this device** lists it: Mirmire uses that artwork and game info straight away, without copying or changing it. If ES-DE plays games from a folder here, **Add this ROM folder** adds it in one tap. Saves, states, settings and BIOS files from RetroArch can come too (see [Bring over from RetroArch](#bring-over-from-retroarch)).
 6. **Save files:** where saves sync on your storage.
 7. **Artwork:** where box art comes from.
 8. **Emulators:** which app plays each console.
 9. **RetroArch setup:** cores and recommended settings.
-10. **Performance modes** (optional).
+10. **Performance modes** (optional): a one-time setup, also used for stick lights on Retroid and AYN handhelds.
 11. **Trophies:** your RetroAchievements account (optional).
 
 ## Adding your games
@@ -73,6 +76,10 @@ ROMs/
 
 ES-DE, RetroArch and Batocera folder names all work (`megadrive`, `genesis`, `md`, `psx`, `ps1`…). Multi-disc games are grouped from `.m3u` playlists or "Disc 1 / Disc 2" names.
 
+**Xbox and Xbox 360** go in `xbox/` (`.iso`, `.xiso`, `.cso`, `.cci`) and `xbox360/` or `x360/` (`.iso`, `.zar`, or an extracted game folder with its `default.xex`).
+
+**PlayStation 3** games go in `ps3/` as `.iso` disc images. Extracted game folders and games installed from `.pkg` files are started from inside the PS3 emulator. PS2 also takes `.gz`, `.mdf`, `.nrg` and `.img` images, alongside `.iso`, `.chd`, `.cso`, `.zso` and `.cue`.
+
 After adding a library, press **Sync now**. Mirmire lists your games without downloading them.
 
 ## Browsing and playing
@@ -91,7 +98,10 @@ Open a game for its details. **Download & play** downloads it to the device, the
 - refresh the game's information;
 - pick a different emulator for just this game;
 - change its RetroArch settings;
-- choose a performance mode.
+- choose a performance mode;
+- read the game's **manual** or look at its **map**, when it has one (see below).
+
+**Manuals and maps.** A book or map button appears on a game's page when one is found. Manuals open page by page, maps as one big image; zoom with the buttons or by pinching, and **Close** when done. They come from ScreenScraper, your `gamelist.xml` (`<manual>` and `<map>`), your artwork folder (`<console>/media/manuals/` and `media/maps/`), or ES-DE and LaunchBox on the device. A manual is kept on the device after the first time you open it. On a dual-screen handheld they open on the second screen too, so you can read while you play.
 
 
 ![Offload on a game's page](../screenshots/44-game-offload.jpg)
@@ -103,11 +113,14 @@ Turn on **Settings › Layout › Home page with widgets** to add a **Home** tab
 
 - **Edit** (or press Select) lets you change the page. **Add widget** opens the list; select a widget to change its size, move it earlier or later, or remove it.
 - **With touch,** it works like a phone's home screen: long-press a widget to pick it up and drag it to a new spot. In edit mode, drag a widget's right edge, bottom edge or corner handle to resize it, and press **×** to remove it.
-- **Mirmire's widgets:** Clock, Weather (pick a city and °C or °F; forecasts from Open-Meteo), Calendar (your next events, once you allow it), Continue playing, Recently played, Recently added, RetroAchievements, Achievement of the week, Play time and Library.
-- **Plugins:** widgets made by players, such as **Pixel Pet**, which comes with Mirmire. Your pet walks around, gets hungry, bored and sleepy, naps at night, cheers when you come back from a game or earn achievements, and wears outfits on a schedule (pajamas at night, Halloween…). Select it to feed it, play ball or give it a pat. In its **Widget options**, name it and choose from hundreds of pets from [OpenPets](https://openpets.dev); the one you pick downloads once and works offline after that. Import more under **Plugins › Import a plugin ZIP**, or in **Settings › Look › Widget plugins**. Before installing, Mirmire shows what the plugin is allowed to do. To make your own, see [Make widget plugins](PLUGINS.md).
+- **Mirmire's widgets:** Clock, Weather (pick a city and °C or °F; forecasts from Open-Meteo), Calendar (your next events, once you allow it), Continue playing, Recently played, Recently added, RetroAchievements, Achievement of the week, Play time, Library and Music.
+- **Music** plays MP3, M4A, FLAC, OGG or WAV files from a folder on your storage (and the folders inside it) while Mirmire is open, shuffled or in order. Choose the folder in its options. It pauses when a game starts or the screen turns off, and the theme's own music waits while it plays. Press the widget to play or pause.
+- **Plugins:** widgets made by players, such as **Pixel Pet**, which comes with Mirmire. Your pet walks around, gets hungry, bored and sleepy, naps at night, cheers when you come back from a game or earn achievements, and wears outfits on a schedule (pajamas at night, Halloween…). Select it to feed it, play ball or give it a pat. In its **Widget options**, name it and choose from hundreds of pets from [OpenPets](https://openpets.dev); the list and the pet you pick are kept, so both work offline after the first time. Import more under **Plugins › Import a plugin ZIP**, or in **Settings › Look › Widget plugins**. Before installing, Mirmire shows what the plugin is allowed to do. To make your own, see [Make widget plugins](PLUGINS.md).
 - **Apps:** widgets from other apps on the device, as on a phone's home screen. The first time, Android asks you to allow Mirmire to add them.
 
-Sizes are **Small** (1×1), **Wide** (2×1), **Medium** (2×2) and **Large** (4×2). Widgets fill the page in order, four across (two on a narrow screen).
+Sizes are **Small** (1×1), **Wide** (2×1), **Medium** (2×2) and **Large** (4×2). Widgets fill the page in order, four across (two on a narrow screen). On a small widget, text shrinks a little to fit rather than being cut off.
+
+With a second screen in use, the Home tab leaves the main screen; choose **Home page widgets** for the second screen to keep them (see [Dual screen](#dual-screen)).
 
 | The Home page | Pixel Pet's options |
 |---|---|
@@ -119,7 +132,7 @@ Big Picture is a full-screen home made for controllers and TVs. Turn it on with 
 
 - **The main menu** is a row of large cards: **Widgets** (your Home page, when it's on), **Continue** (your last game), **Consoles**, **All games**, **Recent**, **Favorites**, **Apps**, **Settings** and **Exit Big Picture**.
 - **Consoles, games and apps** open as a row of tiles: just the icon or cover, with its name underneath. The selected one sits in the middle.
-- **The Android status and navigation bars are hidden.** Swipe in from the edge to see them for a moment.
+- **The Android status and navigation bars are hidden,** dialogs included, and again when you come back from a game. Swipe in from the edge to see them for a moment. Retroid handhelds keep their three-button bar on screen whatever an app asks; there Mirmire hides the status bar and keeps everything above the buttons. To hide them too, switch the Retroid to gesture navigation in its own settings.
 - **The bottom bar** shows the Mirmire logo and name, the buttons you can press, your RetroAchievements points (plus unlocks this week and your streak, when you have them), the time and battery, and **Settings** and **Exit** buttons. Press down to reach it.
 
 | Button | Does |
@@ -144,9 +157,15 @@ Big Picture is a full-screen home made for controllers and TVs. Turn it on with 
 On handhelds with two screens, like the AYN Thor and AYANEO Pocket DS, or with a clip-on screen like the Retroid Dual Screen add-on, Mirmire uses both. The menu stays on the main screen and the second screen shows one of these:
 
 - **Game details** (the default): big cover art, the description, year, genre and players, when you last played, and your RetroAchievements progress for the game you've selected. Select a console and it shows that console with the games you played lately. With nothing selected, it shows the clock and your last game. Tap **Play** or **Details** there, or tap a cover to open that game on the main screen.
-- **Home page widgets**: your widget board, used by touch. While it's there, the Home tab leaves the main screen.
+- **Home page widgets**: your widget board, used by touch.
 
-Your controller always works the menu, never the second screen, so nothing gets lost between them.
+While a second screen is in use, the Home tab (and Big Picture's Widgets card) leaves the main screen: pick **Home page widgets** above to have them on the second screen.
+
+Your controller always works the menu, never the second screen, even right after you touch the second screen, so nothing gets lost between them.
+
+**Text size.** A clip-on screen is drawn at the main screen's size automatically. **Second screen text and icon size** makes it bigger or smaller from there (70–160%).
+
+**Retroid Dual Screen add-on.** Retroid's own **Turn off handheld console's screen** setting (Video Output) switches the handheld's screen off when the add-on is attached. While the add-on is used as a second screen, Mirmire turns that setting off so both screens stay on, and puts it back for a TV. This needs the [one-time setup](#performance-modes-and-stick-lights-one-time-setup).
 
 **Swap screens** puts the menu on the second screen and the details or widgets on the main one, for example the menu on the AYN Thor's bottom touch screen and the art on the big top screen. Games still open on the main screen. Some devices keep the home app on the main screen; Mirmire tells you if swapping isn't possible.
 
@@ -176,11 +195,17 @@ Find all of this in **Settings › Layout › Dual screen**, where **Ask again a
 | Select | Sort |
 | Start | Settings |
 
-On a keyboard, arrows move, Enter selects, and Esc or Backspace goes back. On the Consoles screen, **B** returns to the first console. Button labels follow **Settings › Controls**.
+On a keyboard, arrows move, Enter selects, and Esc or Backspace goes back. On the Consoles screen, **B** returns to the first console, and up and down stay in the same column. In Settings, **right** opens the selected section's first option and **left** comes back to the list. Button labels follow **Settings › Controls**.
+
+When a controller is connected, the buttons you can press are shown at the bottom right, low in the navigation bar's strip so they don't cover anything.
 
 ## Emulators and RetroArch
 
-**Settings › Emulators** shows which app plays each console. **Automatic** picks the best installed option, or you can choose RetroArch with a specific core, or a standalone emulator.
+**Settings › Emulators** shows which app plays each console. **Automatic** picks the best installed option, or you can choose RetroArch with a specific core, or a standalone emulator. Emulators are separate apps: **Get** opens Google Play, or the developer's GitHub releases for apps that aren't on Play.
+
+**Xbox and Xbox 360** play in **hakuX** (Xbox) and **Xendroid Plus** (Xbox 360), both from GitHub. hakuX starts a game only once a games folder is set up inside hakuX itself; until then it opens its own setup. On Snapdragon devices both run better with a custom GPU driver (see [GPU drivers](#gpu-drivers)).
+
+**PlayStation 2 and 3** play in **ARMSX2** (PS2) and **ARMSX3** or **aPS3e** (PS3). ARMSX2 and ARMSX3 come from GitHub; aPS3e is on Google Play. Each needs its own one-time setup first: a PS2 BIOS for ARMSX2, the PS3 firmware for ARMSX3 and aPS3e. Mirmire then starts disc images directly. ARMSX2 is picked ahead of AetherSX2 when both are installed, and PS1 still plays in RetroArch, DuckStation or ePSXe as before. These emulators run on 64-bit Android only, and they don't start on an Android emulator (AVD).
 
 ![Emulators](../screenshots/11-settings-emulators.jpg)
 
@@ -194,9 +219,15 @@ On a keyboard, arrows move, Enter selects, and Esc or Backspace goes back. On th
 **RetroArch settings.** Mirmire writes these before each launch, combined from three levels: the game's own settings first, then its console's, then all games'.
 
 - **This device:** shows your device and chip, and suggests settings for it. Nothing changes until you press Apply.
-- **All games:** aspect ratio, scaling, smoothing, screen effect (LCD grid or CRT scanlines), run-ahead, fast-forward speed, resume where you left off, rewind, hotkeys, menu combo, input polling, touch controls, graphics driver, threaded video, menu style, pop-ups and FPS.
+- **All games:** aspect ratio, scaling, smoothing, screen effect (LCD grid or CRT scanlines), bezel, run-ahead, fast-forward speed, resume where you left off, rewind, hotkeys, menu combo, input polling, touch controls, graphics driver, threaded video, menu style, pop-ups and FPS.
 - **Per console:** Mirmire recommends some settings, such as integer scaling and an LCD grid for handhelds, run-ahead for older 2D consoles, and the N64 and Saturn fixes. You can keep each recommendation, follow all games, or choose your own.
 - **Per game:** the settings button on a game's details page.
+
+**Bezels.** **Bezel** puts console art around the picture, from The Bezel Project: **The console's**, or **The game's own** (falling back to the console's when a game has none). They download once, for most 8-bit to Dreamcast-era consoles. Bezels use RetroArch's overlay, so they show only while a controller is connected, in place of the touch controls.
+
+### Bring over from RetroArch
+
+If you played through RetroArch from another app (ES-DE, Daijishō…), **Bring over from RetroArch** at the top of Settings › RetroArch (and in setup) copies your saves and save states for games in your library, your RetroArch settings (controls, hotkeys, video, audio and menu) and BIOS files into Mirmire's setup. Only new or newer files are copied, and RetroArch's own folders aren't changed. RetroArch keeps its settings in a private folder on some devices; finish the [one-time setup](#performance-modes-and-stick-lights-one-time-setup) and they can come too.
 
 **Default hotkeys** (hold **Select**, then press):
 
@@ -209,6 +240,22 @@ On a keyboard, arrows move, Enter selects, and Esc or Backspace goes back. On th
 | L2 | Rewind (when on) |
 
 Holding **Start** also opens RetroArch's menu.
+
+## GPU drivers
+
+On Snapdragon phones and handhelds, newer GPU drivers often make demanding emulators faster and fix glitches. **Settings › Emulators › GPU drivers** shows your GPU (for example **Adreno 650**), which installed emulators can load a custom driver (hakuX, Xendroid Plus, ARMSX2, ARMSX3, aPS3e, Eden, Citron, Sudachi, Dolphin and Vita3K), and **Find drivers for Adreno 6xx** (or 7xx, 8xx), which checks the latest releases from [StevenMXZ](https://github.com/StevenMXZ/Adreno-Tools-Drivers) and [K11MCH1](https://github.com/K11MCH1/AdrenoToolsDrivers) and marks one **Suggested**. Tap one to download it.
+
+To use it, keep the `.zip` as it is, open the emulator's GPU driver settings (hakuX: **Settings › GPU driver › Add a driver**; Xendroid Plus: **Custom GPU Drivers › Import ZIP**; ARMSX2 and ARMSX3: **Settings › Renderer**, choose **Vulkan**, then **Import .zip**; aPS3e: its custom driver option; Eden, Citron and Sudachi: **GPU driver manager › Install**), pick the file, make it the active driver and restart the game. If a game looks wrong, switch back to the system driver. Drivers only load inside the emulator; nothing on your device is changed.
+
+## Performance modes and stick lights: one-time setup
+
+Android only lets an app change performance modes, stick lights and a few device settings with **Wireless debugging** access. Mirmire sets this up once, on the device itself, with no computer or other app:
+
+1. **Turn on Developer options:** in About, tap Build number 7 times.
+2. **Connect to Wi-Fi.** Wireless debugging needs a Wi-Fi network, not the internet.
+3. **Pair Mirmire:** press **Start pairing**, turn Wireless debugging on, tick **Always allow on this network**, tap **Pair device with pairing code**, then type the code into Mirmire's notification.
+
+You'll find the steps in **Settings › Emulators › Performance modes**, **Settings › Device** and during setup. After pairing, Mirmire reconnects by itself whenever you're on Wi-Fi, restarts included. Already use **Shizuku**? Start it and Mirmire uses it instead. Android 10 and older need Shizuku.
 
 ## Save sync
 
@@ -265,7 +312,7 @@ The filter button above the games list switches between **Cleaned up**, **Everyt
 | ScreenScraper | Adds 3D boxes, cartridges, fan art, videos and descriptions. A free account raises the daily limit |
 | RetroAchievements | Uses RetroAchievements images |
 
-Artwork already on your storage, in an ES-DE `downloaded_media` or `media` folder, is used first and kept on the device once loaded. Online lookups only run when you press **Find missing artwork online**.
+Artwork already on your storage, in an ES-DE `downloaded_media` or `media` folder, is used first and kept on the device once loaded. Next, Mirmire uses artwork other frontends downloaded on this device: ES-DE's `downloaded_media` and gamelists, RetroArch's thumbnails and LaunchBox's images (when LaunchBox's folder is on normal storage, not inside the app). Nothing is copied or changed. Daijishō keeps its artwork inside the app, where Mirmire can't read it. Online lookups only run when you press **Find missing artwork online**.
 
 ## RetroAchievements
 
@@ -273,8 +320,8 @@ Sign in under **Settings › Trophies** with your username and **Web API key** (
 
 ## Themes and layout
 
-- **Look:** theme, accent color, corners, animations, console icons, background (theme wallpaper, gradient, solid color, your own photo or video), and navigation sounds and music. **Get Iconic** and **Get Console Icon Pack** download extra art. You can also import theme or icon-pack ZIPs.
-- **Layout:** screen orientation, **Keep the screen on** (off, while charging, or always, while Mirmire is open), top bar or side menu, consoles view, console tiles or icons only (with icon size), games view, card size, artwork type, what's shown on cards, and video previews.
+- **Look:** theme (including **Green**, **Blue**, **Neon**, **Pearl** and **Sky Console**, styled after handheld and console menus), accent color, corners, animations, console icons, background (theme wallpaper, gradient, solid color, your own photo or video), and navigation sounds and music. **Get Iconic** and **Get Console Icon Pack** download extra art. You can also import theme or icon-pack ZIPs.
+- **Layout:** **Text and icon size** (80–150%, like Android's display size: menus, dialogs and widgets all follow it), screen orientation, **Keep the screen on** (off, while charging, or always, while Mirmire is open), top bar or side menu (the side menu scrolls when it has more buttons than fit), consoles view, console tiles or icons only (with icon size), games view, card size, artwork type, what's shown on cards, and video previews.
 
 Making your own theme, icon pack or widget plugin: try **[Theme Studio](https://mirmire-launcher.github.io/mirmire/theme-maker/)** in your browser, and see [Make your own themes and icon packs](CREATING.md) and [Make widget plugins](PLUGINS.md). The file format is in [THEMES.md](THEMES.md).
 
@@ -295,7 +342,7 @@ The **Spotlight** tab gathers:
 
 Mirmire times each play from launch until you come back. A game's page shows its play time and, once there's enough history, about how long the battery will last playing it in its performance mode.
 
-**Each game's performance mode is learned** (Settings › Emulators › Performance modes › Learn each game's mode, on by default). After a couple of plays of five minutes or more, a game gets a mode that suits its console: battery saver for 8- and 16-bit systems, standard for consoles like the N64 and PlayStation, and performance for demanding ones like the PS2 and GameCube. If most of its recent plays ended hot (the battery at 41°C or more), it goes one step lower. The game's page says which mode was picked and why. A mode you choose on a game always wins. Modes need Shizuku, as described above.
+**Each game's performance mode is learned** (Settings › Emulators › Performance modes › Learn each game's mode, on by default). After a couple of plays of five minutes or more, a game gets a mode that suits its console: battery saver for 8- and 16-bit systems, standard for consoles like the N64 and PlayStation, and performance for demanding ones like the PS2 and GameCube. If most of its recent plays ended hot (the battery at 41°C or more), it goes one step lower. The game's page says which mode was picked and why. A mode you choose on a game always wins. Modes need the [one-time setup](#performance-modes-and-stick-lights-one-time-setup).
 
 ## Profiles
 
@@ -315,12 +362,12 @@ On Retroid and AYN handhelds with lights around the analog sticks (Retroid Pocke
 
 ![Stick lights](../screenshots/36-device-lights.jpg)
 
-**You need [Shizuku](https://shizuku.rikka.app/)**, the same app performance modes use. Install it, start it, and press **Allow** in Settings › Device. Mirmire then checks which light settings your device has.
+**It needs the [one-time setup](#performance-modes-and-stick-lights-one-time-setup)**, the same as performance modes (or Shizuku). Mirmire then checks which light settings your device has.
 
 **In Mirmire**, the lights can:
 
 - **Device setting:** stay as set in your device's own settings;
-- **Theme color:** follow the theme. Some themes have their own pair of light colors (Cyberpunk, Comic, Insert Coin); otherwise the lights use your accent color;
+- **Theme color:** follow the theme. Some themes have their own light colors (Cyberpunk, Comic, Insert Coin, and the Console themes: green for Green Console, the Retroid's own blue for Blue Console, red and blue for Neon Console); otherwise the lights use your accent color;
 - **Battery level:** go from green when full, through yellow, to red when low;
 - **Off:** stay off while Mirmire is open.
 
@@ -384,6 +431,10 @@ This is Mirmire's widget for your phone's own home screen (for widgets inside Mi
 
 **Settings › System › App updates** shows your version and checks this repository for a newer one. When there is one, press **Download**, then **Install**. The first time, Android asks you to allow Mirmire to install apps. Turn on **Check automatically** to check once a day; nothing downloads until you choose to.
 
+## Android settings
+
+**Settings › System › Android settings** opens the device's own settings, handy when Mirmire is your home screen: **Wi-Fi**, **Bluetooth**, **Display**, **Sound**, **Battery** and **Apps**.
+
 ## Troubleshooting
 
 **A game says the emulator isn't installed.** Install it from the link in Settings › Emulators, or choose another emulator for that console.
@@ -400,7 +451,11 @@ This is Mirmire's widget for your phone's own home screen (for widgets inside Mi
 
 **An update won't install ("signed with a different key").** That copy of Mirmire came from somewhere else. Uninstall it, then install the release APK. Your library will need to be added again.
 
-**The stick lights don't change.** Check that Shizuku is running and allowed in Settings › Device, and that the lighting effect in your device's settings is set to solid. If Mirmire says no light settings were found, turn the stick lights on once in your device's settings, then press **Check again**.
+**The stick lights don't change.** Check that the one-time setup is done (or Shizuku is running and allowed) in Settings › Device, and that the lighting effect in your device's settings is set to solid. If Mirmire says no light settings were found, turn the stick lights on once in your device's settings, then press **Check again**.
+
+**The Retroid's own screen goes dark with the Dual Screen add-on.** Finish the [one-time setup](#performance-modes-and-stick-lights-one-time-setup) so Mirmire can keep it on, or turn off **Turn off handheld console's screen** in Retroid's Video Output settings.
+
+**An Xbox game opens hakuX's setup instead.** Set up a games folder inside hakuX once; after that, Mirmire's games start directly.
 
 **A game doesn't start: "BIOS".** Check **Settings › RetroArch › BIOS files** for that console.
 
