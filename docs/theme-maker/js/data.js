@@ -36,6 +36,7 @@ export const SYSTEMS = [
   ["psvita", "PlayStation Vita", "Sony", "#8E9BB5", ["psvita", "vita"]],
   ["xbox", "Xbox", "Microsoft", "#3DBE45", ["xbox"]],
   ["xbox360", "Xbox 360", "Microsoft", "#3DBE45", ["xbox360", "x360"]],
+  ["steam", "Steam", "Valve", "#1A9FFF", ["steam", "steamdeck"]],
   ["atari2600", "Atari 2600", "Atari", "#F26B21", ["atari2600", "2600", "atari"]],
   ["atari7800", "Atari 7800", "Atari", "#F26B21", ["atari7800", "7800"]],
   ["atarilynx", "Atari Lynx", "Atari", "#F26B21", ["atarilynx", "lynx"]],

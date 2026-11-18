@@ -44,7 +44,7 @@ The guided setup walks through everything in about two minutes. Each step can be
 1. **Your controller:** Xbox, PlayStation or Nintendo labels, and whether A/B are swapped.
 2. **Make it yours:** a theme and an accent color.
 3. **Your layout:** how consoles and games are shown.
-4. **Download folder:** where games are saved on this device.
+4. **Local game folder:** a folder on this device for the games you play. Emulators can't open games straight from a NAS or server, so Mirmire copies a game from your network library here when you play it. Games already on this device stay where they are.
 5. **Connect your library:** your network storage or a device folder. If ES-DE, RetroArch or LaunchBox already downloaded artwork on this device, **Found on this device** lists it: Mirmire uses that artwork and game info straight away, without copying or changing it. If ES-DE plays games from a folder here, **Add this ROM folder** adds it in one tap. Saves, states, settings and BIOS files from RetroArch can come too (see [Bring over from RetroArch](#bring-over-from-retroarch)).
 6. **Save files:** where saves sync on your storage.
 7. **Artwork:** where box art comes from.
@@ -59,11 +59,15 @@ Open **Settings › Library › Add library**. Mirmire looks for servers on your
 
 | Type | Use it for | You need |
 |---|---|---|
-| SMB | Windows shares and most NAS (Synology, QNAP, Unraid…) | Server address, share, username and password |
+| SMB | Windows shares and most NAS (Synology, QNAP, Unraid…) | Server address, username and password |
 | SFTP | Linux servers, NAS with SSH | Server address, username, password |
-| WebDAV | Nextcloud and other web storage | URL, username, password |
+| WebDAV | Nextcloud and other web storage | Server address, username, password |
 | FTP | Older NAS and routers | Server address, username, password |
 | Device folder | Games already on the device or SD card | Pick the folder |
+
+**Sign in, then pick the folder.** For network storage, enter the address and your username and password, then choose **Connect & browse**. Mirmire signs in and shows the folders on the server (for SMB, first the shares on your NAS, so you don't need to know the share name): open a folder to look inside, choose **Up one level** to go back, and choose **Use this folder** on the folder that holds your console folders. Console folders it recognises are marked, so you can see when you've found the right place. You can still type the path yourself under **Or type the path (optional)**. **Test** checks the folder and lists the consoles it found.
+
+If signing in fails, Mirmire says why: wrong username or password, server not found, couldn't reach the server, connection timed out, folder or share not found, or permission denied.
 
 **Folder layout.** Put each console's games in a folder named after the console, for example:
 
@@ -77,6 +81,8 @@ ROMs/
 ES-DE, RetroArch and Batocera folder names all work (`megadrive`, `genesis`, `md`, `psx`, `ps1`…). Multi-disc games are grouped from `.m3u` playlists or "Disc 1 / Disc 2" names.
 
 **Xbox and Xbox 360** go in `xbox/` (`.iso`, `.xiso`, `.cso`, `.cci`) and `xbox360/` or `x360/` (`.iso`, `.zar`, or an extracted game folder with its `default.xex`).
+
+**Steam games** from DroidDeck: add a Steam library folder (the one that holds `steamapps`, for example `SteamLibrary` on your SD card) as a game library. Each installed game shows with its Steam name and art. DroidDeck's built-in library lives in its private storage, which other apps can't read, so only libraries on an SD card or shared storage appear.
 
 **PlayStation 3** games go in `ps3/` as `.iso` disc images. Extracted game folders and games installed from `.pkg` files are started from inside the PS3 emulator. PS2 also takes `.gz`, `.mdf`, `.nrg` and `.img` images, alongside `.iso`, `.chd`, `.cso`, `.zso` and `.cue`.
 
@@ -115,7 +121,7 @@ Turn on **Settings › Layout › Home page with widgets** to add a **Home** tab
 - **With touch,** it works like a phone's home screen: long-press a widget to pick it up and drag it to a new spot. In edit mode, drag a widget's right edge, bottom edge or corner handle to resize it, and press **×** to remove it.
 - **Mirmire's widgets:** Clock, Weather (pick a city and °C or °F; forecasts from Open-Meteo), Calendar (your next events, once you allow it), Continue playing, Recently played, Recently added, RetroAchievements, Achievement of the week, Play time, Library and Music.
 - **Music** plays MP3, M4A, FLAC, OGG or WAV files from a folder on your storage (and the folders inside it) while Mirmire is open, shuffled or in order. Choose the folder in its options. It pauses when a game starts or the screen turns off, and the theme's own music waits while it plays. Press the widget to play or pause.
-- **Plugins:** widgets made by players, such as **Pixel Pet**, which comes with Mirmire. Your pet walks around, gets hungry, bored and sleepy, naps at night, cheers when you come back from a game or earn achievements, and wears outfits on a schedule (pajamas at night, Halloween…). Select it to feed it, play ball or give it a pat. In its **Widget options**, name it and choose from hundreds of pets from [OpenPets](https://openpets.dev); the list and the pet you pick are kept, so both work offline after the first time. Import more under **Plugins › Import a plugin ZIP**, or in **Settings › Look › Widget plugins**. Before installing, Mirmire shows what the plugin is allowed to do. To make your own, see [Make widget plugins](PLUGINS.md).
+- **Plugins:** widgets made by players, such as **Pixel Pet**, which comes with Mirmire. Your pet walks around, gets hungry, bored and sleepy, naps at night, cheers when you come back from a game or earn achievements, and wears outfits on a schedule (pajamas at night, Halloween…). Select it to feed it, play ball or give it a pat. In its **Widget options**, name it and choose from hundreds of pets from [OpenPets](https://openpets.dev); the list and the pet you pick are kept, so both work offline after the first time. Under **AI hints** you can let your pet share a short tip or fun fact about the game you just played, and now and then a word about your collection. It's off until you turn it on. Choose where the AI runs: **Google Gemini**, **Groq** or **OpenRouter** (free, with your own API key from their site; the options page shows where to get one), your own server (LM Studio or Ollama on a PC), or **On this device**, which downloads a model once (Small, 340 MB, or Better, 2.6 GB, which needs about 6 GB of memory) and then works offline. Press **Test** to check it works. Only a game's title and console are sent, never your files, name or accounts. Your key stays on the device and isn't included in backups. AI lines carry an **AI** tag. If the AI can't be reached, your pet just uses its usual lines. Import more under **Plugins › Import a plugin ZIP**, or in **Settings › Look › Widget plugins**. Before installing, Mirmire shows what the plugin is allowed to do. To make your own, see [Make widget plugins](PLUGINS.md).
 - **Apps:** widgets from other apps on the device, as on a phone's home screen. The first time, Android asks you to allow Mirmire to add them.
 
 Sizes are **Small** (1×1), **Wide** (2×1), **Medium** (2×2) and **Large** (4×2). Widgets fill the page in order, four across (two on a narrow screen). On a small widget, text shrinks a little to fit rather than being cut off.
@@ -201,11 +207,16 @@ When a controller is connected, the buttons you can press are shown at the botto
 
 ## Emulators and RetroArch
 
-**Settings › Emulators** shows which app plays each console. **Automatic** picks the best installed option, or you can choose RetroArch with a specific core, or a standalone emulator. Emulators are separate apps: **Get** opens Google Play, or the developer's GitHub releases for apps that aren't on Play.
+**Settings › Emulators** shows which app plays each console, sorted by name. **Automatic** picks the best installed option, or you can choose RetroArch with a specific core, or a standalone emulator. Emulators are separate apps. Tap one under **Not installed** to get it:
+
+- **Install** (hakuX, Xendroid Plus, ARMSX2, ARMSX3 and DroidDeck, which aren't on Google Play): Mirmire downloads the right APK from the emulator's official GitHub releases and hands it to Android, which asks you to confirm. The first time, Android asks you to allow Mirmire to install apps; turn on **Allow from this source**, go back and tap **Install** again. ARMSX2 and ARMSX3 get the build that suits your Android version and processor.
+- **Get** (everything else): opens the emulator's Google Play page.
 
 **Xbox and Xbox 360** play in **hakuX** (Xbox) and **Xendroid Plus** (Xbox 360), both from GitHub. hakuX starts a game only once a games folder is set up inside hakuX itself; until then it opens its own setup. On Snapdragon devices both run better with a custom GPU driver (see [GPU drivers](#gpu-drivers)).
 
-**PlayStation 2 and 3** play in **ARMSX2** (PS2) and **ARMSX3** or **aPS3e** (PS3). ARMSX2 and ARMSX3 come from GitHub; aPS3e is on Google Play. Each needs its own one-time setup first: a PS2 BIOS for ARMSX2, the PS3 firmware for ARMSX3 and aPS3e. Mirmire then starts disc images directly. ARMSX2 is picked ahead of AetherSX2 when both are installed, and PS1 still plays in RetroArch, DuckStation or ePSXe as before. These emulators run on 64-bit Android only, and they don't start on an Android emulator (AVD).
+**Steam** games play in **DroidDeck**, which Mirmire can install for you: Mirmire opens each game in it by its Steam app id. Sign in to Steam inside DroidDeck first. Steam stays in the Emulators list even before you have Steam games, so you can install DroidDeck first.
+
+**PlayStation 2 and 3** play in **ARMSX2** (PS2) and **ARMSX3** or **aPS3e** (PS3). Mirmire installs ARMSX2 and ARMSX3 from GitHub; aPS3e is on Google Play. Each needs its own one-time setup first: a PS2 BIOS for ARMSX2, the PS3 firmware for ARMSX3 and aPS3e. Mirmire then starts disc images directly. ARMSX2 is picked ahead of AetherSX2 when both are installed, and PS1 still plays in RetroArch, DuckStation or ePSXe as before. These emulators run on 64-bit Android only, and they don't start on an Android emulator (AVD).
 
 ![Emulators](../screenshots/11-settings-emulators.jpg)
 
@@ -243,7 +254,7 @@ Holding **Start** also opens RetroArch's menu.
 
 ## GPU drivers
 
-On Snapdragon phones and handhelds, newer GPU drivers often make demanding emulators faster and fix glitches. **Settings › Emulators › GPU drivers** shows your GPU (for example **Adreno 650**), which installed emulators can load a custom driver (hakuX, Xendroid Plus, ARMSX2, ARMSX3, aPS3e, Eden, Citron, Sudachi, Dolphin and Vita3K), and **Find drivers for Adreno 6xx** (or 7xx, 8xx), which checks the latest releases from [StevenMXZ](https://github.com/StevenMXZ/Adreno-Tools-Drivers) and [K11MCH1](https://github.com/K11MCH1/AdrenoToolsDrivers) and marks one **Suggested**. Tap one to download it.
+On Snapdragon phones and handhelds, newer GPU drivers often make demanding emulators faster and fix glitches. **Settings › Emulators › GPU drivers** shows your GPU (for example **Adreno 650**), which installed emulators can load a custom driver (hakuX, Xendroid Plus, ARMSX2, ARMSX3, aPS3e, DroidDeck, Eden, Citron, Sudachi, Dolphin and Vita3K), and **Find drivers for Adreno 6xx** (or 7xx, 8xx), which checks the latest releases from [StevenMXZ](https://github.com/StevenMXZ/Adreno-Tools-Drivers) and [K11MCH1](https://github.com/K11MCH1/AdrenoToolsDrivers) and marks one **Suggested**. Tap one to download it.
 
 To use it, keep the `.zip` as it is, open the emulator's GPU driver settings (hakuX: **Settings › GPU driver › Add a driver**; Xendroid Plus: **Custom GPU Drivers › Import ZIP**; ARMSX2 and ARMSX3: **Settings › Renderer**, choose **Vulkan**, then **Import .zip**; aPS3e: its custom driver option; Eden, Citron and Sudachi: **GPU driver manager › Install**), pick the file, make it the active driver and restart the game. If a game looks wrong, switch back to the system driver. Drivers only load inside the emulator; nothing on your device is changed.
 
@@ -437,7 +448,9 @@ This is Mirmire's widget for your phone's own home screen (for widgets inside Mi
 
 ## Troubleshooting
 
-**A game says the emulator isn't installed.** Install it from the link in Settings › Emulators, or choose another emulator for that console.
+**A game says the emulator isn't installed.** Install it from Settings › Emulators (**Install** or **Get** beside it), or choose another emulator for that console.
+
+**Install does nothing, or opens Android's Install unknown apps screen.** Mirmire needs permission to install apps once: turn on **Allow from this source** for Mirmire, go back and tap **Install** again.
 
 **RetroArch says the core is missing.** Open RetroArch, choose **Load Core › Install or Restore Core**, and pick the core Mirmire named.
 

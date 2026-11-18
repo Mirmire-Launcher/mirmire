@@ -40,7 +40,7 @@ Put `plugin.json` at the top of the ZIP. A ZIP holding one folder with `plugin.j
 | `entry` | The page to open. Usually `index.html`. |
 | `sizes` | The sizes your widget can be: `small` (1×1), `wide` (2×1), `medium` (2×2) and `large` (4×2). |
 | `defaultSize` | The size it starts at. One of `sizes`. |
-| `permissions` | What else it may do: `internet`, `library` and `achievements`. Leave it empty if it needs none. |
+| `permissions` | What else it may do: `internet`, `library`, `achievements` and `ai`. Leave it empty if it needs none. |
 | `settings` | Optional. A page for the widget's own options, such as choosing a pet. Players open it from **Widget options** in the widget's edit menu. |
 
 ### Permissions
@@ -53,6 +53,7 @@ Players see a plugin's permissions before they install it, so ask only for what 
 | `internet` | Loading images and data from the web. Without it, every request outside the plugin's own files is blocked. With it, web requests go through Mirmire: they're cached, so what the plugin loaded once also works offline, and any site can be read with `fetch()`, whatever its CORS settings. |
 | `library` | `mirmire.games.recent()`, `all()` and `open(id)`. |
 | `achievements` | `mirmire.achievements()`: RetroAchievements points, rank, this week's unlocks and the streak. |
+| `ai` | `mirmire.ai`: short lines from an AI model the player sets up, about a game or their collection. See [AI](#ai). |
 
 ## The `window.mirmire` API
 
@@ -86,6 +87,37 @@ A game looks like this:
 ```
 
 `cover` is a web address; showing it needs the `internet` permission too.
+
+### AI
+
+With the `ai` permission, a plugin can ask an AI model for a short line about a game: a tip, a fun fact or a comment on the
+collection. The player chooses the model on the plugin's options page and can switch it off there. It's off until they turn it on.
+
+- **Where it runs:** Google Gemini, Groq or OpenRouter (free tiers, with the player's own API key), any server with an
+  OpenAI-style API (LM Studio or Ollama on a PC), or a model downloaded to the device (Qwen3 0.6B, 340 MB, or Gemma 4 E2B, 2.6 GB).
+- **What's sent:** Mirmire writes the question itself from the game's title and console, or a few titles from the collection.
+  A plugin can't add its own text, and file paths, names and accounts are never sent.
+- **Keys:** kept in Mirmire's private storage on the device, never in backups or logs. A page can see whether there's a key,
+  but never the key.
+- **Limits:** one request every 4 minutes and 30 a day per plugin. `test()` doesn't count toward them.
+
+```js
+// Any page:
+mirmire.ai.status()  // { enabled, provider, model, hasKey, ... } (never the key itself)
+mirmire.ai.ask("game", gameId).then((r) => { if (r.ok) say(r.text); })   // r = { ok, text } or { ok: false, error }
+// kinds: "game" (just played), "playing" (being played now), "collection" (a few of the player's games)
+
+// Only on the options page:
+mirmire.ai.configure({ enabled: true, provider: "groq", key: "...", model: "" })  // returns the new status
+mirmire.ai.test()                    // a Promise like ask(); shows whether the setup works
+mirmire.ai.download("qwen3-0.6b")    // or "gemma4-e2b"; progress shows up in status().models
+mirmire.ai.cancelDownload()
+mirmire.ai.deleteModel("qwen3-0.6b")
+```
+
+Replies are a single line of plain text, at most about 160 characters. When there's no key, the quota is used up or
+the device is offline, `ask()` returns `{ ok: false }`. Fall back to your own lines quietly, and mark AI lines so
+players can tell them apart (Pixel Pet adds an **AI** tag to its speech bubble).
 
 ### Events
 
