@@ -97,11 +97,13 @@ New here? Read the **[User guide](docs/GUIDE.md)**.
 
 ### Home page, Pixel Pal and AI
 
-| Home with Pixel Pal | AI & Home entry |
+| Home with Pixel Pal | Pixel Pal AI hints |
 |---|---|
-| ![Home page with Pixel Pal](screenshots/61-home-ai.jpg) | ![Home page](screenshots/53-home-page.jpg) |
-| **Add a widget / plugin** | **Pixel Pal's options** |
-| ![Widget plugins](screenshots/54-widget-plugins.jpg) | ![Pixel Pal](screenshots/55-pixel-pet.jpg) |
+| ![Home page with Pixel Pal](screenshots/61-home-ai.jpg) | ![Pixel Pal AI hints](screenshots/62-pixel-pal-ai.jpg) |
+| **Pal over a game** | **Chat while you play** |
+| ![Pixel Pal overlay](screenshots/63-pal-overlay.jpg) | ![Pixel Pal chat](screenshots/64-pal-chat.jpg) |
+| **Add a widget / plugin** | **Choose a pet** |
+| ![Widget plugins](screenshots/54-widget-plugins.jpg) | ![Pixel Pal pets](screenshots/55-pixel-pet.jpg) |
 
 ### Big Picture
 
