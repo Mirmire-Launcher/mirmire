@@ -102,8 +102,10 @@ New here? Read the **[User guide](docs/GUIDE.md)**.
 | ![Home page with Pixel Pal](screenshots/61-home-ai.jpg) | ![Pixel Pal AI hints](screenshots/62-pixel-pal-ai.jpg) |
 | **Pal over a game** | **Chat while you play** |
 | ![Pixel Pal overlay](screenshots/63-pal-overlay.jpg) | ![Pixel Pal chat](screenshots/64-pal-chat.jpg) |
-| **Add a widget / plugin** | **Choose a pet** |
-| ![Widget plugins](screenshots/54-widget-plugins.jpg) | ![Pixel Pal pets](screenshots/55-pixel-pet.jpg) |
+| **Settings › AI** | **Choose a pet** |
+| ![Settings AI](screenshots/65-settings-ai.jpg) | ![Pixel Pal pets](screenshots/55-pixel-pet.jpg) |
+| **Add a widget / plugin** | |
+| ![Widget plugins](screenshots/54-widget-plugins.jpg) | |
 
 ### Big Picture
 
