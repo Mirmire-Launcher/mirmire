@@ -28,7 +28,8 @@ Most launchers expect your games on the device and leave the emulators, saves an
 - **✈️ Pack for a trip.** Choose games to take offline, then play on the plane. Everything syncs back when you're home. Offload a game later without losing its saves.
 - **💡 Stick lights that react.** On Retroid and AYN handhelds, the stick lights follow the theme, the battery level, the console, the game's cover art or its performance mode. A one-time setup right on the device turns this on, with no computer or Shizuku needed.
 - **👨‍👩‍👧 Profiles for the whole family.** Each player has their own saves, favorites and play time, with PINs and a content filter for children.
-- **🧱 A Home page you build.** Turn on the Home page for widgets: clock, weather, calendar, your last game, achievements, play time, background music from your storage, widgets from your other apps, and **plugins** made by players and shared as a ZIP, like Pixel Pet, with hundreds of pets from OpenPets to choose from. Drag and resize them by touch, as on a phone, or arrange them with a controller.
+- **🧱 A Home page you build.** Turn on the Home page for widgets: clock, weather, calendar, your last game, achievements, play time, background music from your storage, widgets from your other apps, and **plugins** made by players and shared as a ZIP, like **Pixel Pal**, with hundreds of pets from OpenPets to choose from. Drag and resize them by touch, as on a phone, or arrange them with a controller.
+- **✨ AI for your pal.** Set up AI once under **Settings › AI** (a free cloud key, your own server, or a model on the device). Pixel Pal can share short game tips and chat; optionally float over a game on one-screen devices.
 - **📺 Big Picture.** A full-screen, controller-first home for TVs: big cards for your consoles and games, with the time, battery and RetroAchievements on a small bar at the bottom. Plug into a TV or dock and it switches on by itself.
 - **🪟 Dual screen.** On the AYN Thor, AYANEO Pocket DS or with a Retroid Dual Screen add-on, the second screen shows the selected game's art, description, achievements, manual and map, or your widgets, at the main screen's size. Swap the screens to put the menu on the bottom one. DS and 3DS games get the second screen to themselves, and themes can give the second screen its own wallpaper.
 - **😴 Saves upload when you sleep.** Press power mid-game and the saves go to your storage, so your other device can carry on.
@@ -94,13 +95,13 @@ New here? Read the **[User guide](docs/GUIDE.md)**.
 | **Android apps** | |
 | ![Apps](screenshots/09-apps.jpg) | |
 
-### Home page and widgets
+### Home page, Pixel Pal and AI
 
-| Home page | Add a widget |
+| Home with Pixel Pal | AI & Home entry |
 |---|---|
-| ![Home page](screenshots/53-home-page.jpg) | ![Widget plugins](screenshots/54-widget-plugins.jpg) |
-| **Pixel Pet's options** | |
-| ![Pixel Pet](screenshots/55-pixel-pet.jpg) | |
+| ![Home page with Pixel Pal](screenshots/61-home-ai.jpg) | ![Home page](screenshots/53-home-page.jpg) |
+| **Add a widget / plugin** | **Pixel Pal's options** |
+| ![Widget plugins](screenshots/54-widget-plugins.jpg) | ![Pixel Pal](screenshots/55-pixel-pet.jpg) |
 
 ### Big Picture
 
