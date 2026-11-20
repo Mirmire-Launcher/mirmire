@@ -3,6 +3,7 @@
 - [Install](#install)
 - [First-time setup](#first-time-setup)
 - [Adding your games](#adding-your-games)
+- [rclone (Google Drive, Dropbox, OneDrive)](#rclone-google-drive-dropbox-onedrive)
 - [Browsing and playing](#browsing-and-playing)
 - [Home page and widgets](#home-page-and-widgets)
 - [Big Picture](#big-picture)
@@ -62,6 +63,7 @@ Open **Settings › Library › Add library**. Mirmire looks for servers on your
 | SMB | Windows shares and most NAS (Synology, QNAP, Unraid…) | Server address, username and password |
 | SFTP | Linux servers, NAS with SSH | Server address, username, password |
 | WebDAV | Nextcloud and other web storage | Server address, username, password |
+| rclone | Google Drive, Dropbox, OneDrive and other rclone remotes | A PC/NAS running `rclone serve webdav` (see [rclone](#rclone-google-drive-dropbox-onedrive)) |
 | FTP | Older NAS and routers | Server address, username, password |
 | Device folder | Games already on the device or SD card | Pick the folder |
 
@@ -87,6 +89,18 @@ ES-DE, RetroArch and Batocera folder names all work (`megadrive`, `genesis`, `md
 **PlayStation 3** games go in `ps3/` as `.iso` disc images. Extracted game folders and games installed from `.pkg` files are started from inside the PS3 emulator. PS2 also takes `.gz`, `.mdf`, `.nrg` and `.img` images, alongside `.iso`, `.chd`, `.cso`, `.zso` and `.cue`.
 
 After adding a library, press **Sync now**. Mirmire lists your games without downloading them.
+
+**Upload local games to storage.** If you already have games in your **local game folder** that aren't on the network library (or are incomplete there), open **Settings › Library › Upload local games to storage**. Mirmire uploads only what's missing; files already on the NAS at full size are left alone. Uses the same Wi‑Fi / Ethernet-only setting as downloads.
+
+## rclone (Google Drive, Dropbox, OneDrive)
+
+Mirmire does not sign in to Google or Dropbox itself. On a PC or NAS, run [rclone](https://rclone.org/) and serve your ROM folder over WebDAV, then add an **rclone** library in Mirmire.
+
+```bash
+rclone serve webdav gdrive:roms --addr :8080 --user mirmire --pass secret
+```
+
+In Mirmire: choose **rclone**, enter the machine's LAN IP, port **8080**, and the same user/pass. Keep that serve command running while you browse or play. Full steps: **[rclone guide](RCLONE.md)**.
 
 ## Browsing and playing
 
@@ -175,7 +189,7 @@ Your controller always works the menu, never the second screen, even right after
 
 **Swap screens** puts the menu on the second screen and the details or widgets on the main one, for example the menu on the AYN Thor's bottom touch screen and the art on the big top screen. Games still open on the main screen. Some devices keep the home app on the main screen; Mirmire tells you if swapping isn't possible.
 
-**DS, 3DS and Wii U games** need the second screen for themselves, so Mirmire leaves it free while you play them and comes back when you return. Set your emulator's dual-screen layout in the emulator itself (melonDS, Azahar, Cemu and DraStic have it). Other games leave the details up while you play.
+**DS, 3DS and Wii U games** need the second screen for themselves, so Mirmire leaves it free while you play them and comes back when you return. Set your emulator's dual-screen layout in the emulator itself (WatermelonDS, melonDS, Azahar, Cemu and DraStic have it). Other games leave the details up while you play.
 
 **A clip-on screen or a TV?** Built-in screens are recognized on their own. The first time an external screen is connected, Mirmire asks whether it's a second screen or a TV or monitor, and remembers the answer. A TV switches to Big Picture, if **Big Picture when docked** is on.
 
@@ -210,13 +224,24 @@ When a controller is connected, the buttons you can press are shown at the botto
 **Settings › Emulators** shows which app plays each console, sorted by name. **Automatic** picks the best installed option, or you can choose RetroArch with a specific core, or a standalone emulator. Emulators are separate apps. Tap one under **Not installed** to get it:
 
 - **Install** (hakuX, Xendroid Plus, ARMSX2, ARMSX3 and DroidDeck, which aren't on Google Play): Mirmire downloads the right APK from the emulator's official GitHub releases and hands it to Android, which asks you to confirm. The first time, Android asks you to allow Mirmire to install apps; turn on **Allow from this source**, go back and tap **Install** again. ARMSX2 and ARMSX3 get the build that suits your Android version and processor.
-- **Get** (everything else): opens the emulator's Google Play page.
+- **Get** (everything else): opens the emulator's Google Play page, or its download site when it isn't on Play (for example WatermelonDS and DraStic).
+
+**Automatic picks** (when you leave a console on Automatic and the app is installed):
+
+| Console | Preferred standalone | RetroArch default core |
+|---|---|---|
+| PS1 | DuckStation (then ePSXe) | SwanStation (PCSX ReARMed available for low-end) |
+| N64 | Mupen64Plus FZ | Mupen64Plus-Next |
+| DS | WatermelonDS (then melonDS, DraStic) | melonDS DS |
+| Saturn | — | YabaSanshiro (Beetle Saturn for stronger devices) |
+| PS2 | ARMSX2 (then AetherSX2) | — |
+| Dreamcast | Redream, then Flycast | Flycast |
 
 **Xbox and Xbox 360** play in **hakuX** (Xbox) and **Xendroid Plus** (Xbox 360), both from GitHub. hakuX starts a game only once a games folder is set up inside hakuX itself; until then it opens its own setup. On Snapdragon devices both run better with a custom GPU driver (see [GPU drivers](#gpu-drivers)).
 
 **Steam** games play in **DroidDeck**, which Mirmire can install for you: Mirmire opens each game in it by its Steam app id. Sign in to Steam inside DroidDeck first. Steam stays in the Emulators list even before you have Steam games, so you can install DroidDeck first.
 
-**PlayStation 2 and 3** play in **ARMSX2** (PS2) and **ARMSX3** or **aPS3e** (PS3). Mirmire installs ARMSX2 and ARMSX3 from GitHub; aPS3e is on Google Play. Each needs its own one-time setup first: a PS2 BIOS for ARMSX2, the PS3 firmware for ARMSX3 and aPS3e. Mirmire then starts disc images directly. ARMSX2 is picked ahead of AetherSX2 when both are installed, and PS1 still plays in RetroArch, DuckStation or ePSXe as before. These emulators run on 64-bit Android only, and they don't start on an Android emulator (AVD).
+**PlayStation 2 and 3** play in **ARMSX2** (PS2) and **ARMSX3** or **aPS3e** (PS3). Mirmire installs ARMSX2 and ARMSX3 from GitHub; aPS3e is on Google Play. Each needs its own one-time setup first: a PS2 BIOS for ARMSX2, the PS3 firmware for ARMSX3 and aPS3e. Mirmire then starts disc images directly. These emulators run on 64-bit Android only, and they don't start on an Android emulator (AVD).
 
 ![Emulators](../screenshots/11-settings-emulators.jpg)
 
@@ -414,6 +439,8 @@ Good to know:
 - download small games automatically;
 - free up space automatically by removing large games you haven't played for a while (saves and pinned games are kept);
 - free up space now.
+
+To push games from the local game folder **up** to a network library when they're missing there, use **Settings › Library › Upload local games to storage** (same Wi‑Fi / Ethernet rule as downloads).
 
 ## Pack for a trip
 
