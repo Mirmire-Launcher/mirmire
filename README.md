@@ -63,6 +63,8 @@ Turn on AI in **Settings › AI** and Pixel Pal shares tips about the game you j
 | Edit the Home page | Pixel Pal |
 |---|---|
 | ![Edit the Home page](screenshots/64-home-edit.jpg) | ![Pixel Pal](screenshots/55-pixel-pet.jpg) |
+| **Welcome back** | **Chat while you play** |
+| ![Pixel Pal welcomes you back after a game](screenshots/66-home-welcome.jpg) | ![Chat with Pixel Pal over a running game](screenshots/65-pal-chat.jpg) |
 
 ### 📺 Big Picture and 🪟 dual screen
 
@@ -139,6 +141,8 @@ Get the latest APK from [Releases](https://github.com/Mirmire-Launcher/mirmire/r
 | Home page | Add a widget |
 |---|---|
 | ![Home page](screenshots/53-home-page.jpg) | ![Widget plugins](screenshots/54-widget-plugins.jpg) |
+| **Pixel Pal welcomes you back** | **Chat over a game** |
+| ![Welcome back](screenshots/66-home-welcome.jpg) | ![Pal chat](screenshots/65-pal-chat.jpg) |
 | **Big Picture** | **Big Picture consoles** |
 | ![Big Picture](screenshots/56-big-picture.jpg) | ![Big Picture consoles](screenshots/56b-big-picture-consoles.jpg) |
 | **A console on the second screen** | **Widgets on the second screen** |
@@ -213,4 +217,6 @@ Get the latest APK from [Releases](https://github.com/Mirmire-Launcher/mirmire/r
 
 ---
 
-This repository only hosts releases. Game artwork in the screenshots comes from ScreenScraper and the Libretro thumbnail project and belongs to its respective owners. Mirmire doesn't include any games.
+This repository only hosts releases.
+
+<sub><b>Legal.</b> Mirmire is a launcher only. It doesn't include or provide any games, ROMs or BIOS files: use it with games you own and have the right to play. Games appear in the screenshots for illustration only. DOOM is a registered trademark of id Software LLC, a ZeniMax Media company. Nintendo, Super Nintendo, Game Boy, Nintendo 64, SEGA, Mega Drive, Genesis, PlayStation, Xbox, Steam, RetroArch, and all other game titles, console names and trademarks belong to their respective owners. Game artwork comes from ScreenScraper and the Libretro thumbnail project and belongs to its respective owners. Mirmire is an independent project and isn't affiliated with or endorsed by any of these companies.</sub>
