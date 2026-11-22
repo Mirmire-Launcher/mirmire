@@ -440,6 +440,7 @@ dialog h2 { margin: 0 0 6px; font-family: Oxanium, sans-serif; }
 .m-sethead { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
 .m-cat { display: flex !important; align-items: center; gap: 14px; padding: 11px 14px; border-radius: 14px !important; background: color-mix(in srgb, var(--sc) 40%, transparent); font-weight: 500; flex: none; }
 .m-cat.sel { font-weight: 700; }
+.m-catgroup { text-transform: uppercase; font-size: 11px; font-weight: 700; letter-spacing: 1.2px; color: color-mix(in srgb, var(--primary) 85%, transparent); padding: 8px 0 0 6px; flex: none; }
 .mock.cut .m-cat { clip-path: none !important; }
 .m-pane { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; overflow: hidden; padding: 4px 8px 0; margin: -4px -8px 0; }
 .m-panetitle { display: flex; align-items: center; gap: 12px; }

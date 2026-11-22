@@ -16,11 +16,12 @@ export const PERMISSIONS = [
   ["internet", "Use the internet", "Load images or data from the web, for example weather or news"],
   ["library", "See your games and open them", "mirmire.games.recent(), all() and open(id)"],
   ["achievements", "See RetroAchievements stats", "mirmire.achievements(): points, rank, this week, streak"],
+  ["ai", "Ask Mirmire's AI about games", "mirmire.ai.ask() for a tip about a game; mirmire.ai.chat() on a full-screen page"],
 ];
 
 export const TEMPLATES = [
   { id: "blank", name: "Blank", detail: "A starting point that remembers how often it's selected", sizes: ["wide", "small"], permissions: [] },
-  { id: "pixel-pet", name: "Mochi", detail: "A pixel creature to feed: a simple version of Mirmire's Pixel Pet", sizes: ["small", "wide", "medium"], permissions: [] },
+  { id: "pixel-pet", name: "Mochi", detail: "A pixel creature to feed: a simple version of Mirmire's Pixel Pal", sizes: ["small", "wide", "medium"], permissions: [] },
   { id: "led-clock", name: "LED clock", detail: "A glowing retro clock", sizes: ["small", "wide", "large"], permissions: [] },
   { id: "game-of-the-day", name: "Game of the day", detail: "Picks a game from your library each day", sizes: ["wide", "medium"], permissions: ["library"] },
   { id: "trophy-meter", name: "Trophy meter", detail: "This week's RetroAchievements points toward a goal", sizes: ["wide"], permissions: ["achievements"] },
@@ -114,9 +115,46 @@ function shim(P, theme, base) {
     games: {
       recent: function (n) { return allow('library') ? games.filter(function (g) { return g.lastPlayed; }).slice(0, n || 5) : []; },
       all: function () { return allow('library') ? games : []; },
-      open: function (id) { if (allow('library')) parent.postMessage({ mirmireOpen: id }, '*'); }
+      open: function (id) { if (allow('library')) parent.postMessage({ mirmireOpen: id }, '*'); },
+      // In the preview, the first sample game is "being played".
+      playing: function () { return allow('library') ? games[0] : null; }
     },
-    achievements: function () { return allow('achievements') ? ach : null; }
+    achievements: function () { return allow('achievements') ? ach : null; },
+    // Mirmire draws this above the widget; the preview shows it along the top.
+    bubble: function (text, o) {
+      o = o || {};
+      var b = document.getElementById('__bubble') || document.body.appendChild(Object.assign(document.createElement('div'), { id: '__bubble' }));
+      b.style.cssText = 'position:fixed;top:4px;left:50%;transform:translateX(-50%);z-index:99;max-width:90%;padding:5px 11px;border-radius:14px;font:600 13px system-ui;' +
+        'background:var(--surface-variant,#333);color:var(--on-surface-variant,#eee);border:1.5px solid ' + (o.ai ? 'var(--tertiary,#f8a)' : 'var(--outline,#666)');
+      b.textContent = (o.ai ? 'AI · ' : '') + text; b.hidden = false;
+      clearTimeout(b.__t); b.__t = setTimeout(function () { b.hidden = true; }, Number(o.ms) || 2600);
+    },
+    openSettings: function () { console.info('mirmire.openSettings(): in Mirmire this opens your options page'); },
+    openPage: function (path) { console.info('mirmire.openPage("' + path + '"): in Mirmire this opens that page full screen'); },
+    close: function () {},
+    // Sample answers: in Mirmire they come from the AI the player set up in Settings › AI.
+    ai: (function () {
+      var on = true;
+      function later(r) { return new Promise(function (ok) { setTimeout(function () { ok(r); }, 700); }); }
+      function title(id) { var g = games.filter(function (x) { return x.id === id; })[0]; return g ? g.title : 'this game'; }
+      return {
+        status: function () { return allow('ai') ? { enabled: on, ready: true, provider: 'preview', providerLabel: 'Preview (sample answers)' } : null; },
+        ask: function (kind, gameId) {
+          if (!allow('ai')) return later({ ok: false, error: 'Not allowed' });
+          if (!on) return later({ ok: false, error: 'AI is off' });
+          return later({ ok: true, text: kind === 'collection' ? 'Sample: try ' + title(2) + ' next, it plays great after ' + title(1) + '!'
+            : 'Sample tip for ' + title(gameId) + ': the AI line goes here.' });
+        },
+        chat: function (messages) {
+          if (!allow('ai')) return later({ ok: false, error: 'Not allowed' });
+          var last = (messages || []).slice(-1)[0];
+          return later({ ok: true, text: 'Sample reply to "' + (last ? last.text : '') + '". In Mirmire, the AI answers here.' });
+        },
+        test: function () { return later({ ok: true, text: 'Hi friend!' }); },
+        configure: function (o) { if (o && typeof o.enabled === 'boolean') on = o.enabled; return this.status(); },
+        settings: function () { console.info('mirmire.ai.settings(): in Mirmire this opens Settings › AI'); }
+      };
+    })()
   };
   window.addEventListener('error', function (e) { parent.postMessage({ mirmireError: e.message + ' (line ' + e.lineno + ')' }, '*'); });
   var log = console.warn; console.warn = function (m) { parent.postMessage({ mirmireError: String(m) }, '*'); log.apply(console, arguments); };

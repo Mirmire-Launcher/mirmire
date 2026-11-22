@@ -20,7 +20,7 @@ Put `plugin.json` at the top of the ZIP. A ZIP holding one folder with `plugin.j
 ```json
 {
   "id": "pixel-pet",
-  "name": "Pixel Pet",
+  "name": "Pixel Pal",
   "author": "Your name",
   "version": 1,
   "description": "A little pixel creature that lives on your home page.",
@@ -69,10 +69,16 @@ mirmire.storage.set("key", "value") // pass null to remove it
 
 // With the "library" permission:
 mirmire.games.recent(5)  // the last games played, newest first
+mirmire.games.playing()  // the game being played right now (launched from Mirmire), or null; on a handheld's second
+                         // screen your widget stays visible while it runs
 mirmire.games.all()      // every visible game (up to 5,000)
 mirmire.games.open(id)   // opens that game's page
 
+mirmire.bubble("Hi!", { ms: 3000, ai: false, x: 0.5 })
+                       // a speech bubble Mirmire draws just above the widget, so it isn't cut off at the edges;
+                       // x is where it points (0 = left, 1 = right), ai: true adds an "AI" tag
 mirmire.openSettings() // opens the plugin's options page (needs "settings" in plugin.json)
+mirmire.openPage("chat.html") // opens another of the plugin's own pages full screen, like its options page
 mirmire.close()        // on the options page: closes it
 
 // With the "achievements" permission:
@@ -90,34 +96,43 @@ A game looks like this:
 
 ### AI
 
-With the `ai` permission, a plugin can ask an AI model for a short line about a game: a tip, a fun fact or a comment on the
-collection. The player chooses the model on the plugin's options page and can switch it off there. It's off until they turn it on.
+With the `ai` permission, a plugin can ask Mirmire's AI for a short line about a game (a tip, a fun fact or a comment on
+the collection) and, from a full-screen page, hold a chat the player types. The player sets the AI up once in
+**Settings › AI**, and turns it on or off for each plugin on that plugin's options page. It's off until they turn it on.
 
-- **Where it runs:** Google Gemini, Groq or OpenRouter (free tiers, with the player's own API key), any server with an
-  OpenAI-style API (LM Studio or Ollama on a PC), or a model downloaded to the device (Qwen3 0.6B, 340 MB, or Gemma 4 E2B, 2.6 GB).
-- **What's sent:** Mirmire writes the question itself from the game's title and console, or a few titles from the collection.
-  A plugin can't add its own text, and file paths, names and accounts are never sent.
-- **Keys:** kept in Mirmire's private storage on the device, never in backups or logs. A page can see whether there's a key,
-  but never the key.
-- **Limits:** one request every 4 minutes and 30 a day per plugin. `test()` doesn't count toward them.
+- **Where it runs (chosen in Settings › AI):** Google Gemini, Groq or OpenRouter (free tiers, with the player's own API key),
+  any server with an OpenAI-style API (LM Studio or Ollama on a PC), or a model downloaded to the device (Qwen3 0.6B,
+  344 MB; Qwen3 1.7B, 977 MB; Gemma 4 E2B, 2.6 GB; Gemma 4 E4B, 3.7 GB).
+- **What's sent:** for hints, Mirmire writes the question itself from the game's title and console, or a few titles from the
+  collection; a plugin can't add its own text. A chat sends what the player types and the last game's title. File paths,
+  accounts and keys are never sent.
+- **Keys:** kept in Mirmire's private storage on the device, never in backups or logs, and never shown to plugins.
+- **Where the player is:** with the `achievements` permission too, hints about the game being played (and chat) include
+  RetroAchievements' live status for it, such as "World 3-2, 4 lives", when the player is signed in to RetroAchievements
+  and the game has one. Their RetroAchievements name is never sent.
+- **Limits:** hints, one every 4 minutes and 30 a day per plugin; chat, one message every 2 seconds and 150 a day.
+  `test()` doesn't count.
 
 ```js
 // Any page:
-mirmire.ai.status()  // { enabled, provider, model, hasKey, ... } (never the key itself)
-mirmire.ai.ask("game", gameId).then((r) => { if (r.ok) say(r.text); })   // r = { ok, text } or { ok: false, error }
+mirmire.ai.status()  // { enabled, ready, provider, providerLabel }: enabled = on for this plugin, ready = set up in Settings
+mirmire.ai.ask("game", gameId, { name: "Mochi" }).then((r) => { if (r.ok) say(r.text); })   // r = { ok, text } or { ok: false, error }
 // kinds: "game" (just played), "playing" (being played now), "collection" (a few of the player's games)
+// name: what the AI calls itself (letters, digits and spaces, up to 20); "Mirmire" when empty
+mirmire.ai.settings()   // opens Settings › AI
 
-// Only on the options page:
-mirmire.ai.configure({ enabled: true, provider: "groq", key: "...", model: "" })  // returns the new status
-mirmire.ai.test()                    // a Promise like ask(); shows whether the setup works
-mirmire.ai.download("qwen3-0.6b")    // or "gemma4-e2b"; progress shows up in status().models
-mirmire.ai.cancelDownload()
-mirmire.ai.deleteModel("qwen3-0.6b")
+// Only on a full-screen page (the options page, or one opened with openPage):
+mirmire.ai.configure({ enabled: true })   // this plugin's switch; returns the new status
+mirmire.ai.test({ name: "Mochi" })        // a Promise like ask(); shows whether the setup works
+mirmire.ai.chat([{ role: "user", text: "Any tips for Contra?" }], { name: "Mochi" })
+                                     // a conversation the player types: the last 12 messages ("user" or "assistant"),
+                                     // each up to 500 characters; the most recently played game is mentioned to the AI.
+                                     // Resolves to { ok, text } or { ok: false, error }
 ```
 
-Replies are a single line of plain text, at most about 160 characters. When there's no key, the quota is used up or
-the device is offline, `ask()` returns `{ ok: false }`. Fall back to your own lines quietly, and mark AI lines so
-players can tell them apart (Pixel Pet adds an **AI** tag to its speech bubble).
+Hint replies are a single line of plain text, at most about 160 characters; chat replies are up to a few sentences.
+When the AI isn't set up, the quota is used up or the device is offline, `ask()` returns `{ ok: false }`. Fall back to your
+own lines quietly, and mark AI lines so players can tell them apart (Pixel Pal adds an **AI** tag to its speech bubble).
 
 ### Events
 
@@ -146,7 +161,7 @@ The page background is transparent: Mirmire draws the card behind your widget, w
 
 Add `"settings": "settings.html"` to `plugin.json` and a `settings.html` next to `index.html`. It opens full screen, with the same `window.mirmire` and the same storage as the widget, so save choices with `mirmire.storage.set()`. When it closes, the widget reloads to pick them up. On a controller, the arrow keys reach the page as `keydown` events and A clicks the focused element, so use real buttons and inputs and move focus with the arrows. B closes the page.
 
-Theme Studio previews the widget page only; add an options page to the ZIP by hand.
+Theme Studio previews the widget page only; add an options page (or other pages you open with `mirmire.openPage`) to the ZIP by hand. In the preview, `mirmire.ai` gives sample answers, `mirmire.bubble` shows along the top, and `mirmire.games.playing()` returns the first sample game.
 
 ## Tips
 

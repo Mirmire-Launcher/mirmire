@@ -281,7 +281,8 @@ function spotlightScene(t, view, assets) {
   </div>`;
 }
 
-const SETTINGS_CATS = [["Trophies", "trophy"], ["Artwork", "image"], ["Look", "palette"], ["Layout", "dashboard"], ["Controls", "gamepad"], ["Storage", "sd"], ["Profiles", "people"]];
+// The part of Mirmire's Settings menu around Look, with its group headings (a string starts a new group).
+const SETTINGS_CATS = ["Playing", ["Trophies", "trophy"], ["AI", "sparkle"], "Look & feel", ["Look", "palette", true], ["Layout", "dashboard"], ["Controls", "gamepad"], "This device", ["Profiles", "people"], ["Device", "bulb"]];
 
 function settingsScene(t, view) {
   const sw = (on) => `<span class="m-switch ${on ? "on" : ""}"><span>${on ? icon("done", 14) : ""}</span></span>`;
@@ -290,10 +291,10 @@ function settingsScene(t, view) {
   return `<div class="m-settings">
     <div class="m-setrail">
       <div class="m-sethead"><button class="m-tile m-round" data-go="consoles" data-sfx="back">${icon("back", 22)}</button><span class="m-headline-s">Settings</span></div>
-      ${SETTINGS_CATS.map(([n, ic], i) => `<button class="m-tile m-cat ${i === 2 ? "sel" : ""}" data-sfx="tab"><span style="color:${i === 2 ? "var(--primary)" : "var(--on-sv)"}">${icon(ic, 24)}</span><span>${n}</span></button>`).join("")}
+      ${SETTINGS_CATS.map((c) => typeof c === "string" ? `<div class="m-catgroup">${esc(c)}</div>` : `<button class="m-tile m-cat ${c[2] ? "sel" : ""}" data-sfx="tab"><span style="color:${c[2] ? "var(--primary)" : "var(--on-sv)"}">${icon(c[1], 24)}</span><span>${c[0]}</span></button>`).join("")}
     </div>
     <div class="m-pane">
-      <div class="m-panetitle"><span style="color:var(--primary)">${icon("palette", 30)}</span><div><div class="m-headline-s">Look</div><div class="m-body-m m-muted">Theme, colors and sounds</div></div></div>
+      <div class="m-panetitle"><span style="color:var(--primary)">${icon("palette", 30)}</span><div><div class="m-headline-s">Look</div><div class="m-body-m m-muted">Themes, colors and wallpaper</div></div></div>
       <div class="m-group">Theme</div>
       ${row("palette", esc(t.name || "Your theme"), "Installed theme pack", `<span class="m-status-pill" style="color:#4FD18B;background:color-mix(in srgb,#4FD18B 15%,transparent)">${icon("checkCircle", 14)}In use</span>`, 0)}
       ${row("image", "Theme backgrounds", "Video when the theme has one, otherwise the image", sw(true), 1)}

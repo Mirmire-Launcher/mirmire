@@ -1,34 +1,15 @@
 # Mirmire user guide
 
-- [Install](#install)
-- [First-time setup](#first-time-setup)
-- [Adding your games](#adding-your-games)
-- [rclone (Google Drive, Dropbox, OneDrive)](#rclone-google-drive-dropbox-onedrive)
-- [Browsing and playing](#browsing-and-playing)
-- [Home page and widgets](#home-page-and-widgets)
-- [Big Picture](#big-picture)
-- [Dual screen](#dual-screen)
-- [Controls](#controls)
-- [Emulators and RetroArch](#emulators-and-retroarch)
-- [GPU drivers](#gpu-drivers)
-- [Performance modes and stick lights: one-time setup](#performance-modes-and-stick-lights-one-time-setup)
-- [Save sync](#save-sync)
-- [Continue on another device](#continue-on-another-device)
-- [Library cleanup](#library-cleanup)
-- [BIOS files](#bios-files)
-- [Artwork](#artwork)
-- [RetroAchievements](#retroachievements)
-- [Themes and layout](#themes-and-layout)
-- [Stick lights](#stick-lights)
-- [Spotlight and play time](#spotlight-and-play-time)
-- [Profiles](#profiles)
-- [Storage](#storage)
-- [Pack for a trip](#pack-for-a-trip)
-- [Backups](#backups)
-- [Home screen widget](#home-screen-widget)
-- [Updates](#updates)
-- [Android settings](#android-settings)
-- [Troubleshooting](#troubleshooting)
+Everything Mirmire does, grouped the same way as its Settings.
+
+**Getting started:** [Install](#install) · [First-time setup](#first-time-setup) · [Adding your games](#adding-your-games) · [rclone (Google Drive, Dropbox, OneDrive)](#rclone-google-drive-dropbox-onedrive)  
+**Playing:** [Browsing and playing](#browsing-and-playing) · [Home page and widgets](#home-page-and-widgets) · [Big Picture](#big-picture) · [Dual screen](#dual-screen) · [Controls](#controls) · [Spotlight and play time](#spotlight-and-play-time) · [RetroAchievements](#retroachievements) · [AI](#ai)  
+**Emulators:** [Emulators and RetroArch](#emulators-and-retroarch) · [BIOS files](#bios-files) · [GPU drivers](#gpu-drivers) · [Performance modes and stick lights: one-time setup](#performance-modes-and-stick-lights-one-time-setup)  
+**Your library:** [Library cleanup](#library-cleanup) · [Artwork](#artwork) · [Storage](#storage) · [Pack for a trip](#pack-for-a-trip)  
+**Sync and backup:** [Save sync](#save-sync) · [Continue on another device](#continue-on-another-device) · [Backups](#backups)  
+**Make it yours:** [Themes and layout](#themes-and-layout) · [Profiles](#profiles) · [Stick lights](#stick-lights) · [Home screen widget](#home-screen-widget)  
+**Help:** [Updates](#updates) · [Android settings](#android-settings) · [Troubleshooting](#troubleshooting)
+
 
 ## Install
 
@@ -90,6 +71,9 @@ ES-DE, RetroArch and Batocera folder names all work (`megadrive`, `genesis`, `md
 
 After adding a library, press **Sync now**. Mirmire lists your games without downloading them.
 
+---
+
+
 **Upload local games to storage.** If you already have games in your **local game folder** that aren't on the network library (or are incomplete there), open **Settings › Library › Upload local games to storage**. Mirmire uploads only what's missing; files already on the NAS at full size are left alone. Uses the same Wi‑Fi / Ethernet-only setting as downloads.
 
 ## rclone (Google Drive, Dropbox, OneDrive)
@@ -135,16 +119,16 @@ Turn on **Settings › Layout › Home page with widgets** to add a **Home** tab
 - **With touch,** it works like a phone's home screen: long-press a widget to pick it up and drag it to a new spot. In edit mode, drag a widget's right edge, bottom edge or corner handle to resize it, and press **×** to remove it.
 - **Mirmire's widgets:** Clock, Weather (pick a city and °C or °F; forecasts from Open-Meteo), Calendar (your next events, once you allow it), Continue playing, Recently played, Recently added, RetroAchievements, Achievement of the week, Play time, Library and Music.
 - **Music** plays MP3, M4A, FLAC, OGG or WAV files from a folder on your storage (and the folders inside it) while Mirmire is open, shuffled or in order. Choose the folder in its options. It pauses when a game starts or the screen turns off, and the theme's own music waits while it plays. Press the widget to play or pause.
-- **Plugins:** widgets made by players, such as **Pixel Pet**, which comes with Mirmire. Your pet walks around, gets hungry, bored and sleepy, naps at night, cheers when you come back from a game or earn achievements, and wears outfits on a schedule (pajamas at night, Halloween…). Select it to feed it, play ball or give it a pat. In its **Widget options**, name it and choose from hundreds of pets from [OpenPets](https://openpets.dev); the list and the pet you pick are kept, so both work offline after the first time. Under **AI hints** you can let your pet share a short tip or fun fact about the game you just played, and now and then a word about your collection. It's off until you turn it on. Choose where the AI runs: **Google Gemini**, **Groq** or **OpenRouter** (free, with your own API key from their site; the options page shows where to get one), your own server (LM Studio or Ollama on a PC), or **On this device**, which downloads a model once (Small, 340 MB, or Better, 2.6 GB, which needs about 6 GB of memory) and then works offline. Press **Test** to check it works. Only a game's title and console are sent, never your files, name or accounts. Your key stays on the device and isn't included in backups. AI lines carry an **AI** tag. If the AI can't be reached, your pet just uses its usual lines. Import more under **Plugins › Import a plugin ZIP**, or in **Settings › Look › Widget plugins**. Before installing, Mirmire shows what the plugin is allowed to do. To make your own, see [Make widget plugins](PLUGINS.md).
+- **Plugins:** widgets made by players, such as **Pixel Pal**, which comes with Mirmire. Your pal walks around, gets hungry, bored and sleepy, naps at night, cheers when you come back from a game or earn achievements, and wears outfits on a schedule (pajamas at night, Halloween…). Select it to feed it, play ball or give it a pat. In its **Widget options**, name it and choose from hundreds of pals from [OpenPets](https://openpets.dev); the list and the pal you pick are kept, so both work offline after the first time. Under **AI hints** you can let your pal share a short tip or fun fact about the game you just played, and now and then a word about your collection. It's off until you turn it on, and it uses the AI you set up in **Settings › AI** (see [AI](#ai)). AI lines carry an **AI** tag, and the AI goes by the name you gave your pal (or Mirmire if you didn't name it). With AI on, the 💬 button next to your pal's name opens a chat: ask for tips, help getting past a level, trivia or what to play next; it knows the game you played last. Your pal keeps one conversation on the Home page and a separate one for each game while you play it, each with its last 20 messages, so a chat stays short and about the right game. **Clear chat** starts over. On a handheld with a second screen, keep your pal there while you play: it gives a tip when the game starts and checks in every few minutes. With RetroAchievements connected (and signed in inside RetroArch), its tips can be about where you are in the game, such as the level you're on. If the AI can't be reached, your pal just uses its usual lines. Import more under **Plugins › Import a plugin ZIP**, or in **Settings › Look › Widget plugins**. Before installing, Mirmire shows what the plugin is allowed to do. To make your own, see [Make widget plugins](PLUGINS.md).
 - **Apps:** widgets from other apps on the device, as on a phone's home screen. The first time, Android asks you to allow Mirmire to add them.
 
 Sizes are **Small** (1×1), **Wide** (2×1), **Medium** (2×2) and **Large** (4×2). Widgets fill the page in order, four across (two on a narrow screen). On a small widget, text shrinks a little to fit rather than being cut off.
 
 With a second screen in use, the Home tab leaves the main screen; choose **Home page widgets** for the second screen to keep them (see [Dual screen](#dual-screen)).
 
-| The Home page | Pixel Pet's options |
+| The Home page | Pixel Pal's options |
 |---|---|
-| ![Home page](../screenshots/53-home-page.jpg) | ![Pixel Pet](../screenshots/55-pixel-pet.jpg) |
+| ![Home page](../screenshots/53-home-page.jpg) | ![Pixel Pal](../screenshots/55-pixel-pet.jpg) |
 
 ## Big Picture
 
@@ -219,6 +203,44 @@ On a keyboard, arrows move, Enter selects, and Esc or Backspace goes back. On th
 
 When a controller is connected, the buttons you can press are shown at the bottom right, low in the navigation bar's strip so they don't cover anything.
 
+## Spotlight and play time
+
+The **Spotlight** tab gathers:
+
+![Spotlight](../screenshots/40-spotlight.jpg)
+
+- **Achievement of the week** from RetroAchievements, with a button to the game when it's in your library;
+- **Close to mastery:** games nearest to 100% of their achievements;
+- **Quick to play:** arcade, puzzle, fighting and other pick-up-and-play genres;
+- **Play together:** multiplayer games;
+- **Not tried yet:** a new pick every day;
+- **Your play time:** this week, all time, your top console and most played games.
+
+![Play together](../screenshots/41-spotlight-play-together.jpg)
+
+Mirmire times each play from launch until you come back. A game's page shows its play time and, once there's enough history, about how long the battery will last playing it in its performance mode.
+
+**Each game's performance mode is learned** (Settings › Emulators › Performance modes › Learn each game's mode, on by default). After a couple of plays of five minutes or more, a game gets a mode that suits its console: battery saver for 8- and 16-bit systems, standard for consoles like the N64 and PlayStation, and performance for demanding ones like the PS2 and GameCube. If most of its recent plays ended hot (the battery at 41°C or more), it goes one step lower. The game's page says which mode was picked and why. A mode you choose on a game always wins. Modes need the [one-time setup](#performance-modes-and-stick-lights-one-time-setup).
+
+## RetroAchievements
+
+Sign in under **Settings › Trophies** with your username and **Web API key** (from your RetroAchievements account settings). Progress shows on game cards and pages, and Mirmire also signs RetroArch in for you.
+
+## AI
+
+**Settings › AI** sets up the AI that Pixel Pal (and other plugins you allow) use for game hints and chat. Choose where it runs:
+
+- **Google Gemini**, **Groq** or **OpenRouter**: free tiers with your own API key. Press the "Get a free key" button to open the provider's page, paste the key and press **Save**.
+- **Other OpenAI-compatible server**: LM Studio or Ollama on your PC; enter its address.
+- **On this device**: downloads a model once, then works offline and nothing leaves the device. Small (344 MB), Medium (977 MB), Better (2.6 GB, about 6 GB of memory) or Best (3.7 GB, for devices with 8 GB of memory). Bigger models know more about games but take longer to answer.
+
+**While you play** (one screen): turn on **Pal over your games** and allow "Display over other apps" when Android asks. While a game runs, a small 💬 button sits in a corner: drag it wherever it's out of the way (it stays there), and tap it to chat with your pal without leaving the game. Its tips show beside the button for a few seconds without blocking touches. Press **B** or ✕ to close the chat; the pal goes away when you return to Mirmire, and its notification has a **Hide** button. To open the chat from a controller, turn on **Press both sticks to open the chat**: Android only lets apps see controller buttons in another app through Accessibility, so it sends you there to switch on "Mirmire: open Pixel Pal's chat in games". It watches only the two stick clicks, only while the pal is over a game. Some emulators that take over the controller may not let the shortcut through; tapping 💬 always works. On a handheld with a second screen, keep the pal there instead.
+
+Press **Test** to check it works. Only a game's title and console are sent for hints, plus what you type in a chat; never your files, accounts or keys. Your key stays on the device and isn't included in backups.
+
+---
+
+
 ## Emulators and RetroArch
 
 **Settings › Emulators** shows which app plays each console, sorted by name. **Automatic** picks the best installed option, or you can choose RetroArch with a specific core, or a standalone emulator. Emulators are separate apps. Tap one under **Not installed** to get it:
@@ -277,6 +299,15 @@ If you played through RetroArch from another app (ES-DE, Daijishō…), **Bring 
 
 Holding **Start** also opens RetroArch's menu.
 
+## BIOS files
+
+**Settings › RetroArch › BIOS files** lists the consoles in your library that use BIOS files, with what's found, missing or the wrong version, checked against libretro's BIOS checksums. Tap a console for the file names and where they go.
+
+![BIOS files](../screenshots/48-bios.jpg)
+
+- **BIOS folder:** pick a folder on your storage, like the saves and artwork folders. Files sync both ways: good files there are copied to the device, and good files on the device are uploaded. Left on automatic, Mirmire looks for a `bios`, `system` or `firmware` folder in your libraries.
+- **Sync BIOS files from storage** brings new files over on every library sync. Files are recognised by checksum, so `SCPH-5501.BIN` is saved as `scph5501.bin`, where RetroArch expects it.
+
 ## GPU drivers
 
 On Snapdragon phones and handhelds, newer GPU drivers often make demanding emulators faster and fix glitches. **Settings › Emulators › GPU drivers** shows your GPU (for example **Adreno 650**), which installed emulators can load a custom driver (hakuX, Xendroid Plus, ARMSX2, ARMSX3, aPS3e, DroidDeck, Eden, Citron, Sudachi, Dolphin and Vita3K), and **Find drivers for Adreno 6xx** (or 7xx, 8xx), which checks the latest releases from [StevenMXZ](https://github.com/StevenMXZ/Adreno-Tools-Drivers) and [K11MCH1](https://github.com/K11MCH1/AdrenoToolsDrivers) and marks one **Suggested**. Tap one to download it.
@@ -293,23 +324,8 @@ Android only lets an app change performance modes, stick lights and a few device
 
 You'll find the steps in **Settings › Emulators › Performance modes**, **Settings › Device** and during setup. After pairing, Mirmire reconnects by itself whenever you're on Wi-Fi, restarts included. Already use **Shizuku**? Start it and Mirmire uses it instead. Android 10 and older need Shizuku.
 
-## Save sync
+---
 
-**Settings › Library › Save files on your storage.** With sync on, your in-game saves upload to `Saves/<console>/` on your storage when you come back to Mirmire, and save states to `Saves/<console>/states/`. Before you play, newer saves and states on the storage are downloaded. Earlier versions of saves are kept, so you can go back to one.
-
-## Continue on another device
-
-When another of your devices played a game more recently, the home screen offers **Continue**: the game opens here with that device's save and save state, so with **Resume where you left off** on you're right where you stopped.
-
-![Continue on another device](../screenshots/47-continue.jpg)
-
-- **Devices that use the same library storage** need no setup: they share saves, states and "last played" through it.
-- **Devices without shared storage** (for example, games in a folder on each device) pair once over Wi-Fi in **Settings › Library › Continue on another device**: press **Pair** next to the other device, check that both screens show the same 6-digit code, and accept on the other device. Paired devices swap newer saves and states, encrypted, whenever Mirmire is open on both on the same Wi-Fi. A replaced copy is kept in `Mirmire/retroarch/.peer-backup/`.
-
-
-**Upload when the screen turns off** (on by default): press power in the middle of a game and its saves and save states upload a few seconds later, and your other devices are told what you were playing so they offer **Continue**. RetroArch writes in-game saves when it pauses. To pick up at the exact moment, save a state first with the hotkey + R1.
-
-**Play together:** with a paired device on the same Wi-Fi, a downloaded game's page shows **Play together**. The other device gets an invite. When it's accepted, the game starts on your device and RetroArch begins hosting by itself. The other device opens the same game with your address filled in; there, open RetroArch's menu (hotkey + X) and choose **Netplay › Connect to Netplay Host**. RetroArch doesn't let other apps make it join a game, so that last step stays manual. Both devices need the same game from the same library.
 
 ## Library cleanup
 
@@ -328,15 +344,6 @@ The filter button above the games list switches between **Cleaned up**, **Everyt
 
 ![Not in No-Intro list on a game's page](../screenshots/43-game-check.jpg)
 
-## BIOS files
-
-**Settings › RetroArch › BIOS files** lists the consoles in your library that use BIOS files, with what's found, missing or the wrong version, checked against libretro's BIOS checksums. Tap a console for the file names and where they go.
-
-![BIOS files](../screenshots/48-bios.jpg)
-
-- **BIOS folder:** pick a folder on your storage, like the saves and artwork folders. Files sync both ways: good files there are copied to the device, and good files on the device are uploaded. Left on automatic, Mirmire looks for a `bios`, `system` or `firmware` folder in your libraries.
-- **Sync BIOS files from storage** brings new files over on every library sync. Files are recognised by checksum, so `SCPH-5501.BIN` is saved as `scph5501.bin`, where RetroArch expects it.
-
 ## Artwork
 
 **Settings › Artwork** picks the source:
@@ -350,9 +357,61 @@ The filter button above the games list switches between **Cleaned up**, **Everyt
 
 Artwork already on your storage, in an ES-DE `downloaded_media` or `media` folder, is used first and kept on the device once loaded. Next, Mirmire uses artwork other frontends downloaded on this device: ES-DE's `downloaded_media` and gamelists, RetroArch's thumbnails and LaunchBox's images (when LaunchBox's folder is on normal storage, not inside the app). Nothing is copied or changed. Daijishō keeps its artwork inside the app, where Mirmire can't read it. Online lookups only run when you press **Find missing artwork online**.
 
-## RetroAchievements
+## Storage
 
-Sign in under **Settings › Trophies** with your username and **Web API key** (from your RetroAchievements account settings). Progress shows on game cards and pages, and Mirmire also signs RetroArch in for you.
+**Settings › Storage:**
+
+- download only on Wi-Fi or Ethernet;
+- download small games automatically;
+- free up space automatically by removing large games you haven't played for a while (saves and pinned games are kept);
+- free up space now.
+
+To push games from the local game folder **up** to a network library when they're missing there, use **Settings › Library › Upload local games to storage** (same Wi‑Fi / Ethernet rule as downloads).
+
+## Pack for a trip
+
+**Settings › Storage › Pack for a trip** gets games ready to play offline. Pick favorites, recently played, games already on the device or whole consoles. Mirmire downloads them, keeps them from being removed to free space, and syncs their saves, states and BIOS files. While you're away, games start without waiting for your storage. When a network is back, saves, settings and "last played" sync straight away. **Back home: unpack** lets free-up-space remove them again.
+
+![Pack for a trip](../screenshots/49-pack-trip.jpg)
+
+---
+
+
+## Save sync
+
+**Settings › Sync & backup › Save files on your storage.** With sync on, your in-game saves upload to `Saves/<console>/` on your storage when you come back to Mirmire, and save states to `Saves/<console>/states/`. Before you play, newer saves and states on the storage are downloaded. Earlier versions of saves are kept, so you can go back to one.
+
+**Sync favorites with your storage** (same page) keeps each player's favorites and **Keep on device** pins in `Mirmire/collections.json` on your storage, so every device shows the same favorites.
+
+## Continue on another device
+
+When another of your devices played a game more recently, the home screen offers **Continue**: the game opens here with that device's save and save state, so with **Resume where you left off** on you're right where you stopped.
+
+![Continue on another device](../screenshots/47-continue.jpg)
+
+- **Devices that use the same library storage** need no setup: they share saves, states and "last played" through it.
+- **Devices without shared storage** (for example, games in a folder on each device) pair once over Wi-Fi in **Settings › Sync & backup › Continue on another device**: press **Pair** next to the other device, check that both screens show the same 6-digit code, and accept on the other device. Paired devices swap newer saves and states, encrypted, whenever Mirmire is open on both on the same Wi-Fi. A replaced copy is kept in `Mirmire/retroarch/.peer-backup/`.
+
+
+**Upload when the screen turns off** (on by default): press power in the middle of a game and its saves and save states upload a few seconds later, and your other devices are told what you were playing so they offer **Continue**. RetroArch writes in-game saves when it pauses. To pick up at the exact moment, save a state first with the hotkey + R1.
+
+**Play together:** with a paired device on the same Wi-Fi, a downloaded game's page shows **Play together**. The other device gets an invite. When it's accepted, the game starts on your device and RetroArch begins hosting by itself. The other device opens the same game with your address filled in; there, open RetroArch's menu (hotkey + X) and choose **Netplay › Connect to Netplay Host**. RetroArch doesn't let other apps make it join a game, so that last step stays manual. Both devices need the same game from the same library.
+
+## Backups
+
+**Settings › Sync & backup › Backups** saves Mirmire's setup to your storage: settings, libraries (without passwords), emulator choices, RetroArch settings, favorites, stick-light colors, imported themes, icon packs and widget plugins, and your Home page widgets (widgets from other apps are left out). Pick the **Backups folder** like the saves folder (automatic: `Mirmire/backups` in your first network library).
+
+![Backups](../screenshots/52-backups.jpg)
+
+- **Back up automatically:** once a day; the newest 10 backups of each device are kept.
+- **Restore a backup:** from this device or any other. Libraries it adds ask for their password.
+- **Include RetroArch's own settings** (on by default): also backs up `retroarch.cfg` and the core options, overrides and remaps in RetroArch's config folder. Anything tied to one device is left out: folder paths, video and audio drivers, controller button numbers and screen size. RetroArch's sign-in isn't included either. Restoring merges these into the device's own RetroArch setup. Settings sync doesn't change RetroArch's files; they only come back when you restore a backup.
+- **Keep settings in sync:** changes back up a minute later, and Mirmire applies newer settings from your other devices when it opens. Screen orientation, menu style and sizes stay per device.
+
+Passwords and keys are never backed up.
+
+---
+
 
 ## Themes and layout
 
@@ -360,25 +419,6 @@ Sign in under **Settings › Trophies** with your username and **Web API key** (
 - **Layout:** **Text and icon size** (80–150%, like Android's display size: menus, dialogs and widgets all follow it), screen orientation, **Keep the screen on** (off, while charging, or always, while Mirmire is open), top bar or side menu (the side menu scrolls when it has more buttons than fit), consoles view, console tiles or icons only (with icon size), games view, card size, artwork type, what's shown on cards, and video previews.
 
 Making your own theme, icon pack or widget plugin: try **[Theme Studio](https://mirmire-launcher.github.io/mirmire/theme-maker/)** in your browser, and see [Make your own themes and icon packs](CREATING.md) and [Make widget plugins](PLUGINS.md). The file format is in [THEMES.md](THEMES.md).
-
-## Spotlight and play time
-
-The **Spotlight** tab gathers:
-
-![Spotlight](../screenshots/40-spotlight.jpg)
-
-- **Achievement of the week** from RetroAchievements, with a button to the game when it's in your library;
-- **Close to mastery:** games nearest to 100% of their achievements;
-- **Quick to play:** arcade, puzzle, fighting and other pick-up-and-play genres;
-- **Play together:** multiplayer games;
-- **Not tried yet:** a new pick every day;
-- **Your play time:** this week, all time, your top console and most played games.
-
-![Play together](../screenshots/41-spotlight-play-together.jpg)
-
-Mirmire times each play from launch until you come back. A game's page shows its play time and, once there's enough history, about how long the battery will last playing it in its performance mode.
-
-**Each game's performance mode is learned** (Settings › Emulators › Performance modes › Learn each game's mode, on by default). After a couple of plays of five minutes or more, a game gets a mode that suits its console: battery saver for 8- and 16-bit systems, standard for consoles like the N64 and PlayStation, and performance for demanding ones like the PS2 and GameCube. If most of its recent plays ended hot (the battery at 41°C or more), it goes one step lower. The game's page says which mode was picked and why. A mode you choose on a game always wins. Modes need the [one-time setup](#performance-modes-and-stick-lights-one-time-setup).
 
 ## Profiles
 
@@ -431,39 +471,12 @@ Good to know:
 - Mirmire sets the color when you switch themes, when the battery level changes and when a game starts. It doesn't run during a game, so the light stays the same until you come back.
 - Lights that react to sound aren't supported: they'd need Mirmire running and recording audio during games.
 
-## Storage
-
-**Settings › Storage:**
-
-- download only on Wi-Fi or Ethernet;
-- download small games automatically;
-- free up space automatically by removing large games you haven't played for a while (saves and pinned games are kept);
-- free up space now.
-
-To push games from the local game folder **up** to a network library when they're missing there, use **Settings › Library › Upload local games to storage** (same Wi‑Fi / Ethernet rule as downloads).
-
-## Pack for a trip
-
-**Settings › Storage › Pack for a trip** gets games ready to play offline. Pick favorites, recently played, games already on the device or whole consoles. Mirmire downloads them, keeps them from being removed to free space, and syncs their saves, states and BIOS files. While you're away, games start without waiting for your storage. When a network is back, saves, settings and "last played" sync straight away. **Back home: unpack** lets free-up-space remove them again.
-
-![Pack for a trip](../screenshots/49-pack-trip.jpg)
-
-## Backups
-
-**Settings › System › Backups** saves Mirmire's setup to your storage: settings, libraries (without passwords), emulator choices, RetroArch settings, favorites, stick-light colors, imported themes, icon packs and widget plugins, and your Home page widgets (widgets from other apps are left out). Pick the **Backups folder** like the saves folder (automatic: `Mirmire/backups` in your first network library).
-
-![Backups](../screenshots/52-backups.jpg)
-
-- **Back up automatically:** once a day; the newest 10 backups of each device are kept.
-- **Restore a backup:** from this device or any other. Libraries it adds ask for their password.
-- **Include RetroArch's own settings** (on by default): also backs up `retroarch.cfg` and the core options, overrides and remaps in RetroArch's config folder. Anything tied to one device is left out: folder paths, video and audio drivers, controller button numbers and screen size. RetroArch's sign-in isn't included either. Restoring merges these into the device's own RetroArch setup. Settings sync doesn't change RetroArch's files; they only come back when you restore a backup.
-- **Keep settings in sync:** changes back up a minute later, and Mirmire applies newer settings from your other devices when it opens. Screen orientation, menu style and sizes stay per device.
-
-Passwords and keys are never backed up.
-
 ## Home screen widget
 
 This is Mirmire's widget for your phone's own home screen (for widgets inside Mirmire, see [Home page and widgets](#home-page-and-widgets)). On a phone with its own launcher, add the **Mirmire: Continue** widget from your launcher's widget list, or from **Settings › System › Add widget to home screen**. It shows your last game with its play time and the four before it; tap one to open it.
+
+---
+
 
 ## Updates
 

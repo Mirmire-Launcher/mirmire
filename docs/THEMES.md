@@ -76,6 +76,7 @@ Paths must stay inside the pack (no `..`, no absolute paths). You can omit the m
 | `focus` | `outline`, `corners` or `frame` | How the selected tile is marked: the usual outline, corner brackets, or a thick frame. Default `outline`. |
 | `focusColor` | color | Color of that mark. Defaults to `primary`. |
 | `bezel` | `true` / `false` | Plain cards in the surface color with a soft shadow; console icons fill the card and game art sits inset, like apps on a handheld's home menu. |
+| `stockWallpaper` | `true` / `false` | `false` shows a gradient from `primary` to `background` when the theme has no wallpaper or `tiles`, like the built-in Mirmire theme. By default Mirmire's own wallpaper is used. |
 
 ### Tiles
 

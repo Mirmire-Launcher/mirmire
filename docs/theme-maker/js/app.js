@@ -224,6 +224,7 @@ function manifest() {
   if (s.focus) style.focus = s.focus;
   if (s.focusColor) style.focusColor = s.focusColor;
   if (s.bezel) style.bezel = true;
+  if (s.stockWallpaper === false) style.stockWallpaper = false;
   const assets = {};
   if (one("wallpaper")) assets.wallpaper = one("wallpaper");
   if (one("wallpaperVideo")) assets.wallpaperVideo = one("wallpaperVideo");
@@ -296,7 +297,9 @@ const previewAssets = {
     if (P.mode === "icons") return { url: "assets/first-light/wallpaper.jpg" };
     const pick = (img, vid) => (view.video && vid ? { url: urlOf(vid), video: true } : img ? { url: urlOf(img) } : vid ? { url: urlOf(vid), video: true } : null);
     return (id && pick(P.backgrounds[id], P.backgroundVideos[id])) || pick(P.wallpaper, P.wallpaperVideo)
-      || (P.style.tiles ? { url: tilesUrl(P.style.tiles, P.colors.background) } : null) || { url: "assets/default/wallpaper.jpg" };
+      || (P.style.tiles ? { url: tilesUrl(P.style.tiles, P.colors.background) } : null)
+      // Without Mirmire's stock wallpaper the app draws a plain gradient (null here).
+      || (P.style.stockWallpaper === false ? null : { url: "assets/default/wallpaper.jpg" });
   },
   /** The second screen's own wallpaper, or the main one. */
   secondWall() {
@@ -587,7 +590,9 @@ const PANELS = {
         ${dropSlot("wallpaperVideo", "Video loop", "8–30 s MP4 or WebM, under 40 MB, plays muted", P.wallpaperVideo, acc(VIDEOS))}
       </div>
       ${P.wallpaper ? `<button class="btn small" style="margin-top:12px" data-action="fromWall">${icon("palette", 16)} Build colors from this picture</button><div id="wallSeeds" class="picks" style="margin-top:10px"></div>` : ""}
-      <p class="hint" style="margin-top:14px">Without a wallpaper, Mirmire uses its own (the one you see now). The app darkens wallpapers so text stays readable, as in the preview.</p>
+      <h3>Without a wallpaper</h3>
+      <div class="chips"><button class="chip ${P.style.stockWallpaper === false ? "" : "on"}" data-stockwall="1">Mirmire's wallpaper</button><button class="chip ${P.style.stockWallpaper === false ? "on" : ""}" data-stockwall="0">Plain gradient</button></div>
+      <p class="hint">What shows when the theme has no wallpaper or pattern of its own: Mirmire's stock picture, or a gradient from your primary color to the background, like the Mirmire theme. The app darkens wallpapers so text stays readable, as in the preview.</p>
       <h3>Or a drawn pattern</h3>
       <div class="chips">${[["", "None"], ["grid", "Grid"], ["stripes", "Stripes"], ["dots", "Dots"], ["blocks", "Blocks"]].map(([k, l]) => `<button class="chip ${(P.style.tiles?.kind || "") === k ? "on" : ""}" data-tilekind="${k}">${l}</button>`).join("")}</div>
       ${P.style.tiles ? `<div class="field"><span>Pattern size</span><div class="slider"><input type="range" min="6" max="80" value="${P.style.tiles.size || 28}" data-tilesize><output>${P.style.tiles.size || 28} dp</output></div></div>` : ""}
@@ -847,7 +852,7 @@ async function importEntries(entries, label) {
       font: String(st.font || "").startsWith("file:") ? "" : st.font || "", headerStyle: (st.headerStyle || "PLAIN").toUpperCase(),
       navigation: st.navigation === "side" ? "rail" : st.navigation || "",
       ...(st.tiles && typeof st.tiles === "object" ? { tiles: st.tiles } : {}),
-      ...(st.focus ? { focus: String(st.focus) } : {}), ...(st.focusColor ? { focusColor: String(st.focusColor) } : {}), ...(st.bezel ? { bezel: true } : {}) };
+      ...(st.focus ? { focus: String(st.focus) } : {}), ...(st.focusColor ? { focusColor: String(st.focusColor) } : {}), ...(st.bezel ? { bezel: true } : {}), ...(st.stockWallpaper === false ? { stockWallpaper: false } : {}) };
     P.seed = P.colors.primary || P.seed;
     const used = new Set(["theme.json"]);
     const take = async (path, key) => {
@@ -964,7 +969,7 @@ async function startFrom(kind, arg) {
   } else if (kind === "preset") {
     const t = BUILT_IN.find((b) => b.id === arg);
     P = blankProject("theme");
-    Object.assign(P, { name: `${t.name} remix`, id: `${t.id}-remix`, dark: t.dark, colors: { ...t.colors }, style: { ...blankStyle(), ...t.style }, seed: t.colors.primary });
+    Object.assign(P, { name: `${t.name} remix`, id: `${t.id}-remix`, dark: t.dark, colors: { ...t.colors }, style: { ...blankStyle(), ...t.style, ...(t.stockWallpaper === false ? { stockWallpaper: false } : {}) }, seed: t.colors.primary });
   } else if (kind === "blank") {
     P = blankProject("theme");
     Object.assign(P, { name: "", seed: "#7C9CFF" });
@@ -986,7 +991,7 @@ function drawStart() {
   const mini = (c, s, wall = "assets/default/wallpaper.jpg") => {
     const r = s.cardKind === "cut" ? "0" : `${Math.round(s.cardRadius / 2)}px`;
     return `<div class="mini" style="font-family:${s.font === "monospace" ? "ui-monospace,monospace" : "Oxanium,sans-serif"}">
-      <div class="mbg" style="background-image:linear-gradient(90deg, ${pal.css(c.background, 0.75)}, ${pal.css(c.background, 0.2)}), url(${wall})"></div>
+      <div class="mbg" style="${wall ? `background-image:linear-gradient(90deg, ${pal.css(c.background, 0.75)}, ${pal.css(c.background, 0.2)}), url(${wall})` : `background:linear-gradient(180deg, ${pal.css(c.primary, 0.2)}, ${c.background}), ${c.background}`}"></div>
       <div class="mtabs"><i style="background:${c.primary}"></i><i style="background:${pal.css(c.surface, 0.7)}"></i><i style="background:${pal.css(c.surface, 0.7)}"></i></div>
       <div class="mname" style="color:${c.onBackground || "#fff"}">Super Nintendo</div>
       <div class="mtiles"><i style="background:${pal.css(c.primaryContainer, 0.9)};border:2px solid ${c.primary};border-radius:${r}"></i><i style="background:${pal.css(c.surfaceContainer || c.surface, 0.8)};border-radius:${r};transform:scale(.85);border:1px solid ${pal.css(s.cardBorder || c.outline, 0.6)}"></i><i style="background:${pal.css(c.surfaceContainer || c.surface, 0.8)};border-radius:${r};transform:scale(.85);border:1px solid ${pal.css(s.cardBorder || c.outline, 0.6)}"></i></div>
@@ -1008,7 +1013,7 @@ function drawStart() {
     <h2>Or remix one of Mirmire's themes</h2>
     <div class="gallery">
       <button class="tpl" data-start="firstlight">${mini(fl, { cardKind: "rounded", cardRadius: 18, cardBorder: "#596A83" }, "assets/first-light/wallpaper.jpg")}<div class="meta"><b>First Light</b><small>wallpaper, sounds, music</small></div></button>
-      ${BUILT_IN.map((t) => `<button class="tpl" data-start="preset:${t.id}">${mini(t.colors, t.style, t.id === "droiddeck" ? "" : undefined)}<div class="meta"><b>${esc(t.name)}</b><small>${t.dark ? "dark" : "light"}</small></div></button>`).join("")}
+      ${BUILT_IN.map((t) => `<button class="tpl" data-start="preset:${t.id}">${mini(t.colors, t.style, t.stockWallpaper === false ? "" : undefined)}<div class="meta"><b>${esc(t.name)}</b><small>${t.dark ? "dark" : "light"}</small></div></button>`).join("")}
     </div>
     <p class="hint" style="margin-top:28px">Console icons by KyleBing and RetroArch assets contributors, CC BY 4.0. Sample games: Tobu Tobu Girl Deluxe, µCity, Butano Fighter, Libbet and the Magic Floor, Thwaite and Concentration Room, used under their free licenses. Oxanium font, SIL OFL. <a href="assets/CREDITS.md" target="_blank" rel="noopener">Credits</a> · <a href="assets/games/CREDITS.md" target="_blank" rel="noopener">Game art credits</a> · <a href="https://github.com/Mirmire-Launcher/mirmire" target="_blank" rel="noopener">Mirmire on GitHub</a> · <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/CREATING.md" target="_blank" rel="noopener">How to make themes and icon packs</a></p>
   </div>`;
@@ -1220,6 +1225,11 @@ function wire() {
       P.second[k] = v;
       if (view.frame !== "dual") setFrame("dual");
       view.scene = k === "idle" ? "settings" : "game"; drawScenes();
+      return redraw();
+    }
+    if (d("[data-stockwall]")) {
+      if (d("[data-stockwall]").dataset.stockwall === "0") P.style.stockWallpaper = false; else delete P.style.stockWallpaper;
+      view.scene = "settings"; drawScenes();
       return redraw();
     }
     if (d("[data-tilekind]")) {
