@@ -104,7 +104,7 @@ On Retroid and AYN handhelds, the stick lights follow the theme, the battery lev
 
 Download the ZIP and import it in **Settings › Look**. See [Make your own themes and icon packs](docs/CREATING.md) and [Make widget plugins](docs/PLUGINS.md).
 
-![Console themes](screenshots/60-console-themes.jpg)
+![Theme Studio with a live preview of a Mirmire theme remix](docs/images/site/theme-studio.jpg)
 
 ## Download
 
