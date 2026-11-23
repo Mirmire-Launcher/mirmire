@@ -2,7 +2,7 @@
 
 Everything Mirmire does, grouped the same way as its Settings.
 
-**Getting started:** [Install](#install) · [First-time setup](#first-time-setup) · [Adding your games](#adding-your-games) · [rclone (Google Drive, Dropbox, OneDrive)](#rclone-google-drive-dropbox-onedrive)  
+**Getting started:** [Install](#install) · [First-time setup](#first-time-setup) · [Adding your games](#adding-your-games) · [rclone (Google Drive, Dropbox, OneDrive)](#rclone-google-drive-dropbox-onedrive) · [RomM](#romm)  
 **Playing:** [Browsing and playing](#browsing-and-playing) · [Home page and widgets](#home-page-and-widgets) · [Big Picture](#big-picture) · [Dual screen](#dual-screen) · [Controls](#controls) · [Spotlight and play time](#spotlight-and-play-time) · [RetroAchievements](#retroachievements) · [AI](#ai)  
 **Emulators:** [Emulators and RetroArch](#emulators-and-retroarch) · [BIOS files](#bios-files) · [GPU drivers](#gpu-drivers) · [Performance modes and stick lights: one-time setup](#performance-modes-and-stick-lights-one-time-setup)  
 **Your library:** [Library cleanup](#library-cleanup) · [Artwork](#artwork) · [Storage](#storage) · [Pack for a trip](#pack-for-a-trip)  
@@ -46,6 +46,7 @@ Open **Settings › Library › Add library**. Mirmire looks for servers on your
 | WebDAV | Nextcloud and other web storage | Server address, username, password |
 | rclone | Google Drive, Dropbox, OneDrive and other rclone remotes | A PC/NAS running `rclone serve webdav` (see [rclone](#rclone-google-drive-dropbox-onedrive)) |
 | FTP | Older NAS and routers | Server address, username, password |
+| RomM | A [RomM](https://romm.app) server you already run | RomM's web address, and your RomM username and password or an API token (see [RomM](#romm)) |
 | Device folder | Games already on the device or SD card | Pick the folder |
 
 **Sign in, then pick the folder.** For network storage, enter the address and your username and password, then choose **Connect & browse**. Mirmire signs in and shows the folders on the server (for SMB, first the shares on your NAS, so you don't need to know the share name): open a folder to look inside, choose **Up one level** to go back, and choose **Use this folder** on the folder that holds your console folders. Console folders it recognises are marked, so you can see when you've found the right place. You can still type the path yourself under **Or type the path (optional)**. **Test** checks the folder and lists the consoles it found.
@@ -85,6 +86,24 @@ rclone serve webdav gdrive:roms --addr :8080 --user mirmire --pass secret
 ```
 
 In Mirmire: choose **rclone**, enter the machine's LAN IP, port **8080**, and the same user/pass. Keep that serve command running while you browse or play. Full steps: **[rclone guide](RCLONE.md)**.
+
+## RomM
+
+If you run [RomM](https://romm.app), Mirmire can use it as a library directly. Your games, covers and details come from RomM, so you don't need ScreenScraper for them.
+
+1. Open **Settings › Library › Add library** and choose **RomM**.
+2. Enter the address you open RomM at in a browser, for example `192.168.1.20` or `https://romm.example.com`. Add the port if it isn't 80 or 443, and turn on **Use HTTPS** if RomM is served over HTTPS. Pasting the full address with `https://` works too, and so does a sub-path such as `nas.local/romm`.
+3. Sign in with your RomM username and password. If you prefer an API token, create one in RomM under **Profile › Client API tokens** with read access to ROMs, platforms and assets. Add write access to assets if you want save sync. Then leave the username empty and paste the token into the password field.
+4. Press **Test**. Mirmire shows the RomM version and lists RomM's platforms, with a switch for each. Turn off any platform you don't want here. Platforms Mirmire can't play, such as arcade or PC, are greyed out.
+5. Press **Save & scan**.
+
+If the test fails, Mirmire says why: RomM didn't accept the sign-in, the address answers but isn't a RomM server, the server can't be reached, or the account isn't allowed to read the library.
+
+**How it works.** Each RomM platform maps to the matching Mirmire console, and every ROM becomes a game with RomM's name, cover, summary, genre and release date. Games download from RomM when you press Play, the same way they do from a NAS. Multi-file games, such as a CUE sheet with its tracks, download together in their own folder. Large libraries are fetched in pages, so they list quickly. Mirmire lists every version RomM has, then **Library cleanup** shows one per game in your preferred regions. Games you hid in RomM stay hidden. A cover or summary you change in RomM shows here after the next **Sync now**.
+
+**Saves.** With [Save sync](#save-sync) on, saves and save states for RomM games are stored as RomM saves and states on the game's page in RomM. That means RomM's web player and other RomM apps see them too. Saves made with a core-specific folder, or by another Mirmire profile, are labelled with the core or profile name in RomM's emulator field. Mirmire's own bookkeeping, such as earlier versions of a save and the note of which device saved last, stays on the device. If you set a central saves folder on another library, RomM games' saves go there instead.
+
+**Not yet covered:** RomM collections and firmware (BIOS) files, and uploading games to RomM. Add games in RomM itself and run a scan there, then press **Sync now** in Mirmire.
 
 ## Browsing and playing
 
@@ -173,7 +192,7 @@ Your controller always works the menu, never the second screen, even right after
 
 **Swap screens** puts the menu on the second screen and the details or widgets on the main one, for example the menu on the AYN Thor's bottom touch screen and the art on the big top screen. Games still open on the main screen. Some devices keep the home app on the main screen; Mirmire tells you if swapping isn't possible.
 
-**Move between screens with a controller.** At the edge of the menu, press toward the second screen to move onto it: its buttons, covers and widgets get a focus ring, the D-pad moves between them and **A** presses. Press back toward the menu at its edge, or **B**, to return. A touch on either screen works as usual.
+**Move between screens with a controller.** At the edge of the menu, press toward the second screen to move onto it: its buttons, covers and widgets get a focus ring, the D-pad moves between them and **A** presses. Long widget boards scroll as you go, and Down walks down a column before it leaves the screen. Press back toward the menu at its edge, or **B**, to return. A touch works as usual; a tap on the second screen also sets where the D-pad starts there.
 
 **Screen arrangement** tells Mirmire where the second screen is (below on the AYN Thor, AYANEO Pocket DS and Retroid Dual Screen add-on). Drag the second screen on the little map to its side of the main screen, or select the map, press **A** and use the D-pad. Moving between screens follows it, and **Swap screens** is taken into account.
 
@@ -389,9 +408,17 @@ To push games from the local game folder **up** to a network library when they'r
 
 ## Save sync
 
-**Settings › Sync & backup › Save files on your storage.** With sync on, your in-game saves upload to `Saves/<console>/` on your storage when you come back to Mirmire, and save states to `Saves/<console>/states/`. Before you play, newer saves and states on the storage are downloaded. Earlier versions of saves are kept, so you can go back to one.
+**Settings › Sync & backup › Save files on your storage.** With sync on, your in-game saves upload to `Saves/<console>/` on your storage when you come back to Mirmire, and save states to `Saves/<console>/states/`. For games from a [RomM](#romm) library, they're stored as that game's saves and states in RomM. Before you play, newer saves and states on the storage are downloaded. Earlier versions of saves are kept, so you can go back to one.
 
-**Sync favorites with your storage** (same page) keeps each player's favorites and **Keep on device** pins in `Mirmire/collections.json` on your storage, so every device shows the same favorites.
+**Sync favorites with your storage** (same page) keeps each player's favorites and **Keep on device** pins in `Mirmire/collections.json` on your storage, so every device shows the same favorites. If you change favorites on two devices while one is offline, both changes are kept: each game's favorite and pin keep whichever change was made last, and removing a favorite on one device removes it on the others too.
+
+**Played on two devices before syncing?** If a game's save or save state changed on this device *and* on your storage (or a paired device) since they last matched, Mirmire never overwrites either one. The next time you open or play that game it asks **Which save should Mirmire keep?**, showing each side's device, when it was saved and how long it was played:
+
+- **Keep this device's save** or **Keep *the other device's* save**: the one you pick is used everywhere.
+- **Keep both**: plays the newer one and keeps the other as a copy: a version (`vN`) in the game's saves folder on your storage, or, for a paired device, in RetroArch's `.conflict-copies` folder.
+- **Decide later** (or **B**) leaves both copies untouched and asks again next time.
+
+Uploads in the background, such as when the screen turns off, never ask: they keep the question for the next time you open the game.
 
 ## Continue on another device
 
@@ -416,7 +443,7 @@ When another of your devices played a game more recently, the home screen offers
 - **Back up automatically:** once a day; the newest 10 backups of each device are kept.
 - **Restore a backup:** from this device or any other. Libraries it adds ask for their password.
 - **Include RetroArch's own settings** (on by default): also backs up `retroarch.cfg` and the core options, overrides and remaps in RetroArch's config folder. Anything tied to one device is left out: folder paths, video and audio drivers, controller button numbers and screen size. RetroArch's sign-in isn't included either. Restoring merges these into the device's own RetroArch setup. Settings sync doesn't change RetroArch's files; they only come back when you restore a backup.
-- **Keep settings in sync:** changes back up a minute later, and Mirmire applies newer settings from your other devices when it opens. Screen orientation, menu style and sizes stay per device.
+- **Keep settings in sync:** changes back up a minute later, and Mirmire applies newer settings from your other devices when it opens. Each setting is merged on its own, so a change on one device doesn't undo a different change made on another. Screen orientation, menu style and sizes stay per device.
 
 Passwords and keys are never backed up.
 

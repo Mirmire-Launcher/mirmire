@@ -26,11 +26,11 @@ Most launchers expect your games on the device and leave the emulators, saves an
 
 ### 📡 Your NAS is the library
 
-Browse thousands of games over SMB, SFTP, WebDAV or FTP with full artwork, or Google Drive, Dropbox and OneDrive through [rclone](docs/RCLONE.md). Nothing is copied ahead of time: a game downloads when you press Play, and big games you haven't played in a while are cleared to free space. Artwork that ES-DE, RetroArch or LaunchBox already downloaded shows up straight away.
+Browse thousands of games over SMB, SFTP, WebDAV or FTP with full artwork, straight from your [RomM](docs/GUIDE.md#romm) server with its covers and saves, or from Google Drive, Dropbox and OneDrive through [rclone](docs/RCLONE.md). Nothing is copied ahead of time: a game downloads when you press Play, and big games you haven't played in a while are cleared to free space. Artwork that ES-DE, RetroArch or LaunchBox already downloaded shows up straight away.
 
 ### 🔄 Pick up where you left off, on any device
 
-Saves, save states and favorites sync with your storage. Pick up your handheld and the home screen offers to continue the game you were playing on your phone, from the same moment. Press power mid-game and your saves upload before the device sleeps. Devices without shared storage pair over Wi-Fi with a 6-digit code.
+Saves, save states and favorites sync with your storage. Pick up your handheld and the home screen offers to continue the game you were playing on your phone, from the same moment. Press power mid-game and your saves upload before the device sleeps. Devices without shared storage pair over Wi-Fi with a 6-digit code. Played the same game on two devices before they synced? Mirmire asks which save to keep, or keeps both, and never overwrites progress.
 
 | Sync & backup | Continue on another device |
 |---|---|
