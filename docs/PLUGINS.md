@@ -174,10 +174,10 @@ Theme Studio previews the widget page only; add an options page (or other pages 
 
 ## Install a plugin
 
-- **Settings › Look › Widget plugins › Import plugin**, or
+- **Settings › Plugins › Add a plugin**, or
 - on the Home page, **Edit › Add widget › Plugins › Import a plugin ZIP**.
 
-Mirmire shows the plugin's name, author and permissions, and installs it when you press **Install**. Then add it from **Add widget › Plugins**. To remove a plugin, open **Settings › Look › Widget plugins** and press **Remove**.
+Mirmire shows the plugin's name, author and permissions, and installs it when you press **Install**. Then add it from **Add widget › Plugins**. To turn a plugin off or remove it, open **Settings › Plugins**.
 
 ## Troubleshooting
 

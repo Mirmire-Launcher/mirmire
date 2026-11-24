@@ -97,6 +97,7 @@ On Retroid and AYN handhelds, the stick lights follow the theme, the battery lev
 ### And more
 
 - **👥 Profiles:** each player has their own saves, favorites and play time, with a PIN and a pixel-art avatar if you like.
+- **🧩 Plugins:** add widgets from a ZIP and turn each one on or off in **Settings › Plugins**, or make your own in Theme Studio.
 - **🏠 Home Assistant:** dim the lights when a game starts on the TV, or run any scene or script when you play, stop or step away.
 - **✈️ Pack for a trip:** choose games to take offline. Everything syncs back when you're home.
 - **🎮 Play together:** invite a paired device on the same Wi-Fi to a netplay game.
@@ -236,4 +237,4 @@ Get the latest APK from [Releases](https://github.com/Mirmire-Launcher/mirmire/r
 
 This repository only hosts releases.
 
-<sub><b>Legal.</b> Mirmire is a launcher only. It doesn't include or provide any games, ROMs or BIOS files: use it with games you own and have the right to play. Games appear in the screenshots for illustration only. DOOM is a registered trademark of id Software LLC, a ZeniMax Media company. Nintendo, Super Nintendo, Game Boy, Nintendo 64, SEGA, Mega Drive, Genesis, PlayStation, Xbox, Steam, RetroArch, and all other game titles, console names and trademarks belong to their respective owners. Game artwork comes from ScreenScraper and the Libretro thumbnail project and belongs to its respective owners. Mirmire is an independent project and isn't affiliated with or endorsed by any of these companies.</sub>
+<sub><b>Legal.</b> Mirmire is a launcher only. It doesn't include or provide any games, ROMs or BIOS files: use it with games you own and have the right to play. Games appear in the screenshots for illustration only. DOOM is a registered trademark of id Software LLC, a ZeniMax Media company. Nintendo, Super Nintendo, Game Boy, Nintendo 64, SEGA, Mega Drive, Genesis, PlayStation, Xbox, Steam, RetroArch, and all other game titles, console names and trademarks belong to their respective owners. Game artwork comes from ScreenScraper and the Libretro thumbnail project and belongs to its respective owners. Mirmire is an independent project and isn't affiliated with or endorsed by any of these companies. Profile avatars are made with [DiceBear](https://www.dicebear.com) (MIT): Adventurer and Lorelei by Lisa Wischofsky, Avataaars and Open Peeps by Pablo Stanley, Personas by Draftbit, Miniavs by Webpixels, Toon Head by Johan Melin and Big Ears by The Visual Team (CC BY 4.0, CC0 or the artist's free-use terms), and Critters, Clay, Voxel Art and Voxel Bot by DiceBear (CC0). Moonlight, Steam Link, Syncthing, Home Assistant, Tailscale, Pegasus and LaunchBox names and icons belong to their owners.</sub>
