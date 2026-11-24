@@ -250,20 +250,22 @@
       <h2>Built around the library you already have</h2>
       <p class="sub">Most launchers expect your games on the device and leave emulators, saves and BIOS files to you. Mirmire is built for a library on your storage, and takes care of the rest.</p>
       <div class="grid">
-        <div class="card"><div class="ic">📡</div><h3>Your NAS is the library</h3><p>Browse thousands of games over SMB, SFTP, WebDAV, FTP or straight from RomM. A game downloads when you press Play, big unplayed games are cleared to free space, and games only on this device upload to the NAS in one tap.</p></div>
-        <div class="card"><div class="ic">🔄</div><h3>Continue anywhere</h3><p>Saves and save states sync with your storage. Pick up another device and carry on from the same moment. Devices without shared storage pair over Wi-Fi.</p></div>
+        <div class="card"><div class="ic">📡</div><h3>Your NAS is the library</h3><p>Browse thousands of games over SMB, SFTP, WebDAV, FTP or straight from RomM. Away from home it keeps working through Tailscale. A game downloads when you press Play, big unplayed games are cleared to free space, and games only on this device upload to the NAS in one tap.</p></div>
+        <div class="card"><div class="ic">🔄</div><h3>Continue anywhere</h3><p>Saves and save states sync with your storage. Pick up another device and carry on from the same moment. Devices without shared storage pair over Wi-Fi or sync through Syncthing.</p></div>
         <div class="card"><div class="ic">⚙️</div><h3>RetroArch, set up for you</h3><p>Cores, hotkeys, auto-resume and a sharp picture, with settings for all games, one console or one game, and suggestions for your device. SwanStation for PS1; Beetle Saturn when you want accuracy.</p></div>
         <div class="card"><div class="ic">🧹</div><h3>A clean library</h3><p>One version of each game by your preferred regions. Betas and demos are hidden, and files are checked against No-Intro.</p></div>
-        <div class="card"><div class="ic">🧩</div><h3>BIOS checker</h3><p>See what each console needs and what's missing or the wrong version, then copy the right files from your storage.</p></div>
+        <div class="card"><div class="ic">🧩</div><h3>BIOS checker</h3><p>Every file each emulator needs, checked by checksum, with the exact folder it belongs in. Games tell you before you press Play if their console is missing one.</p></div>
         <div class="card"><div class="ic">✈️</div><h3>Pack for a trip</h3><p>Take games offline and play anywhere. Everything syncs back when you're home, and offloading a game keeps its saves.</p></div>
         <div class="card"><div class="ic">💡</div><h3>Stick lights that react</h3><p>On Retroid and AYN handhelds the lights follow the theme, the battery, the console, the cover art or the performance mode.</p></div>
-        <div class="card"><div class="ic">👨‍👩‍👧</div><h3>Profiles for the family</h3><p>Each player has their own saves, favorites and play time, with PINs and a content filter for children.</p></div>
+        <div class="card"><div class="ic">👨‍👩‍👧</div><h3>Profiles for the family</h3><p>Each player has their own saves, favorites and play time. Child profiles get age ratings, daily play time and a parent PIN.</p></div>
         <div class="card"><div class="ic">💾</div><h3>Backups that travel</h3><p>Back up settings, themes and RetroArch's own settings to your storage, restore on any device, or keep devices in sync.</p></div>
-        <div class="card"><div class="ic">🗂️</div><h3>Bring what you already have</h3><p>Artwork ES-DE, RetroArch or LaunchBox already downloaded shows up straight away, and RetroArch's saves, states, settings and BIOS files come over with one tap.</p></div>
+        <div class="card"><div class="ic">🗂️</div><h3>Bring what you already have</h3><p>Artwork ES-DE, RetroArch or LaunchBox already downloaded shows up straight away. Favorites, play time and collections come over from Pegasus and LaunchBox, and RetroArch's saves, states, settings and BIOS files with one tap.</p></div>
         <div class="card"><div class="ic">🟩</div><h3>Xbox, PlayStation and Steam</h3><p>Xbox in hakuX, Xbox 360 in Xendroid Plus, PS2 in ARMSX2, PS3 in ARMSX3 or aPS3e, and Steam games from your DroidDeck library. Emulators that aren't on Google Play install from Mirmire in one tap.</p></div>
         <div class="card"><div class="ic">☁️</div><h3>Drive &amp; Dropbox via rclone</h3><p>Add an rclone library and point Mirmire at <code>rclone serve webdav</code> on a PC or NAS: Google Drive, Dropbox, OneDrive and more.</p></div>
-        <div class="card"><div class="ic">🗄️</div><h3>Works with RomM</h3><p>Already run RomM? Add it as a library: its platforms, covers and details come straight over, games download when you press Play, and saves and states sync to the game's page in RomM.</p></div>
+        <div class="card"><div class="ic">🗄️</div><h3>Works with RomM</h3><p>Already run RomM? Sign in and its platforms, covers and details come straight over, games download when you press Play, and saves and states sync to the game's page in RomM.</p></div>
         <div class="card"><div class="ic">🎮</div><h3>Standalone defaults that fit</h3><p>Automatic prefers DuckStation for PS1, Mupen64Plus FZ for N64, WatermelonDS for DS and ARMSX2 for PS2 when those apps are installed.</p></div>
+        <div class="card"><div class="ic">🖥️</div><h3>Stream your PC games</h3><p>Games from Moonlight, Artemis or Steam Link get their own Streaming console. Press Play and the stream opens; a game that's also in your Steam library shows once, with a Stream button.</p></div>
+        <div class="card"><div class="ic">🔁</div><h3>Syncthing for saves</h3><p>Sync saves straight between your devices through a Syncthing folder, no NAS needed. Its conflict copies turn into Mirmire's usual question: which save to keep.</p></div>
         <div class="card"><div class="ic">🚀</div><h3>Faster GPU drivers</h3><p>On Snapdragon devices, Mirmire finds your Adreno GPU, suggests the latest custom driver for it and shows how to load it in your emulator.</p></div>
       </div>
     </div>
@@ -284,7 +286,8 @@
         <div class="card"><div class="ic">🌡️</div><h3>Learns how hot games run</h3><p>A battery, standard or performance mode for each console, stepping down for games that ran hot. You can turn it off.</p></div>
         <div class="card"><div class="ic">🤖</div><h3>A pal that helps you play</h3><p>Turn on AI and Pixel Pal shares tips about the game you just played, chats when you're stuck, and can float over the game. Use a free cloud AI with your own key, or a model on the device that works offline.</p></div>
         <div class="card"><div class="ic">🏆</div><h3>RetroAchievements everywhere</h3><p>Progress on every game card, the weekly challenge, games close to mastery, and your points and streak at a glance.</p></div>
-        <div class="card"><div class="ic">🖥️</div><h3>Your launcher, if you like</h3><p>Set Mirmire as the home app on a handheld or TV box, with your other apps one press away.</p></div>
+        <div class="card"><div class="ic">🏠</div><h3>Home Assistant</h3><p>Dim the lights when a game starts on the TV, or run any scene or script when you play, stop or step away.</p></div>
+        <div class="card"><div class="ic">📱</div><h3>Your launcher, if you like</h3><p>Set Mirmire as the home app on a handheld or TV box, with your other apps one press away.</p></div>
       </div>
     </div>
   </section>
@@ -296,7 +299,7 @@
           <p class="kicker">Sync &amp; continue</p>
           <h3>Start on your phone, finish on your handheld</h3>
           <p>Saves, save states and favorites sync with your storage. When another of your devices played a game more recently, the home screen offers to continue it, with that device's save and save state.</p>
-          <ul><li>No account or sign-up</li><li>Devices sharing storage need no setup</li><li>Others pair once over Wi-Fi with a 6-digit code</li><li>Played on two devices offline? Pick the save to keep, or keep both</li></ul>
+          <ul><li>No account or sign-up</li><li>Devices sharing storage need no setup</li><li>Others pair once over Wi-Fi with a 6-digit code, or use Syncthing</li><li>Played on two devices offline? Pick the save to keep, or keep both</li></ul>
         </div>
         <div class="pair"><img class="shot" src="images/site/61-settings-sync.jpg" alt="Sync &amp; backup settings with save sync turned on" loading="lazy"><img class="shot" src="images/site/47-continue.jpg" alt="Continue on another device settings" loading="lazy"></div>
       </div>
@@ -314,11 +317,20 @@
           <p class="kicker">Library cleanup</p>
           <h3>One copy of each game, verified</h3>
           <p>Big collections often have several versions of every game. Mirmire shows the best one for your regions, hides betas and demos, and checks files against No-Intro.</p>
-          <ul><li>Your region order, with fallbacks</li><li>Games you've played always stay</li><li>A filter shows anything that failed the check</li></ul>
+          <ul><li>Your region order, with fallbacks</li><li>Games you've played always stay</li><li>A filter shows anything that failed the check</li><li>BIOS files checked by checksum, per emulator</li></ul>
         </div>
-        <div class="pair"><img class="shot" src="images/site/45-library-cleanup.jpg" alt="Library cleanup settings" loading="lazy"><img class="shot" src="images/site/48-bios.jpg" alt="BIOS checker" loading="lazy"></div>
+        <div class="pair"><img class="shot" src="images/site/45-library-cleanup.jpg" alt="Library cleanup settings" loading="lazy"><img class="shot" src="images/site/48-bios.jpg" alt="The BIOS checker listing each console's files with their status" loading="lazy"></div>
       </div>
       <div class="row flip">
+        <div class="text">
+          <p class="kicker">Parental controls</p>
+          <h3>Games that fit their age</h3>
+          <p>Turn a player into a child profile and Mirmire shows only games rated for their age, using ESRB, PEGI and CERO ratings from ScreenScraper, RomM and LaunchBox.</p>
+          <ul><li>Daily play time, or different limits on some days</li><li>Allow or block single games</li><li>A parent PIN guards it all</li><li>A running game is never cut off</li></ul>
+        </div>
+        <div class="pair"><img class="shot" src="images/site/67-parental.jpg" alt="Parental controls settings for a child profile" loading="lazy"><img class="shot" src="images/site/68-parental-time.jpg" alt="Daily play time limit for a child profile" loading="lazy"></div>
+      </div>
+      <div class="row">
         <div class="text">
           <p class="kicker">Spotlight</p>
           <h3>Something to play, every day</h3>
@@ -326,7 +338,7 @@
         </div>
         <img class="shot" src="images/site/40-spotlight.jpg" alt="Spotlight tab" loading="lazy">
       </div>
-      <div class="row">
+      <div class="row flip">
         <div class="text">
           <p class="kicker">Home page</p>
           <h3>A home screen of your own</h3>
@@ -335,7 +347,7 @@
         </div>
         <div class="pair"><img class="shot" src="images/site/53-home-page.jpg" alt="The Home page with clock, Pixel Pal, continue playing, achievements and library widgets" loading="lazy"><img class="shot" src="images/site/55-pixel-pet.jpg" alt="Pixel Pal settings with AI hints turned on" loading="lazy"></div>
       </div>
-      <div class="row flip">
+      <div class="row">
         <div class="text">
           <p class="kicker">Pixel Pal &amp; AI</p>
           <h3>A companion that knows what you played</h3>
@@ -401,6 +413,10 @@
         <figure><img src="images/site/49-pack-trip.jpg" alt="Pack for a trip" loading="lazy"><figcaption>Pack for a trip</figcaption></figure>
         <figure><img src="images/site/51-profiles.jpg" alt="Profiles" loading="lazy"><figcaption>Profiles</figcaption></figure>
         <figure><img src="images/site/52-backups.jpg" alt="Backups" loading="lazy"><figcaption>Backups</figcaption></figure>
+        <figure><img src="images/site/70-streaming.jpg" alt="Game streaming settings with Add streamed game and Get Moonlight" loading="lazy"><figcaption>PC games, streamed</figcaption></figure>
+        <figure><img src="images/site/71-syncthing.jpg" alt="Syncthing save sync settings" loading="lazy"><figcaption>Syncthing</figcaption></figure>
+        <figure><img src="images/site/69-home-assistant.jpg" alt="Connecting Home Assistant with its address and an access token" loading="lazy"><figcaption>Home Assistant</figcaption></figure>
+        <figure><img src="images/site/73-frontend-import.jpg" alt="Bring over from other frontends in Library settings" loading="lazy"><figcaption>Bring over from Pegasus or LaunchBox</figcaption></figure>
         <figure><img src="images/site/64-home-edit.jpg" alt="Editing the Home page: drag, resize or remove widgets" loading="lazy"><figcaption>Edit the Home page</figcaption></figure>
       </div>
     </div>

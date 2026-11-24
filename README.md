@@ -26,11 +26,11 @@ Most launchers expect your games on the device and leave the emulators, saves an
 
 ### 📡 Your NAS is the library
 
-Browse thousands of games over SMB, SFTP, WebDAV or FTP with full artwork, straight from your [RomM](docs/GUIDE.md#romm) server with its covers and saves, or from Google Drive, Dropbox and OneDrive through [rclone](docs/RCLONE.md). Nothing is copied ahead of time: a game downloads when you press Play, and big games you haven't played in a while are cleared to free space. Artwork that ES-DE, RetroArch or LaunchBox already downloaded shows up straight away.
+Browse thousands of games over SMB, SFTP, WebDAV or FTP with full artwork, straight from your [RomM](docs/GUIDE.md#romm) server with its covers and saves, or from Google Drive, Dropbox and OneDrive through [rclone](docs/RCLONE.md). Away from home, the same library keeps working through [Tailscale](docs/GUIDE.md#adding-your-games). Nothing is copied ahead of time: a game downloads when you press Play, and big games you haven't played in a while are cleared to free space. Artwork that ES-DE, RetroArch or LaunchBox already downloaded shows up straight away, and favorites, play time and collections come over from [Pegasus and LaunchBox](docs/GUIDE.md#bring-over-from-pegasus-or-launchbox).
 
 ### 🔄 Pick up where you left off, on any device
 
-Saves, save states and favorites sync with your storage. Pick up your handheld and the home screen offers to continue the game you were playing on your phone, from the same moment. Press power mid-game and your saves upload before the device sleeps. Devices without shared storage pair over Wi-Fi with a 6-digit code. Played the same game on two devices before they synced? Mirmire asks which save to keep, or keeps both, and never overwrites progress.
+Saves, save states and favorites sync with your storage. Pick up your handheld and the home screen offers to continue the game you were playing on your phone, from the same moment. Press power mid-game and your saves upload before the device sleeps. Devices without shared storage pair over Wi-Fi with a 6-digit code, or sync saves through [Syncthing](docs/GUIDE.md#syncthing). Played the same game on two devices before they synced? Mirmire asks which save to keep, or keeps both, and never overwrites progress.
 
 | Sync & backup | Continue on another device |
 |---|---|
@@ -48,7 +48,7 @@ Original Xbox plays in hakuX, Xbox 360 in Xendroid Plus, PS2 in ARMSX2, PS3 in A
 
 ### 🧹 A clean, complete library
 
-One version of each game, picked by your preferred regions. Betas and demos are hidden, files are checked against No-Intro so bad dumps stand out, and the BIOS checker shows what each console needs and copies the right files from your storage.
+One version of each game, picked by your preferred regions. Betas and demos are hidden, files are checked against No-Intro so bad dumps stand out, and the BIOS checker tests every file each emulator needs by checksum, says exactly which folder it belongs in, and copies the right files from your storage. A game whose console is missing one tells you before you press Play.
 
 | Library cleanup | BIOS files |
 |---|---|
@@ -65,6 +65,18 @@ Turn on AI in **Settings › AI** and Pixel Pal shares tips about the game you j
 | ![Edit the Home page](screenshots/64-home-edit.jpg) | ![Pixel Pal](screenshots/55-pixel-pet.jpg) |
 | **Welcome back** | **Chat while you play** |
 | ![Pixel Pal welcomes you back after a game](screenshots/66-home-welcome.jpg) | ![Chat with Pixel Pal over a running game](screenshots/65-pal-chat.jpg) |
+
+### 🖥️ Your PC games, streamed
+
+Games you stream with Moonlight, Artemis or Steam Link sit in their own **Streaming** console, next to everything else. Press Play and the game opens straight in the stream. A streamed game that's also in your Steam library shows once, with a **Stream** button.
+
+### 👨‍👩‍👧 Parental controls
+
+Child profiles see only games up to the age you choose, using ESRB, PEGI and CERO ratings from ScreenScraper, RomM and LaunchBox. Set daily play time, allow or block single games, and keep it all behind a parent PIN. A running game is never cut off.
+
+| Parental controls | Daily play time |
+|---|---|
+| ![Parental controls](screenshots/67-parental.jpg) | ![Daily play time for a child](screenshots/68-parental-time.jpg) |
 
 ### 📺 Big Picture and 🪟 dual screen
 
@@ -84,7 +96,8 @@ On Retroid and AYN handhelds, the stick lights follow the theme, the battery lev
 
 ### And more
 
-- **👨‍👩‍👧 Profiles:** each player has their own saves, favorites and play time, with PINs and a content filter for children.
+- **👥 Profiles:** each player has their own saves, favorites and play time, with PINs.
+- **🏠 Home Assistant:** dim the lights when a game starts on the TV, or run any scene or script when you play, stop or step away.
 - **✈️ Pack for a trip:** choose games to take offline. Everything syncs back when you're home.
 - **🎮 Play together:** invite a paired device on the same Wi-Fi to a netplay game.
 - **🌡️ Learns how hot each game runs:** a battery, standard or performance mode per console, stepping down for games that ran hot.
@@ -166,6 +179,8 @@ Get the latest APK from [Releases](https://github.com/Mirmire-Launcher/mirmire/r
 | ![Look](screenshots/18-settings-look.jpg) | ![Style](screenshots/18b-look-icons.jpg) |
 | **Layout** | **Controls** |
 | ![Layout](screenshots/19-settings-layout.jpg) | ![Controls](screenshots/20-settings-controls.jpg) |
+| **Parental controls** | **Home Assistant** |
+| ![Parental controls](screenshots/67-parental.jpg) | ![Home Assistant](screenshots/69-home-assistant.jpg) |
 | **Device** | **System** |
 | ![Device](screenshots/62-settings-device.jpg) | ![System](screenshots/22-settings-system.jpg) |
 | **App updates** | **Reset settings** |

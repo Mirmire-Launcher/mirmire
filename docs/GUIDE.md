@@ -2,12 +2,12 @@
 
 Everything Mirmire does, grouped the same way as its Settings.
 
-**Getting started:** [Install](#install) · [First-time setup](#first-time-setup) · [Adding your games](#adding-your-games) · [rclone (Google Drive, Dropbox, OneDrive)](#rclone-google-drive-dropbox-onedrive) · [RomM](#romm)  
+**Getting started:** [Install](#install) · [First-time setup](#first-time-setup) · [Adding your games](#adding-your-games) · [rclone (Google Drive, Dropbox, OneDrive)](#rclone-google-drive-dropbox-onedrive) · [RomM](#romm) · [Game streaming](#game-streaming-moonlight-and-steam-link)  
 **Playing:** [Browsing and playing](#browsing-and-playing) · [Home page and widgets](#home-page-and-widgets) · [Big Picture](#big-picture) · [Dual screen](#dual-screen) · [Controls](#controls) · [Spotlight and play time](#spotlight-and-play-time) · [RetroAchievements](#retroachievements) · [AI](#ai)  
 **Emulators:** [Emulators and RetroArch](#emulators-and-retroarch) · [BIOS files](#bios-files) · [GPU drivers](#gpu-drivers) · [Performance modes and stick lights: one-time setup](#performance-modes-and-stick-lights-one-time-setup)  
 **Your library:** [Library cleanup](#library-cleanup) · [Artwork](#artwork) · [Storage](#storage) · [Pack for a trip](#pack-for-a-trip)  
-**Sync and backup:** [Save sync](#save-sync) · [Continue on another device](#continue-on-another-device) · [Backups](#backups)  
-**Make it yours:** [Themes and layout](#themes-and-layout) · [Profiles](#profiles) · [Stick lights](#stick-lights) · [Home screen widget](#home-screen-widget)  
+**Sync and backup:** [Save sync](#save-sync) · [Continue on another device](#continue-on-another-device) · [Syncthing](#syncthing) · [Backups](#backups)  
+**Make it yours:** [Themes and layout](#themes-and-layout) · [Profiles](#profiles) · [Parental controls](#parental-controls) · [Home Assistant](#home-assistant) · [Stick lights](#stick-lights) · [Home screen widget](#home-screen-widget)  
 **Help:** [Updates](#updates) · [Android settings](#android-settings) · [Troubleshooting](#troubleshooting)
 
 
@@ -53,6 +53,8 @@ Open **Settings › Library › Add library**. Mirmire looks for servers on your
 
 If signing in fails, Mirmire says why: wrong username or password, server not found, couldn't reach the server, connection timed out, folder or share not found, or permission denied.
 
+**Away from home with Tailscale.** If you use [Tailscale](https://tailscale.com), fill in **Away from home (optional)** with the NAS's Tailscale name or 100.x address, for example `nas.tail1234.ts.net`. Mirmire tries the home address first and switches to the Tailscale one when the home address doesn't answer, so the same library works on your Wi-Fi and on the road. After **Test**, the editor shows which address is in use, and each library in the list is marked **Home** or **Tailscale**. It works for SMB, SFTP, WebDAV, rclone, FTP and RomM libraries. Mirmire doesn't include Tailscale: install the Tailscale app and sign in, and Mirmire shows whether it's connected.
+
 **Folder layout.** Put each console's games in a folder named after the console, for example:
 
 ```
@@ -76,6 +78,20 @@ After adding a library, press **Sync now**. Mirmire lists your games without dow
 
 
 **Upload local games to storage.** If you already have games in your **local game folder** that aren't on the network library (or are incomplete there), open **Settings › Library › Upload local games to storage**. Mirmire uploads only what's missing; files already on the NAS at full size are left alone. Uses the same Wi‑Fi / Ethernet-only setting as downloads.
+
+### Bring over from Pegasus or LaunchBox
+
+**Settings › Library › Bring over from other frontends** finds Pegasus and LaunchBox folders on the device, or you can pick one. Before anything changes, it shows what it found: matched games, new favorites, play time and plays to add, pictures, collections, and the games it couldn't match. Then press **Import**.
+
+![Bring over from other frontends](../screenshots/73-frontend-import.jpg)
+
+- **Pegasus:** `metadata.pegasus.txt` collections and games, `media/` pictures, favorites and play time.
+- **LaunchBox:** platform files, playlists (as collections), and the Images, Videos and Manuals folders.
+- Games are matched by path, then file name, then title within the console. Play time is only ever added, and importing again adds only what's new.
+- Pictures fill in games that have none of that kind. Turn on **Use their artwork everywhere** to replace Mirmire's own.
+- Imported collections open as game lists.
+
+Daijishō keeps its data private to the app, so it can't be imported. ES-DE gamelists are read automatically when you add a library.
 
 ## rclone (Google Drive, Dropbox, OneDrive)
 
@@ -104,6 +120,20 @@ If the test fails, Mirmire says why: RomM didn't accept the sign-in, the address
 **Saves.** With [Save sync](#save-sync) on, saves and save states for RomM games are stored as RomM saves and states on the game's page in RomM. That means RomM's web player and other RomM apps see them too. Saves made with a core-specific folder, or by another Mirmire profile, are labelled with the core or profile name in RomM's emulator field. Mirmire's own bookkeeping, such as earlier versions of a save and the note of which device saved last, stays on the device. If you set a central saves folder on another library, RomM games' saves go there instead.
 
 **Not yet covered:** RomM collections and firmware (BIOS) files, and uploading games to RomM. Add games in RomM itself and run a scan there, then press **Sync now** in Mirmire.
+
+## Game streaming (Moonlight and Steam Link)
+
+Games you stream from your PC can sit in Mirmire next to everything else, under a **Streaming** console. You need [Moonlight](https://moonlight-stream.org) (or Artemis) with Sunshine on the PC, or Steam Link.
+
+![Game streaming](../screenshots/70-streaming.jpg)
+
+1. Open **Settings › Library › Game streaming** and choose **Add a streamed game**.
+2. Enter the **PC name** as Moonlight lists it and the game's name, like `Desktop` or `Hades`. Add the **PC address** and press **Look up** to check the PC answers, or **Paste a Moonlight shortcut** instead.
+3. For Steam Link, choose **Add Steam Link**. It opens Steam Link, where you pick the game.
+
+When Mirmire is your home app, Moonlight's **Create shortcut** on a PC or a game adds it to Mirmire too.
+
+Press Play and the game opens straight in Moonlight. If a streamed game is also in your Steam library, it shows once, as the Steam game, with a **Stream** button. Moonlight doesn't let other apps read its list of PCs and games, so each one is added once by hand or by shortcut.
 
 ## Browsing and playing
 
@@ -330,7 +360,9 @@ Holding **Start** also opens RetroArch's menu.
 
 ## BIOS files
 
-**Settings › RetroArch › BIOS files** lists the consoles in your library that use BIOS files, with what's found, missing or the wrong version, checked against libretro's BIOS checksums. Tap a console for the file names and where they go.
+**Settings › RetroArch › Check BIOS files** checks every BIOS file the consoles in your library need, for each emulator and RetroArch core. Each file is checked by its MD5 checksum against libretro's list, and marked **Required**, **Recommended** or **Optional**. It shows whether the file is there and good, missing, the wrong version, or sitting in the wrong folder, and names the exact folder it belongs in. Standalone emulators are checked too, such as DuckStation, AetherSX2, Dolphin and Redream. Some emulators keep their files in a private folder that Android doesn't let other apps read; those are marked **Can't check**. Turn on **Show every console** to see consoles you don't have games for yet.
+
+When a console is missing a file its games need, the row at the top says **Games won't start**, and those games' pages show a note that opens the BIOS page.
 
 ![BIOS files](../screenshots/48-bios.jpg)
 
@@ -420,6 +452,14 @@ To push games from the local game folder **up** to a network library when they'r
 
 Uploads in the background, such as when the screen turns off, never ask: they keep the question for the next time you open the game.
 
+### Syncthing
+
+If you already use [Syncthing](https://syncthing.net) (Syncthing-Fork, BasicSync or the original app), your saves can sync through it, straight between your devices with no NAS. Open **Settings › Sync & backup › Syncthing**, turn on **Sync saves through Syncthing** and choose the **Syncthing folder** your saves should go to. Paste Syncthing's API key, found in its settings, to pick from its shared folders and see whether the folder is up to date. Without a key, you can pick the folder yourself.
+
+![Syncthing](../screenshots/71-syncthing.jpg)
+
+Saves and states use the same layout and earlier versions as other save storage. Mirmire waits while Syncthing is still bringing this game's files over, and asks it to rescan after a save. When Syncthing finds the same save changed on two devices, its conflict copy turns into the usual **Which save should Mirmire keep?** question, naming the other device. Syncthing's leftover conflict files are then tidied up.
+
 ## Continue on another device
 
 When another of your devices played a game more recently, the home screen offers **Continue**: the game opens here with that device's save and save state, so with **Resume where you left off** on you're right where you stopped.
@@ -468,6 +508,33 @@ Making your own theme, icon pack or widget plugin: try **[Theme Studio](https://
 - **Content filter** (for a child's profile): only the consoles you allow, without the genres you hide. A filtered player can't see hidden games and needs a parent's PIN to open Settings, so set a PIN on your own profile.
 
 RetroAchievements uses one account for every player.
+
+## Parental controls
+
+**Settings › Parental controls** turns a player into a **Child profile** with age ratings, allowed games and play time limits, all kept behind a **Parent PIN**.
+
+| ![Parental controls](../screenshots/67-parental.jpg) | ![Daily play time for a child](../screenshots/68-parental-time.jpg) |
+|---|---|
+
+- **Set a parent PIN** first. It's asked to change these settings, open Settings, or leave a child's profile, and it's entered with the D-pad or touch.
+- **Highest age rating:** a child sees only games rated up to that age. Ratings come from ScreenScraper (ESRB, PEGI and CERO), from RomM's game details, and from LaunchBox if you choose **Read ratings from LaunchBox**. Where boards disagree, the strictest wins.
+- **Games without a rating** can be allowed, or blocked until you allow them one by one.
+- **Allowed** and blocked games override the rating, and **Set a game's age rating** fixes a rating that's missing or wrong.
+- **Play time:** no limit, the same limit every day, or different limits on some days. Mirmire warns before time runs out, and a game that's already running is never closed.
+
+A game the child can't play is hidden. If they reach it anyway, Mirmire explains why and a parent can allow it, or add time **Just for today**, with the PIN.
+
+## Home Assistant
+
+**Settings › Home Assistant** lets your home react to what you play: dim the lights when a game starts on the TV, or run a scene when you stop.
+
+![Home Assistant](../screenshots/69-home-assistant.jpg)
+
+1. Enter your Home Assistant **Address** and a **Long-lived access token** (in Home Assistant, open your profile › **Security**), then press **Save & test**.
+2. Add actions for **game started**, **game stopped**, **TV dock on or off**, **idle**, or **back from idle**. Each one can **Fire event** (`mirmire_game_started` and so on) or **Call service**, like `light.turn_on` or `script.movie_mode`. Use **Pick from Home Assistant** to choose one.
+3. Optional JSON data can use `{game}`, `{console}`, `{device}` and `{playtime_minutes}`. **Only when on TV dock** skips the action on the handheld screen.
+
+**Test now** runs an action straight away, and each action shows how its last run went. The token is stored encrypted and never backed up.
 
 ## Stick lights
 
