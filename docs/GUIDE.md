@@ -55,7 +55,7 @@ Open **Settings › Library › Add library**. Mirmire looks for servers on your
 | WebDAV | Nextcloud and other web storage | Server address, username, password |
 | rclone | Google Drive, Dropbox, OneDrive and other rclone remotes | A PC/NAS running `rclone serve webdav` (see [rclone](#rclone-google-drive-dropbox-onedrive)) |
 | FTP | Older NAS and routers | Server address, username, password |
-| RomM | A [RomM](https://romm.app) server you already run | RomM's web address, and your RomM username and password or an API token (see [RomM](#romm)) |
+| RomM | A [RomM](https://romm.app) server you already run | RomM's web address, then pair the device in RomM, or sign in with your RomM username and password (see [RomM](#romm)) |
 | Device folder | Games already on the device or SD card | Pick the folder |
 
 **Sign in, then pick the folder.** For network storage, enter the address and your username and password, then choose **Connect & browse**. Mirmire signs in and shows the folders on the server (for SMB, first the shares on your NAS, so you don't need to know the share name): open a folder to look inside, choose **Up one level** to go back, and choose **Use this folder** on the folder that holds your console folders. Console folders it recognises are marked, so you can see when you've found the right place. You can still type the path yourself under **Or type the path (optional)**. **Test** checks the folder and lists the consoles it found.
@@ -118,11 +118,14 @@ If you run [RomM](https://romm.app), Mirmire can use it as a library directly. Y
 
 1. Open **Settings › Library › Add library** and choose **RomM**.
 2. Enter the address you open RomM at in a browser, for example `192.168.1.20` or `https://romm.example.com`. Add the port if it isn't 80 or 443, and turn on **Use HTTPS** if RomM is served over HTTPS. Pasting the full address with `https://` works too, and so does a sub-path such as `nas.local/romm`.
-3. Sign in with your RomM username and password. If you prefer an API token, create one in RomM under **Profile › Client API tokens** with read access to ROMs, platforms and assets. Add write access to assets if you want save sync. Then leave the username empty and paste the token into the password field.
-4. Press **Test**. Mirmire shows the RomM version and lists RomM's platforms, with a switch for each. Turn off any platform you don't want here. Platforms Mirmire can't play, such as arcade or PC, are greyed out.
+3. Sign in. The easiest way is **Pair with RomM**: Mirmire shows a code and an address (`<your RomM address>/pair/device`). Open that address on your phone or computer, in a browser that's signed in to RomM, enter the code and choose **Approve**. Mirmire signs in by itself within a few seconds, and no password is typed or stored on the device. RomM then lists the device under your devices, where you can remove it later. The code lasts 10 minutes.
+   - **On a phone, scan RomM's QR code:** in RomM, open **Profile › Client API tokens**, create a token (read access to ROMs, platforms and assets, plus write access to assets for save sync) and choose **Pair**. RomM shows a QR code. In Mirmire, choose **Scan RomM's QR code** and point the camera at it. Mirmire fills in the server's address and signs in by itself, so you can skip step 2. Allow camera access the first time. This button only shows on devices with a camera.
+   - **Or use a pairing code from RomM:** in RomM, open **Profile › Client API tokens**, create a token and choose **Pair** as above. Type the code it shows into **Or a pairing code from RomM** and choose **Use code**. These codes last a minute.
+   - **Or sign in** with your RomM username and password, or leave the username empty and paste an API token into the password field.
+4. Mirmire checks the connection, shows the RomM version and lists RomM's platforms, with a switch for each. Turn off any platform you don't want here. Platforms Mirmire can't play, such as arcade or PC, are greyed out. If you signed in with a password, press **Test** to see them.
 5. Press **Save & scan**.
 
-If the test fails, Mirmire says why: RomM didn't accept the sign-in, the address answers but isn't a RomM server, the server can't be reached, or the account isn't allowed to read the library.
+If the test fails, Mirmire says why: RomM didn't accept the sign-in, the pairing was declined or ran out, the server is too old to offer pairing, the address answers but isn't a RomM server, the server can't be reached, or the account isn't allowed to read the library.
 
 **How it works.** Each RomM platform maps to the matching Mirmire console, and every ROM becomes a game with RomM's name, cover, summary, genre and release date. Games download from RomM when you press Play, the same way they do from a NAS. Multi-file games, such as a CUE sheet with its tracks, download together in their own folder. Large libraries are fetched in pages, so they list quickly. Mirmire lists every version RomM has, then **Library cleanup** shows one per game in your preferred regions. Games you hid in RomM stay hidden. A cover or summary you change in RomM shows here after the next **Sync now**.
 
