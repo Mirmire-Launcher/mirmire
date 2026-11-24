@@ -96,7 +96,7 @@ On Retroid and AYN handhelds, the stick lights follow the theme, the battery lev
 
 ### And more
 
-- **👥 Profiles:** each player has their own saves, favorites and play time, with PINs.
+- **👥 Profiles:** each player has their own saves, favorites and play time, with a PIN and a pixel-art avatar if you like.
 - **🏠 Home Assistant:** dim the lights when a game starts on the TV, or run any scene or script when you play, stop or step away.
 - **✈️ Pack for a trip:** choose games to take offline. Everything syncs back when you're home.
 - **🎮 Play together:** invite a paired device on the same Wi-Fi to a netplay game.
@@ -218,6 +218,8 @@ Get the latest APK from [Releases](https://github.com/Mirmire-Launcher/mirmire/r
 | ![Welcome](screenshots/31-setup-welcome.jpg) | ![Theme](screenshots/32-setup-theme.jpg) |
 | **Connect your library** | **You're all set** |
 | ![Library](screenshots/33-setup-library.jpg) | ![Done](screenshots/35-setup-done.jpg) |
+| **Who's playing?** | |
+| ![Who's playing: your name, color and avatar](screenshots/74-setup-players.jpg) | |
 
 </details>
 

@@ -28,12 +28,20 @@ The guided setup walks through everything in about two minutes. Each step can be
 3. **Your layout:** how consoles and games are shown.
 4. **Local game folder:** a folder on this device for the games you play. Emulators can't open games straight from a NAS or server, so Mirmire copies a game from your network library here when you play it. Games already on this device stay where they are.
 5. **Connect your library:** your network storage or a device folder. If ES-DE, RetroArch or LaunchBox already downloaded artwork on this device, **Found on this device** lists it: Mirmire uses that artwork and game info straight away, without copying or changing it. If ES-DE plays games from a folder here, **Add this ROM folder** adds it in one tap. Saves, states, settings and BIOS files from RetroArch can come too (see [Bring over from RetroArch](#bring-over-from-retroarch)).
-6. **Save files:** where saves sync on your storage.
-7. **Artwork:** where box art comes from.
-8. **Emulators:** which app plays each console.
-9. **RetroArch setup:** cores and recommended settings.
-10. **Performance modes** (optional): a one-time setup, also used for stick lights on Retroid and AYN handhelds.
-11. **Trophies:** your RetroAchievements account (optional).
+6. **Other frontends** (optional): bring over favorites, play time, collections and artwork from Pegasus or LaunchBox (see [Bring over from Pegasus or LaunchBox](#bring-over-from-pegasus-or-launchbox)).
+7. **Save files:** where saves sync on your storage, or [Syncthing](#syncthing) to sync them straight between your devices.
+8. **Artwork:** where box art comes from.
+9. **Emulators:** which app plays each console.
+10. **Stream from your PC** (only when Moonlight, Artemis or Steam Link is installed): turn on **Add Moonlight games** or **Add Steam Link** to set up the ones you use (see [Game streaming](#game-streaming-moonlight-and-steam-link)).
+11. **RetroArch setup:** cores and recommended settings. **Check BIOS files** opens the [BIOS page](#bios-files); Back returns to setup.
+12. **Performance modes** (optional): a one-time setup, also used for stick lights on Retroid and AYN handhelds.
+13. **Trophies:** your RetroAchievements account (optional).
+14. **AI helper** (optional): Pixel Pal's hints and chat (see [AI](#ai)).
+15. **Home Assistant** (optional): turn on **I use Home Assistant** to connect it (see [Home Assistant](#home-assistant)).
+16. **Artwork & info:** where box art and descriptions come from.
+17. **Who's playing?** Your name, color, avatar and an optional PIN; **Set up parental controls** for a parent PIN and children's profiles; and anyone else who plays.
+
+![Who's playing? in setup: your name, color and avatar](../screenshots/74-setup-players.jpg)
 
 ## Adding your games
 
@@ -289,7 +297,9 @@ Sign in under **Settings › Trophies** with your username and **Web API key** (
 - **Other OpenAI-compatible server**: LM Studio or Ollama on your PC; enter its address.
 - **On this device**: downloads a model once, then works offline and nothing leaves the device. Small (344 MB), Medium (977 MB), Better (2.6 GB, about 6 GB of memory) or Best (3.7 GB, for devices with 8 GB of memory). Bigger models know more about games but take longer to answer.
 
-**While you play** (one screen): turn on **Pal over your games** and allow "Display over other apps" when Android asks. While a game runs, a small 💬 button sits in a corner: drag it wherever it's out of the way (it stays there), and tap it to chat with your pal without leaving the game. Its tips show beside the button for a few seconds without blocking touches. Press **B** or ✕ to close the chat; the pal goes away when you return to Mirmire, and its notification has a **Hide** button. To open the chat from a controller, turn on **Press both sticks to open the chat**: Android only lets apps see controller buttons in another app through Accessibility, so it sends you there to switch on "Mirmire: open Pixel Pal's chat in games". It watches only the two stick clicks, only while the pal is over a game. Some emulators that take over the controller may not let the shortcut through; tapping 💬 always works. On a handheld with a second screen, keep the pal there instead.
+**While you play** (one screen): turn on **Pal over your games** and allow "Display over other apps" when Android asks. While a game runs, a small 💬 button sits in a corner: drag it wherever it's out of the way (it stays there), and tap it to chat with your pal without leaving the game. Its tips show beside the button for a few seconds without blocking touches. Press **B** or ✕ to close the chat; the pal goes away when you return to Mirmire, and its notification has a **Hide** button. To open the chat from a controller, turn on **Press both sticks to open the chat**: Android only lets apps see controller buttons in another app through Accessibility, so it sends you there to switch on "Mirmire: open Pixel Pal's chat in games". It watches only the two stick clicks, only while the pal is over a game, and can't read the screen or what you type.
+
+**Mirmire is greyed out in Accessibility ("Restricted setting")?** On Android 13 and later, apps installed from an APK instead of an app store can't turn on Accessibility until you allow it. Under the shortcut, Mirmire shows the steps and an **Open Mirmire's app info** button: tap ⋮ in the top corner, choose **Allow restricted settings**, confirm with your PIN or fingerprint, then turn Mirmire on in Accessibility. On some phones the ⋮ menu only appears after you've tried to turn Mirmire on once. Only do this if you installed Mirmire from its [official releases](https://github.com/Mirmire-Launcher/mirmire/releases). Some emulators that take over the controller may not let the shortcut through; tapping 💬 always works. On a handheld with a second screen, keep the pal there instead.
 
 | Welcome back on the Home page | Chat while you play |
 |---|---|
@@ -371,7 +381,7 @@ When a console is missing a file its games need, the row at the top says **Games
 
 ## GPU drivers
 
-On Snapdragon phones and handhelds, newer GPU drivers often make demanding emulators faster and fix glitches. **Settings › Emulators › GPU drivers** shows your GPU (for example **Adreno 650**), which installed emulators can load a custom driver (hakuX, Xendroid Plus, ARMSX2, ARMSX3, aPS3e, DroidDeck, Eden, Citron, Sudachi, Dolphin and Vita3K), and **Find drivers for Adreno 6xx** (or 7xx, 8xx), which checks the latest releases from [StevenMXZ](https://github.com/StevenMXZ/Adreno-Tools-Drivers) and [K11MCH1](https://github.com/K11MCH1/AdrenoToolsDrivers) and marks one **Suggested**. Tap one to download it.
+On Snapdragon phones and handhelds, newer GPU drivers often make demanding emulators faster and fix glitches. **Settings › Emulators › GPU drivers** shows your GPU (for example **Adreno 650**), which installed emulators can load a custom driver (hakuX, Xendroid Plus, ARMSX2, ARMSX3, aPS3e, DroidDeck, Eden, Citron, Sudachi, Dolphin and Vita3K), and **Find drivers for Adreno 6xx** (or 7xx, 8xx, matching your device), which checks the latest releases from [StevenMXZ](https://github.com/StevenMXZ/Adreno-Tools-Drivers) and [K11MCH1](https://github.com/K11MCH1/AdrenoToolsDrivers) and marks one **Suggested**. Tap one to download it. Custom drivers only exist for Adreno 6xx to 8xx, so on other GPUs (Mali, Xclipse, PowerVR or older Adreno) the section explains that emulators use the device's own driver.
 
 To use it, keep the `.zip` as it is, open the emulator's GPU driver settings (hakuX: **Settings › GPU driver › Add a driver**; Xendroid Plus: **Custom GPU Drivers › Import ZIP**; ARMSX2 and ARMSX3: **Settings › Renderer**, choose **Vulkan**, then **Import .zip**; aPS3e: its custom driver option; Eden, Citron and Sudachi: **GPU driver manager › Install**), pick the file, make it the active driver and restart the game. If a game looks wrong, switch back to the system driver. Drivers only load inside the emulator; nothing on your device is changed.
 
@@ -504,6 +514,7 @@ Making your own theme, icon pack or widget plugin: try **[Theme Studio](https://
 | ![Profiles](../screenshots/51-profiles.jpg) | ![Content filter](../screenshots/50-profile-filter.jpg) |
 |---|---|
 
+- **Name, color and avatar:** pick an avatar from [DiceBear](https://www.dicebear.com)'s public-domain styles (Pixel art, Thumbs, Lorelei, Notionists or Open Peeps), with **Shuffle** for more faces. Each face is made from a random code, so nothing about the player is sent; it needs the internet the first time it's shown. Without one, the player's initial shows on their color.
 - **PIN:** asked when switching to that player.
 - **Content filter** (for a child's profile): only the consoles you allow, without the genres you hide. A filtered player can't see hidden games and needs a parent's PIN to open Settings, so set a PIN on your own profile.
 
