@@ -171,8 +171,8 @@ Get the latest APK from [Releases](https://github.com/Mirmire-Launcher/mirmire/r
 | ![Big Picture](screenshots/56-big-picture.jpg) | ![Big Picture consoles](screenshots/56b-big-picture-consoles.jpg) |
 | **Mirmire Cartouche starting up** | **Big Picture style** |
 | ![Mirmire Cartouche's loading screen](screenshots/56f-cartouche-loading.jpg) | ![Big Picture style: Mirmire or Cartouche 3D](screenshots/56e-big-picture-style.jpg) |
-| **Mirmire Cartouche in Settings › Plugins** | |
-| ![Settings › Plugins with Mirmire Cartouche installed](screenshots/56h-cartouche-plugins.jpg) | |
+| **Mirmire Cartouche in Settings › Plugins** | **Games on their discs** |
+| ![Settings › Plugins with Mirmire Cartouche installed](screenshots/56h-cartouche-plugins.jpg) | ![Battlefield 2: Modern Combat on its Xbox 360 disc](screenshots/56d-cartouche-shelf.jpg) |
 | **A console on the second screen** | **Widgets on the second screen** |
 | ![Console on the second screen](screenshots/58-second-screen-console.jpg) | ![Widgets on the second screen](screenshots/59-second-screen-widgets.jpg) |
 
