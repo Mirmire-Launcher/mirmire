@@ -199,7 +199,7 @@ With a second screen in use, the Home tab leaves the main screen; choose **Home 
 
 ## Big Picture
 
-Big Picture is a full-screen home made for controllers and TVs. Turn it on with the **⛶** button next to Search on the home screen, or in **Settings › Layout › Big Picture**. It stays on, even after a restart, until you exit it.
+Big Picture is a full-screen home made for controllers and TVs. Turn it on with the **⛶** button next to Search on the home screen, or in **Settings › Layout › Big Picture**. **Big Picture style** picks Mirmire's own (below) or [Big Picture in 3D](#big-picture-in-3d-mirmire-cartouche). It stays on, even after a restart, until you exit it.
 
 - **The main menu** is a row of large cards: **Widgets** (your Home page, when it's on), **Continue** (your last game), **Consoles**, **All games**, **Recent**, **Favorites**, **Apps**, **Settings** and **Exit Big Picture**.
 - **Consoles, games and apps** open as a row of tiles: just the icon or cover, with its name underneath. The selected one sits in the middle.
@@ -222,6 +222,21 @@ Big Picture is a full-screen home made for controllers and TVs. Turn it on with 
 | The main menu | Consoles |
 |---|---|
 | ![Big Picture](../screenshots/56-big-picture.jpg) | ![Big Picture consoles](../screenshots/56b-big-picture-consoles.jpg) |
+
+### Big Picture in 3D (Mirmire Cartouche)
+
+[Mirmire Cartouche](https://github.com/Mirmire-Launcher/mirmire-cartouche) is a separate, free and open-source app built on [Cartouche](https://github.com/Hakimba/cartouche) by Hakimba. It turns Big Picture into a 3D home: your consoles as 3D models, your games as their discs, cartridges and UMDs with Mirmire's box art as their labels.
+
+- **Install it** from **Settings › Plugins › Mirmire Cartouche › Install** (about 225 MB; Android asks once whether Mirmire may install apps). Updates come from the same button.
+- **Use it as Big Picture:** **Settings › Layout › Big Picture style › Cartouche 3D**, the **Use as Big Picture** switch in Settings › Plugins, or the **3D Big Picture** step in setup. From then on Big Picture's ⛶ button, docking and starting in Big Picture all open it.
+- **Its home** has the same cards as Big Picture: **Widgets**, **Continue**, **Consoles**, **All games**, **Recent**, **Favorites**, **Apps**, **Settings** and **Exit Big Picture**. Swipe or use left and right to move, tap or press A to open, and drag the model in the middle to turn it.
+- **Consoles** opens the 3D shelves. **Continue** and the games on the shelves play through Mirmire, with its emulators, downloads, saves and achievements, and come back to the shelves when you quit. **Widgets**, **Recent**, **Favorites**, **Apps** and **Settings** open in Mirmire, and their **Back** returns to the 3D home.
+- **Exit Big Picture** goes back to Mirmire and turns Big Picture off. Back on the home moves to it first, so a stray swipe never leaves.
+- **Labels** come from Mirmire's artwork. A game with no art in Mirmire shows a plain label: scrape its artwork and open Mirmire Cartouche again.
+
+| Mirmire Cartouche's home | A shelf of cartridges |
+|---|---|
+| ![Mirmire Cartouche's 3D home](../screenshots/56c-cartouche-home.jpg) | ![Nintendo 64 games on their cartridges](../screenshots/56d-cartouche-shelf.jpg) |
 
 ## Dual screen
 
