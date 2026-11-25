@@ -93,8 +93,8 @@ Prefer your consoles in 3D? [Mirmire Cartouche](https://github.com/Mirmire-Launc
 | The 3D home | Your consoles in 3D |
 |---|---|
 | ![Mirmire Cartouche's 3D home, with Consoles selected](screenshots/56c-cartouche-home.jpg) | ![The Xbox 360 selected among your consoles](screenshots/56g-cartouche-consoles.jpg) |
-
-![Battlefield 2: Modern Combat on its Xbox 360 disc, its box art as the label](screenshots/56d-cartouche-shelf.jpg)
+| **Games on cartridges** | **Games on discs** |
+| ![Nintendo 64 games on their cartridges, their box art as the labels](screenshots/56i-cartouche-cartridges.jpg) | ![Battlefield 2: Modern Combat on its Xbox 360 disc, its box art as the label](screenshots/56d-cartouche-shelf.jpg) |
 
 ### 💡 Stick lights that react
 
