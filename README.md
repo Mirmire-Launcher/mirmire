@@ -94,6 +94,8 @@ Prefer your consoles in 3D? [Mirmire Cartouche](https://github.com/Mirmire-Launc
 |---|---|
 | ![Mirmire Cartouche's 3D home, with Consoles selected](screenshots/56c-cartouche-home.jpg) | ![The Xbox 360 selected among your consoles](screenshots/56g-cartouche-consoles.jpg) |
 
+![Battlefield 2: Modern Combat on its Xbox 360 disc, its box art as the label](screenshots/56d-cartouche-shelf.jpg)
+
 ### 💡 Stick lights that react
 
 On Retroid and AYN handhelds, the stick lights follow the theme, the battery level, the console, the game's cover art or its performance mode. A one-time setup right on the device turns this on, with no computer or Shizuku needed.
@@ -167,10 +169,10 @@ Get the latest APK from [Releases](https://github.com/Mirmire-Launcher/mirmire/r
 | ![Welcome back](screenshots/66-home-welcome.jpg) | ![Pal chat](screenshots/65-pal-chat.jpg) |
 | **Big Picture** | **Big Picture consoles** |
 | ![Big Picture](screenshots/56-big-picture.jpg) | ![Big Picture consoles](screenshots/56b-big-picture-consoles.jpg) |
-| **Mirmire Cartouche starting up** | **Games on their discs** |
-| ![Mirmire Cartouche's loading screen](screenshots/56f-cartouche-loading.jpg) | ![Battlefield 2: Modern Combat on its Xbox 360 disc](screenshots/56d-cartouche-shelf.jpg) |
-| **Big Picture style** | **Mirmire Cartouche in Settings › Plugins** |
-| ![Big Picture style: Mirmire or Cartouche 3D](screenshots/56e-big-picture-style.jpg) | ![Settings › Plugins with Mirmire Cartouche installed](screenshots/56h-cartouche-plugins.jpg) |
+| **Mirmire Cartouche starting up** | **Big Picture style** |
+| ![Mirmire Cartouche's loading screen](screenshots/56f-cartouche-loading.jpg) | ![Big Picture style: Mirmire or Cartouche 3D](screenshots/56e-big-picture-style.jpg) |
+| **Mirmire Cartouche in Settings › Plugins** | |
+| ![Settings › Plugins with Mirmire Cartouche installed](screenshots/56h-cartouche-plugins.jpg) | |
 | **A console on the second screen** | **Widgets on the second screen** |
 | ![Console on the second screen](screenshots/58-second-screen-console.jpg) | ![Widgets on the second screen](screenshots/59-second-screen-widgets.jpg) |
 
