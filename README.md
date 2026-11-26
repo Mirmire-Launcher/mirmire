@@ -88,7 +88,7 @@ Big Picture is a full-screen, controller-first home for TVs that switches on by 
 
 ### 🧊 Big Picture in 3D, with Mirmire Cartouche
 
-Prefer your consoles in 3D? [Mirmire Cartouche](https://github.com/Mirmire-Launcher/mirmire-cartouche), built on [Cartouche](https://github.com/Hakimba/cartouche) by Hakimba, makes Big Picture a 3D home: your consoles as 3D models and your games as their real discs, cartridges and UMDs, with Mirmire's box art as their labels. It's a free, open-source add-on: install it from **Settings › Plugins**, then pick **Settings › Layout › Big Picture style › Cartouche 3D**, or say yes to the 3D Big Picture step in setup. Mirmire still plays every game, so your emulators, saves, achievements and play time stay the same.
+Prefer your consoles in 3D? [Mirmire Cartouche](https://github.com/Mirmire-Launcher/mirmire-cartouche), built on [Cartouche](https://github.com/Hakimba/cartouche) by Hakimba, makes Big Picture a 3D home: your consoles as 3D models and your games as their real discs, cartridges and UMDs, with Mirmire's box art as their labels. It's a free, open-source add-on: install it from **Settings › Plugins**, then pick **Settings › Layout › Big Picture style › Cartouche 3D**, or install it and turn on **Use as Big Picture** in setup's 3D Big Picture step. Mirmire still plays every game, so your emulators, saves, achievements and play time stay the same.
 
 | The 3D home | Your consoles in 3D |
 |---|---|

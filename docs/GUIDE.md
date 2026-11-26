@@ -25,7 +25,7 @@ The guided setup walks through everything in about two minutes. Each step can be
 
 1. **Your controller:** Xbox, PlayStation or Nintendo labels, and whether A/B are swapped.
 2. **Make it yours:** a theme and an accent color.
-3. **Your layout:** how consoles and games are shown.
+3. **Your layout:** how consoles and games are shown, and whether to start in Big Picture. Turning Big Picture on here only saves the choice: it opens when setup finishes.
 4. **Local game folder:** a folder on this device for the games you play. Emulators can't open games straight from a NAS or server, so Mirmire copies a game from your network library here when you play it. Games already on this device stay where they are.
 5. **Connect your library:** your network storage or a device folder. If ES-DE, RetroArch or LaunchBox already downloaded artwork on this device, **Found on this device** lists it: Mirmire uses that artwork and game info straight away, without copying or changing it. If ES-DE plays games from a folder here, **Add this ROM folder** adds it in one tap. Saves, states, settings and BIOS files from RetroArch can come too (see [Bring over from RetroArch](#bring-over-from-retroarch)).
 6. **Other frontends** (optional): bring over favorites, play time, collections and artwork from Pegasus or LaunchBox (see [Bring over from Pegasus or LaunchBox](#bring-over-from-pegasus-or-launchbox)).
@@ -39,8 +39,9 @@ The guided setup walks through everything in about two minutes. Each step can be
 14. **AI helper** (optional): Pixel Pal's hints and chat (see [AI](#ai)).
 15. **Home Assistant** (optional): turn on **I use Home Assistant** to connect it (see [Home Assistant](#home-assistant)).
 16. **Plugins** (optional): turn plugins on or off, or add one from a ZIP (see [Plugins](#plugins)).
-17. **Artwork & info:** where box art and descriptions come from.
-18. **Who's playing?** Your name, color, avatar and an optional PIN; **Set up parental controls** for a parent PIN and children's profiles; and anyone else who plays.
+17. **3D Big Picture** (optional): install Mirmire Cartouche, open or remove it, and turn on **Use as Big Picture** to make it your Big Picture (see [Big Picture in 3D](#big-picture-in-3d-mirmire-cartouche)). Skip it and Big Picture stays Mirmire's own.
+18. **Artwork & info:** where box art and descriptions come from.
+19. **Who's playing?** Your name, color, avatar and an optional PIN; **Set up parental controls** for a parent PIN and children's profiles; and anyone else who plays.
 
 ![Who's playing? in setup: your name, color and avatar](../screenshots/74-setup-players.jpg)
 
@@ -199,7 +200,7 @@ With a second screen in use, the Home tab leaves the main screen; choose **Home 
 
 ## Big Picture
 
-Big Picture is a full-screen home made for controllers and TVs. Turn it on with the **⛶** button next to Search on the home screen, or in **Settings › Layout › Big Picture**. **Big Picture style** picks Mirmire's own (below) or [Big Picture in 3D](#big-picture-in-3d-mirmire-cartouche). It stays on, even after a restart, until you exit it.
+Big Picture is a full-screen home made for controllers and TVs. Turn it on with the **⛶** button next to Search on the home screen, or in **Settings › Layout › Big Picture**. The switch in Settings only saves the choice: Big Picture opens once you're back on the home. **Big Picture style** picks Mirmire's own (below) or [Big Picture in 3D](#big-picture-in-3d-mirmire-cartouche). It stays on, even after a restart, until you exit it.
 
 - **The main menu** is a row of large cards: **Widgets** (your Home page, when it's on), **Continue** (your last game), **Consoles**, **All games**, **Recent**, **Favorites**, **Apps**, **Settings** and **Exit Big Picture**.
 - **Consoles, games and apps** open as a row of tiles: just the icon or cover, with its name underneath. The selected one sits in the middle.
@@ -227,11 +228,12 @@ Big Picture is a full-screen home made for controllers and TVs. Turn it on with 
 
 [Mirmire Cartouche](https://github.com/Mirmire-Launcher/mirmire-cartouche) is a separate, free and open-source app built on [Cartouche](https://github.com/Hakimba/cartouche) by Hakimba. It turns Big Picture into a 3D home: your consoles as 3D models, your games as their discs, cartridges and UMDs with Mirmire's box art as their labels.
 
-- **Install it** from **Settings › Plugins › Mirmire Cartouche › Install** (about 225 MB; Android asks once whether Mirmire may install apps). Updates come from the same button.
-- **Use it as Big Picture:** **Settings › Layout › Big Picture style › Cartouche 3D**, the **Use as Big Picture** switch in Settings › Plugins, or the **3D Big Picture** step in setup. From then on Big Picture's ⛶ button, docking and starting in Big Picture all open it.
+- **Install it** from **Settings › Plugins › Mirmire Cartouche › Install**, or the **3D Big Picture** step in setup (about 225 MB; Android asks once whether Mirmire may install apps). Updates come from the same button, and **Remove** uninstalls it.
+- **Use it as Big Picture:** **Settings › Layout › Big Picture style › Cartouche 3D**, the **Use as Big Picture** switch in Settings › Plugins, or the same switch in setup's **3D Big Picture** step. **Big Picture style** shows once Mirmire Cartouche is installed. Turning it on in setup or Settings doesn't jump into Mirmire Cartouche: it opens once you're back on the home. From then on Big Picture's ⛶ button, docking and starting in Big Picture all open it.
 - **Its home** has the same cards as Big Picture: **Widgets**, **Continue**, **Consoles**, **All games**, **Recent**, **Favorites**, **Apps**, **Settings** and **Exit Big Picture**. Swipe or use left and right to move, tap or press A to open, and drag the model in the middle to turn it.
 - **Consoles** opens the 3D shelves. **Continue** and the games on the shelves play through Mirmire, with its emulators, downloads, saves and achievements, and come back to the shelves when you quit. **Widgets**, **Recent**, **Favorites**, **Apps** and **Settings** open in Mirmire, and their **Back** returns to the 3D home.
-- **Exit Big Picture** goes back to Mirmire and turns Big Picture off. Back on the home moves to it first, so a stray swipe never leaves.
+- **Back** from the shelves returns to the 3D home. On the home, Back moves to **Exit Big Picture** first, so a stray swipe never leaves.
+- **Exit Big Picture** goes back to Mirmire, turns Big Picture off and closes Mirmire Cartouche, so it doesn't linger in recent apps.
 - **Labels** come from Mirmire's artwork. A game with no art in Mirmire shows a plain label: scrape its artwork and open Mirmire Cartouche again.
 
 | Mirmire Cartouche's home | A shelf of cartridges |
@@ -341,6 +343,8 @@ Press **Test** to check it works. Only a game's title and console are sent for h
 
 - **Install** (hakuX, Xendroid Plus, ARMSX2, ARMSX3 and DroidDeck, which aren't on Google Play): Mirmire downloads the right APK from the emulator's official GitHub releases and hands it to Android, which asks you to confirm. The first time, Android asks you to allow Mirmire to install apps; turn on **Allow from this source**, go back and tap **Install** again. ARMSX2 and ARMSX3 get the build that suits your Android version and processor.
 - **Get** (everything else): opens the emulator's Google Play page, or its download site when it isn't on Play (for example WatermelonDS and DraStic).
+
+**Close the emulator when you come back** (Settings › Emulators, off by default): when you return to Mirmire from a game, the emulator is closed, freeing its memory so the next game starts fresh. Quit the game in the emulator first: if you only switch away with Home or recent apps, anything the game hasn't saved is lost.
 
 **Automatic picks** (when you leave a console on Automatic and the app is installed):
 
