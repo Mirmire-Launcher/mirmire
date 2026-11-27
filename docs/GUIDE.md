@@ -372,7 +372,9 @@ Press **Test** to check it works. Only a game's title and console are sent for h
 1. Install RetroArch.
 2. Allow file access, so Mirmire can write RetroArch's config and prepare cores.
 3. Press **Set up** to download the cores your library needs.
-4. Once in RetroArch, choose **Load Core › Install or Restore a Core**: the list shows the cores Mirmire downloaded. Pick each one.
+4. **Install cores in RetroArch:** press **Open RetroArch**, choose **Load Core › Install or Restore a Core**, and pick each core. Opened from Mirmire, that list shows the cores Mirmire downloaded. Android lets only RetroArch install its cores, so this step is yours.
+
+Below the steps, each core your library needs has a row with its consoles and a status: **Ready** once RetroArch has started a game with it, **Check** when it's downloaded but no game has started with it yet, **Install** when a game didn't start because RetroArch doesn't have it, or not downloaded yet. Consoles that use a standalone emulator are listed too, so RetroArch can step in for them. Mirmire can't look inside RetroArch, so a core you installed shows **Ready** after its first game. Finishing setup before any core has worked in RetroArch asks once whether to open RetroArch first.
 
 If you press Play before a core is installed, RetroArch can't start the game. Mirmire notices: a notification names the core to install, and the next Play shows the same steps instead of opening RetroArch.
 
