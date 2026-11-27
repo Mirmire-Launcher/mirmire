@@ -38,7 +38,7 @@ Saves, save states and favorites sync with your storage. Pick up your handheld a
 
 ### ⚙️ RetroArch and standalone emulators, set up for you
 
-Mirmire downloads cores, sets hotkeys, auto-resume and a sharp picture, and suggests settings for your device. Change any setting for all games, one console or one game without opening RetroArch's menus, and frame the picture with bezels from The Bezel Project.
+Mirmire downloads cores, sets hotkeys, auto-resume and a sharp picture, and suggests settings for your device, including FSR, ScaleFX or AI upscaling when your screen is much sharper than the game. Change any setting for all games, one console or one game without opening RetroArch's menus, and frame the picture with bezels from The Bezel Project.
 
 Original Xbox plays in hakuX, Xbox 360 in Xendroid Plus, PS2 in ARMSX2, PS3 in ARMSX3 or aPS3e, and Steam games from your DroidDeck library in DroidDeck. Emulators that aren't on Google Play install straight from Mirmire, and on Snapdragon devices it finds the latest custom Adreno drivers for the emulators that can load them.
 

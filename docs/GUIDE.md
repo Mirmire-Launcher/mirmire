@@ -370,14 +370,26 @@ Press **Test** to check it works. Only a game's title and console are sent for h
 1. Install RetroArch.
 2. Allow file access, so Mirmire can write RetroArch's config and prepare cores.
 3. Press **Set up** to download the cores your library needs.
-4. Once in RetroArch, choose **Load Core › Install or Restore Core** and pick each core.
+4. Once in RetroArch, choose **Load Core › Install or Restore a Core**: the list shows the cores Mirmire downloaded. Pick each one.
+
+If you press Play before a core is installed, RetroArch can't start the game. Mirmire notices: a notification names the core to install, and the next Play shows the same steps instead of opening RetroArch.
 
 **RetroArch settings.** Mirmire writes these before each launch, combined from three levels: the game's own settings first, then its console's, then all games'.
 
 - **This device:** shows your device and chip, and suggests settings for it. Nothing changes until you press Apply.
-- **All games:** aspect ratio, scaling, smoothing, screen effect (LCD grid or CRT scanlines), bezel, run-ahead, fast-forward speed, resume where you left off, rewind, hotkeys, menu combo, input polling, touch controls, graphics driver, threaded video, menu style, pop-ups and FPS.
-- **Per console:** Mirmire recommends some settings, such as integer scaling and an LCD grid for handhelds, run-ahead for older 2D consoles, and the N64 and Saturn fixes. You can keep each recommendation, follow all games, or choose your own.
+- **All games:** aspect ratio, scaling, smoothing, screen effect (LCD grid or CRT scanlines), upscaling, bezel, run-ahead, fast-forward speed, resume where you left off, rewind, hotkeys, menu combo, input polling, touch controls, graphics driver, threaded video, menu style, pop-ups and FPS.
+- **Per console:** Mirmire recommends some settings, such as integer scaling and an LCD grid for handhelds, run-ahead for older 2D consoles, FSR upscaling for 3D consoles on a sharp screen, and the N64 and Saturn fixes. You can keep each recommendation, follow all games, or choose your own.
 - **Per game:** the settings button on a game's details page.
+
+**Upscaling.** **Upscaling** sharpens a low-resolution game on a high-resolution screen. It replaces the screen effect while it's on, and its shader downloads once.
+
+| Choice | Best for |
+|---|---|
+| **FSR** | 3D games (PlayStation, N64, PSP, Saturn, DS, Dreamcast). AMD's upscale-and-sharpen filter; light on the GPU. |
+| **ScaleFX**, **xBRZ** | 2D pixel art: smooth, rounded edges instead of blocky pixels. |
+| **AI · CuNNy** | Anything. A small neural network that upscales 2×. Vulkan only: with the OpenGL driver it uses FSR. |
+
+Mirmire reads your screen's resolution. When it shows a 3D console at 2× or more, on a chip above entry level, FSR is recommended and already on for that console: the Upscaling row lists which ones. A choice for all games replaces those recommendations.
 
 **Bezels.** **Bezel** puts console art around the picture, from The Bezel Project: **The console's**, or **The game's own** (falling back to the console's when a game has none). They download once, for most 8-bit to Dreamcast-era consoles. Bezels use RetroArch's overlay, so they show only while a controller is connected, in place of the touch controls.
 
@@ -636,9 +648,9 @@ This is Mirmire's widget for your phone's own home screen (for widgets inside Mi
 
 **Install does nothing, or opens Android's Install unknown apps screen.** Mirmire needs permission to install apps once: turn on **Allow from this source** for Mirmire, go back and tap **Install** again.
 
-**RetroArch says the core is missing.** Open RetroArch, choose **Load Core › Install or Restore Core**, and pick the core Mirmire named.
+**RetroArch says the core is missing, or a game stays on a black screen.** The console's core probably isn't installed in RetroArch. Open RetroArch, choose **Load Core › Install or Restore a Core**, and pick the core Mirmire named. Mirmire also tells you this with a notification after a launch that didn't start.
 
-**A game shows a black screen in RetroArch.** Switch **Graphics driver** to OpenGL in Settings › RetroArch, or turn off the screen effect for that console.
+**A game shows a black screen in RetroArch with its core installed.** Switch **Graphics driver** to OpenGL in Settings › RetroArch, or turn off the screen effect or upscaling for that console.
 
 **N64 controls don't respond.** Keep the recommended **Input polling: Early** for N64.
 
