@@ -4,7 +4,7 @@ Everything Mirmire does, grouped the same way as its Settings.
 
 **Getting started:** [Install](#install) · [First-time setup](#first-time-setup) · [Adding your games](#adding-your-games) · [rclone (Google Drive, Dropbox, OneDrive)](#rclone-google-drive-dropbox-onedrive) · [RomM](#romm) · [Game streaming](#game-streaming-moonlight-and-steam-link)  
 **Playing:** [Browsing and playing](#browsing-and-playing) · [Home page and widgets](#home-page-and-widgets) · [Big Picture](#big-picture) · [Dual screen](#dual-screen) · [Controls](#controls) · [Spotlight and play time](#spotlight-and-play-time) · [RetroAchievements](#retroachievements) · [AI](#ai)  
-**Emulators:** [Emulators and RetroArch](#emulators-and-retroarch) · [BIOS files](#bios-files) · [GPU drivers](#gpu-drivers) · [Performance modes and stick lights: one-time setup](#performance-modes-and-stick-lights-one-time-setup)  
+**Emulators:** [Emulators and RetroArch](#emulators-and-retroarch) · [Texture packs](#texture-packs) · [BIOS files](#bios-files) · [GPU drivers](#gpu-drivers) · [Performance modes and stick lights: one-time setup](#performance-modes-and-stick-lights-one-time-setup)  
 **Your library:** [Library cleanup](#library-cleanup) · [Artwork](#artwork) · [Storage](#storage) · [Pack for a trip](#pack-for-a-trip)  
 **Sync and backup:** [Save sync](#save-sync) · [Continue on another device](#continue-on-another-device) · [Syncthing](#syncthing) · [Backups](#backups)  
 **Make it yours:** [Themes and layout](#themes-and-layout) · [Profiles](#profiles) · [Parental controls](#parental-controls) · [Home Assistant](#home-assistant) · [Stick lights](#stick-lights) · [Home screen widget](#home-screen-widget)  
@@ -19,7 +19,7 @@ Everything Mirmire does, grouped the same way as its Settings.
 
 ## First-time setup
 
-The guided setup walks through everything in about two minutes. Each step can be skipped and changed later in Settings. To run it again, open **Settings › System › Run setup again**.
+The guided setup walks through everything in about two minutes. **Next** moves on without changing anything, so any step can be passed over and set later in Settings. **Finish later** leaves setup from any step, and a step you've already done can be tapped in the progress dots to go back to it (L1 on a controller). To run it again, open **Settings › System › Run setup again**.
 
 ![Welcome](../screenshots/31-setup-welcome.jpg)
 
@@ -62,6 +62,8 @@ Open **Settings › Library › Add library**. Mirmire looks for servers on your
 **Sign in, then pick the folder.** For network storage, enter the address and your username and password, then choose **Connect & browse**. Mirmire signs in and shows the folders on the server (for SMB, first the shares on your NAS, so you don't need to know the share name): open a folder to look inside, choose **Up one level** to go back, and choose **Use this folder** on the folder that holds your console folders. Console folders it recognises are marked, so you can see when you've found the right place. You can still type the path yourself under **Or type the path (optional)**. **Test** checks the folder and lists the consoles it found.
 
 If signing in fails, Mirmire says why: wrong username or password, server not found, couldn't reach the server, connection timed out, folder or share not found, or permission denied.
+
+**FTPS certificates.** With FTP over TLS, Mirmire remembers the server's certificate the first time it connects and only accepts that one afterwards, the way SFTP remembers a host key. If the certificate changes, the library stops connecting and says the server's identity changed. If you replaced the certificate yourself, remove the library and add it again. Changing the server address forgets the saved certificate.
 
 **Away from home with Tailscale.** If you use [Tailscale](https://tailscale.com), fill in **Away from home (optional)** with the NAS's Tailscale name or 100.x address, for example `nas.tail1234.ts.net`. Mirmire tries the home address first and switches to the Tailscale one when the home address doesn't answer, so the same library works on your Wi-Fi and on the road. After **Test**, the editor shows which address is in use, and each library in the list is marked **Home** or **Tailscale**. It works for SMB, SFTP, WebDAV, rclone, FTP and RomM libraries. Mirmire doesn't include Tailscale: install the Tailscale app and sign in, and Mirmire shows whether it's connected.
 
@@ -393,6 +395,25 @@ Mirmire reads your screen's resolution. When it shows a 3D console at 2× or mor
 
 **Bezels.** **Bezel** puts console art around the picture, from The Bezel Project: **The console's**, or **The game's own** (falling back to the console's when a game has none). They download once, for most 8-bit to Dreamcast-era consoles. Bezels use RetroArch's overlay, so they show only while a controller is connected, in place of the touch controls.
 
+### Texture packs
+
+Some emulators can swap a game's textures for sharper, redrawn ones. On a game's details page, **Texture pack** installs a pack you downloaded into the folder that game's emulator reads. Mirmire doesn't download packs: **Find packs** opens a list of where to get them, and each pack has its own terms.
+
+1. Download a pack made for the game.
+2. On the game's page, choose **Texture pack › Choose a pack** and pick the ZIP or 7z file. A 7z split into parts (`.7z.001`, `.7z.002`…) is picked all at once. For N64, a ready-made `.hts` or `.htc` cache file works too. RAR isn't supported: unpack it with a file manager and make a ZIP.
+3. Mirmire works out which game the pack is for from the pack's folders or name, or from the game's own file. If neither says, it asks for the game's ID, for example `ULUS10041` for PSP, `GZLE01` for GameCube and Wii, `SLUS-21348` for PS2 or the internal name for N64.
+4. Turn texture replacement on in the emulator. Mirmire shows the exact setting when the install finishes.
+
+| Emulator | Consoles | Notes |
+|---|---|---|
+| RetroArch | N64 (Mupen64Plus-Next), PSP (PPSSPP), GameCube and Wii (Dolphin), Dreamcast (Flycast), 3DS (Azahar, Citra) | Turn the option on in Quick Menu › Core Options while the game runs. |
+| PPSSPP | PSP | Uses `PSP/TEXTURES` on your storage when PPSSPP's memory stick is there. |
+| Dolphin | GameCube, Wii | Needs Mirmire's [shell access](#performance-modes-and-stick-lights-one-time-setup): Dolphin keeps textures in its private folder. |
+| AetherSX2 / NetherSX2 | PS2 | Needs shell access too. Packs made for recent PCSX2 versions may not load. |
+| Mupen64Plus FZ | N64 | Use its own importer: side menu › Tools › Add Texture Pack. |
+
+Texture packs need **All files access** for Mirmire (Settings › Emulators). Installing a new pack replaces the one Mirmire installed before, and **Remove texture pack** deletes it, so the game goes back to its own textures. Mirmire never overwrites textures it didn't install. If you later switch the game to another emulator, install the pack again for that one.
+
 ### Bring over from RetroArch
 
 If you played through RetroArch from another app (ES-DE, Daijishō…), **Bring over from RetroArch** at the top of Settings › RetroArch (and in setup) copies your saves and save states for games in your library, your RetroArch settings (controls, hotkeys, video, audio and menu) and BIOS files into Mirmire's setup. Only new or newer files are copied, and RetroArch's own folders aren't changed. RetroArch keeps its settings in a private folder on some devices; finish the [one-time setup](#performance-modes-and-stick-lights-one-time-setup) and they can come too.
@@ -518,7 +539,7 @@ When another of your devices played a game more recently, the home screen offers
 ![Continue on another device](../screenshots/47-continue.jpg)
 
 - **Devices that use the same library storage** need no setup: they share saves, states and "last played" through it.
-- **Devices without shared storage** (for example, games in a folder on each device) pair once over Wi-Fi in **Settings › Sync & backup › Continue on another device**: press **Pair** next to the other device, check that both screens show the same 6-digit code, and accept on the other device. Paired devices swap newer saves and states, encrypted, whenever Mirmire is open on both on the same Wi-Fi. A replaced copy is kept in `Mirmire/retroarch/.peer-backup/`.
+- **Devices without shared storage** (for example, games in a folder on each device) pair once over Wi-Fi in **Settings › Sync & backup › Continue on another device**: press **Pair** next to the other device, check that both screens show the same 6-digit code, and accept on the other device. Both devices need Mirmire 1.2.4 or later: pairing now checks the code in a way older versions don't support. Paired devices swap newer saves and states, encrypted, whenever Mirmire is open on both on the same Wi-Fi. A replaced copy is kept in `Mirmire/retroarch/.peer-backup/`.
 
 
 **Upload when the screen turns off** (on by default): press power in the middle of a game and its saves and save states upload a few seconds later, and your other devices are told what you were playing so they offer **Continue**. RetroArch writes in-game saves when it pauses. To pick up at the exact moment, save a state first with the hotkey + R1.
@@ -534,7 +555,7 @@ When another of your devices played a game more recently, the home screen offers
 - **Back up automatically:** once a day; the newest 10 backups of each device are kept.
 - **Restore a backup:** from this device or any other. Libraries it adds ask for their password.
 - **Include RetroArch's own settings** (on by default): also backs up `retroarch.cfg` and the core options, overrides and remaps in RetroArch's config folder. Anything tied to one device is left out: folder paths, video and audio drivers, controller button numbers and screen size. RetroArch's sign-in isn't included either. Restoring merges these into the device's own RetroArch setup. Settings sync doesn't change RetroArch's files; they only come back when you restore a backup.
-- **Keep settings in sync:** changes back up a minute later, and Mirmire applies newer settings from your other devices when it opens. Each setting is merged on its own, so a change on one device doesn't undo a different change made on another. Screen orientation, menu style and sizes stay per device.
+- **Keep settings in sync:** changes back up a minute later, and Mirmire applies newer settings from your other devices when it opens. New themes and icon packs come over too, but not widget plugins, because they run code: restore a backup to bring those back, and Mirmire asks first. Each setting is merged on its own, so a change on one device doesn't undo a different change made on another. Screen orientation, menu style and sizes stay per device.
 
 Passwords and keys are never backed up.
 
@@ -649,6 +670,8 @@ This is Mirmire's widget for your phone's own home screen (for widgets inside Mi
 **Install does nothing, or opens Android's Install unknown apps screen.** Mirmire needs permission to install apps once: turn on **Allow from this source** for Mirmire, go back and tap **Install** again.
 
 **RetroArch says the core is missing, or a game stays on a black screen.** The console's core probably isn't installed in RetroArch. Open RetroArch, choose **Load Core › Install or Restore a Core**, and pick the core Mirmire named. Mirmire also tells you this with a notification after a launch that didn't start.
+
+**A texture pack doesn't show in the game.** Turn texture replacement on in the emulator (the setting Mirmire showed after installing, also on the game's **Texture pack** screen), then restart the game. Check that the game still plays in the emulator the pack was installed for.
 
 **A game shows a black screen in RetroArch with its core installed.** Switch **Graphics driver** to OpenGL in Settings › RetroArch, or turn off the screen effect or upscaling for that console.
 
