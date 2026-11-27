@@ -36,11 +36,14 @@ Put `plugin.json` at the top of the ZIP. A ZIP holding one folder with `plugin.j
 | `id` | A unique name of lowercase letters, numbers and dashes. Importing a plugin with the same `id` replaces the old one. |
 | `name` | Shown in the widget list. |
 | `author`, `description` | Shown when someone installs it. |
-| `version` | A whole number. Raise it when you share an update. |
+| `version` | A whole number. Raise it when you share an update, so Mirmire offers it to players who installed the plugin from the catalog. |
 | `entry` | The page to open. Usually `index.html`. |
 | `sizes` | The sizes your widget can be: `small` (1×1), `wide` (2×1), `medium` (2×2) and `large` (4×2). |
 | `defaultSize` | The size it starts at. One of `sizes`. |
 | `permissions` | What else it may do: `internet`, `library`, `achievements` and `ai`. Leave it empty if it needs none. |
+| `icon` | Optional. A square picture of the plugin, shown beside its name in **Settings › Plugins**: a PNG, JPEG or WebP in the ZIP, 192×192 pixels is plenty. |
+| `sites` | Optional. Websites the plugin may open full screen inside Mirmire with `mirmire.openSite()`, as host names: `["example.com"]`. Needs the `internet` permission, and players see each one before they install. |
+| `api` | Optional. The `window.mirmire` version the plugin needs. Leave it out unless you use something new: `mirmire.openSite()` needs `2`. An older Mirmire then says the plugin needs a newer one. |
 | `settings` | Optional. A page for the widget's own options, such as choosing a pet. Players open it from **Widget options** in the widget's edit menu. |
 
 ### Permissions
@@ -60,7 +63,7 @@ Players see a plugin's permissions before they install it, so ask only for what 
 Mirmire adds `window.mirmire` before your own scripts run.
 
 ```js
-mirmire.version        // 1
+mirmire.version        // 2
 mirmire.size           // "small", "wide", "medium" or "large"; "settings" on the options page
 mirmire.theme          // { dark: true, colors: { primary: "#F5B54A", surface: "#1C1B22", ... } }
 
@@ -79,6 +82,9 @@ mirmire.bubble("Hi!", { ms: 3000, ai: false, x: 0.5 })
                        // x is where it points (0 = left, 1 = right), ai: true adds an "AI" tag
 mirmire.openSettings() // opens the plugin's options page (needs "settings" in plugin.json)
 mirmire.openPage("chat.html") // opens another of the plugin's own pages full screen, like its options page
+mirmire.openSite("https://example.com/") // opens a website full screen inside Mirmire. Only https addresses on the hosts
+                       // in "sites" (and their subdomains). The site is an ordinary web page: it gets no window.mirmire and
+                       // none of your plugin's data. Links to other sites, and downloads, open in the device's browser.
 mirmire.close()        // on the options page: closes it
 
 // With the "achievements" permission:
@@ -168,13 +174,18 @@ Theme Studio previews the widget page only; add an options page (or other pages 
 - **Size with the page, not with pixels.** The widget fills its card. Use `vh`, `vw`, percentages or flexbox, and check every size you list in Theme Studio.
 - **Keep it light.** Several widgets can be on screen at once, often on a handheld. Avoid heavy animation loops; pause them when `document.hidden` is true.
 - **Don't expect a mouse.** Players select your widget with a controller. React to `mirmire:select` rather than to clicks on small buttons.
-- **No links.** Navigation away from the plugin's page is blocked. Use `mirmire.games.open(id)` to open a game.
+- **No links.** Navigation away from the plugin's page is blocked. Use `mirmire.games.open(id)` to open a game, and `mirmire.openSite()` to show a website named in `sites`.
 - **Store little.** `mirmire.storage` holds up to 64 KB per plugin, and stays on the device.
 - **Only share what you're allowed to.** Credit art, fonts and sounds in `author` or a README in the ZIP.
 
+## Share your plugin in Mirmire's catalog
+
+Mirmire lists the plugins from **[mirmire-plugins](https://github.com/Mirmire-Launcher/mirmire-plugins)** under **Settings › Plugins › Available plugins**, where players install them with one press. To add yours, fork that repository, put your plugin's folder in `plugins/`, and open a pull request. Its [README](https://github.com/Mirmire-Launcher/mirmire-plugins#add-your-plugin) has the steps and what a pull request needs.
+
 ## Install a plugin
 
-- **Settings › Plugins › Add a plugin**, or
+- **Settings › Plugins › Available plugins**: pick one from the catalog and press **Install**, or
+- **Settings › Plugins › Add a plugin** for a ZIP, or
 - on the Home page, **Edit › Add widget › Plugins › Import a plugin ZIP**.
 
 Mirmire shows the plugin's name, author and permissions, and installs it when you press **Install**. Then add it from **Add widget › Plugins**. To turn a plugin off or remove it, open **Settings › Plugins**.

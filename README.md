@@ -40,7 +40,7 @@ Saves, save states and favorites sync with your storage. Pick up your handheld a
 
 Mirmire downloads cores, sets hotkeys, auto-resume and a sharp picture, and suggests settings for your device, including FSR, ScaleFX or AI upscaling when your screen is much sharper than the game. Change any setting for all games, one console or one game without opening RetroArch's menus, and frame the picture with bezels from The Bezel Project.
 
-Original Xbox plays in hakuX, Xbox 360 in Xendroid Plus, PS2 in ARMSX2, PS3 in ARMSX3 or aPS3e, and Steam games from your DroidDeck library in DroidDeck. Emulators that aren't on Google Play install straight from Mirmire, and on Snapdragon devices it finds the latest custom Adreno drivers for the emulators that can load them.
+Original Xbox plays in hakuX, Xbox 360 in Xendroid Plus, PS2 in ARMSX2, PS3 in ARMSX3 or aPS3e, and Steam games from your DroidDeck library in DroidDeck. Using a fork or an emulator Mirmire doesn't list? Pick **Use another installed app** in any console's emulator list, and Mirmire works out how to start games in it. Emulators that aren't on Google Play install straight from Mirmire, and on Snapdragon devices it finds the latest custom Adreno drivers for the emulators that can load them.
 
 | Settings for every game | Just this console |
 |---|---|
@@ -107,7 +107,7 @@ On Retroid and AYN handhelds, the stick lights follow the theme, the battery lev
 ### And more
 
 - **👥 Profiles:** each player has their own saves, favorites and play time, with a PIN and a pixel-art avatar if you like.
-- **🧩 Plugins:** add widgets from a ZIP and turn each one on or off in **Settings › Plugins**, or make your own in Theme Studio.
+- **🧩 Plugins:** install widgets from the [plugin catalog](https://github.com/Mirmire-Launcher/mirmire-plugins) or a ZIP and turn each one on or off in **Settings › Plugins**, or make your own in Theme Studio and share it with a pull request.
 - **🏠 Home Assistant:** dim the lights when a game starts on the TV, or run any scene or script when you play, stop or step away.
 - **✈️ Pack for a trip:** choose games to take offline. Everything syncs back when you're home.
 - **🎮 Play together:** invite a paired device on the same Wi-Fi to a netplay game.
@@ -128,7 +128,7 @@ On Retroid and AYN handhelds, the stick lights follow the theme, the battery lev
 - **Dual-screen preview:** see your theme on both screens of a dual-screen handheld.
 - **Bring your own files:** wallpaper, console icons, backdrops, sounds and music. Files named like other frontends' sets are sorted automatically.
 
-Download the ZIP and import it in **Settings › Look**. See [Make your own themes and icon packs](docs/CREATING.md) and [Make widget plugins](docs/PLUGINS.md).
+Download the ZIP and import it in **Settings › Look**. See [Make your own themes and icon packs](docs/CREATING.md) and [Make widget plugins](docs/PLUGINS.md). To offer your plugin to every player, add it to [mirmire-plugins](https://github.com/Mirmire-Launcher/mirmire-plugins) with a pull request.
 
 ![Theme Studio with a live preview of a Mirmire theme remix](docs/images/site/theme-studio.jpg)
 
