@@ -10,24 +10,28 @@
   <meta property="og:image" content="https://mirmire-launcher.github.io/mirmire/images/social-preview.png">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <script>try { const t = localStorage.getItem("mirmire-site-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}</script>
+  <script>document.documentElement.classList.add("js"); try { const t = localStorage.getItem("mirmire-site-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}</script>
   <link rel="icon" href="images/mirmire-icon.svg" type="image/svg+xml">
   <style>
-    @font-face { font-family: Oxanium; src: url("theme-maker/assets/fonts/oxanium_medium.ttf") format("truetype"); font-weight: 500; }
-    @font-face { font-family: Oxanium; src: url("theme-maker/assets/fonts/oxanium_bold.ttf") format("truetype"); font-weight: 700 800; }
+    @font-face { font-family: Oxanium; src: url("theme-maker/assets/fonts/oxanium_medium.ttf") format("truetype"); font-weight: 500; font-display: swap; }
+    @font-face { font-family: Oxanium; src: url("theme-maker/assets/fonts/oxanium_bold.ttf") format("truetype"); font-weight: 700 800; font-display: swap; }
     :root {
       --bg: #0B1326; --bg-2: #101B33; --panel: #142037; --panel-2: #19283F; --line: #25364F;
       --ink: #FFF4E4; --ink-2: #C9D2E1; --ink-3: #8D9AB0;
       --gold: #FFB84D; --pale: #FFD584; --coral: #FF795D; --rose: #F25967;
       --accent-text: #FFB84D; --hair: #ffffff10; --ghost: #ffffff0d; --ghost-line: #ffffff22;
-      --hero-top: #16244A; --em-1: #FFD584; --em-2: #FF795D; --chip: #FFB84D1A;
+      --hero-top: #16244A; --em-1: #FFD584; --em-2: #FF795D;
+      --tone-gold: #FFB84D; --tone-coral: #FF8A70; --tone-rose: #FF7B88;
+      --shadow: #0009; --ring: #FFB84D55;
       color-scheme: dark;
     }
     :root[data-theme="light"] {
       --bg: #FBF7F1; --bg-2: #F4ECE0; --panel: #FFFFFF; --panel-2: #FFF8EE; --line: #E9DFD0;
       --ink: #1A2238; --ink-2: #4A546E; --ink-3: #7B8397;
       --accent-text: #B5630A; --hair: #1A223814; --ghost: #1A22380A; --ghost-line: #1A223826;
-      --hero-top: #FFE9CC; --em-1: #E08A00; --em-2: #E2483A; --chip: #FFB84D2E;
+      --hero-top: #FFE9CC; --em-1: #E08A00; --em-2: #E2483A;
+      --tone-gold: #B5630A; --tone-coral: #CF4A2C; --tone-rose: #C9364A;
+      --shadow: #6B4A1F2E; --ring: #B5630A40;
       color-scheme: light;
     }
     @media (prefers-color-scheme: light) {
@@ -35,57 +39,74 @@
         --bg: #FBF7F1; --bg-2: #F4ECE0; --panel: #FFFFFF; --panel-2: #FFF8EE; --line: #E9DFD0;
         --ink: #1A2238; --ink-2: #4A546E; --ink-3: #7B8397;
         --accent-text: #B5630A; --hair: #1A223814; --ghost: #1A22380A; --ghost-line: #1A223826;
-        --hero-top: #FFE9CC; --em-1: #E08A00; --em-2: #E2483A; --chip: #FFB84D2E;
+        --hero-top: #FFE9CC; --em-1: #E08A00; --em-2: #E2483A;
+        --tone-gold: #B5630A; --tone-coral: #CF4A2C; --tone-rose: #C9364A;
+        --shadow: #6B4A1F2E; --ring: #B5630A40;
         color-scheme: light;
       }
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 76px; }
     body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
     a { color: var(--accent-text); }
     img { max-width: 100%; height: auto; display: block; }
-    h1, h2, h3, .brand { font-family: Oxanium, system-ui, sans-serif; letter-spacing: -.3px; }
+    h1, h2, h3, .brand { font-family: Oxanium, system-ui, sans-serif; letter-spacing: -.3px; text-wrap: balance; }
+    code { font-size: .92em; background: var(--ghost); border: 1px solid var(--hair); padding: 1px 6px; border-radius: 6px; }
+    :focus-visible { outline: 2px solid var(--accent-text); outline-offset: 3px; border-radius: 6px; }
     .wrap { width: min(1160px, 100% - 32px); margin: 0 auto; }
 
+    /* icons: one stroke set, drawn on a 24 grid */
+    .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .i { width: 1.15em; height: 1.15em; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .i.solid { fill: currentColor; stroke: none; }
+
     /* nav */
-    nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--hair); }
+    nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--hair); }
     nav .wrap { display: flex; align-items: center; gap: 22px; height: 64px; }
     .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; color: var(--ink); text-decoration: none; }
     .brand img { width: 34px; height: 34px; border-radius: 9px; }
-    nav .links { display: flex; gap: 22px; margin-left: auto; align-items: center; }
-    nav .links a { color: var(--ink-2); text-decoration: none; font-weight: 500; font-size: 15px; }
-    nav .links a:hover { color: var(--ink); }
-    nav .links a.btn.primary, nav .links a.btn.primary:hover, .btn.primary:hover { color: #241A11; }
-    nav .links a { display: inline-flex; align-items: center; gap: 7px; }
-    nav .links a:not(.btn) svg { opacity: .75; }
-    .mode { border: 1px solid var(--ghost-line); background: var(--ghost); color: var(--ink-2); width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; cursor: pointer; }
+    nav .links { display: flex; gap: 6px; margin-left: auto; align-items: center; }
+    nav .links a:not(.btn) { display: inline-flex; align-items: center; gap: 7px; color: var(--ink-2); text-decoration: none; font-weight: 500; font-size: 15px; padding: 8px 11px; border-radius: 10px; transition: color .15s, background .15s; }
+    nav .links a:not(.btn):hover { color: var(--ink); background: var(--ghost); }
+    nav .links a:not(.btn) .i { opacity: .8; font-size: 15px; }
+    nav .links .btn { margin-left: 8px; }
+    .mode { border: 1px solid var(--ghost-line); background: var(--ghost); color: var(--ink-2); width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; cursor: pointer; margin-left: 6px; font-size: 16px; }
     .mode:hover { color: var(--ink); }
     .mode .sun { display: none; }
     :root[data-theme="light"] .mode .sun, :root:not([data-theme="dark"]) .mode .sun { display: block; }
     :root[data-theme="light"] .mode .moon, :root:not([data-theme="dark"]) .mode .moon { display: none; }
     @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .mode .sun { display: none; } :root:not([data-theme="light"]) .mode .moon { display: block; } }
-    nav .links a:hover svg { opacity: 1; }
-    footer .links a { display: inline-flex; align-items: center; gap: 6px; }
-    @media (max-width: 600px) { nav .links a.gh { display: inline-flex !important; } nav .links a.gh span { display: none; } }
 
     /* buttons */
-    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 14px; font-weight: 700; font-size: 16px; text-decoration: none; transition: transform .15s, box-shadow .15s; white-space: nowrap; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 14px; font-weight: 700; font-size: 16px; text-decoration: none; transition: transform .15s, box-shadow .15s, background .15s; white-space: nowrap; }
     .btn:hover { transform: translateY(-2px); }
-    .btn.primary { background: linear-gradient(135deg, var(--pale), var(--gold)); color: #241A11; box-shadow: 0 10px 30px #FFB84D40; }
+    .btn.primary, .btn.primary:hover { background: linear-gradient(135deg, var(--pale), var(--gold)); color: #241A11; box-shadow: 0 10px 30px #FFB84D40; }
+    .btn.primary:hover { box-shadow: 0 14px 36px #FFB84D5c; }
     .btn.ghost { color: var(--ink); background: var(--ghost); border: 1px solid var(--ghost-line); }
-    .btn.small { padding: 9px 15px; font-size: 14px; border-radius: 11px; }
-    .btn svg { width: 20px; height: 20px; }
+    .btn.ghost:hover { background: color-mix(in srgb, var(--ghost) 100%, var(--ghost-line)); }
+    .btn.small { padding: 9px 15px; font-size: 14px; border-radius: 11px; gap: 8px; }
+    .btn .i { font-size: 17px; }
+    .btn .i.arrow { transition: transform .15s; }
+    .btn:hover .i.arrow { transform: translateX(3px); }
 
     /* hero */
-    .hero { position: relative; overflow: hidden; padding: 72px 0 40px;
+    .hero { position: relative; overflow: hidden; padding: 72px 0 0;
       background: radial-gradient(900px 520px at 80% 115%, #FF795D45, transparent 60%), radial-gradient(700px 420px at 90% 100%, #FFB84D35, transparent 65%), linear-gradient(165deg, var(--hero-top) 0%, var(--bg-2) 50%, var(--bg) 100%); }
-    .hero .wrap { display: grid; grid-template-columns: 1fr 1.25fr; gap: 48px; align-items: center; }
-    .hero .icon { width: 84px; height: 84px; border-radius: 20px; box-shadow: 0 16px 40px #0008; margin-bottom: 22px; }
-    .hero h1 { font-size: clamp(44px, 6vw, 76px); line-height: 1.02; margin: 0 0 18px; font-weight: 800; }
+    .hero .wrap.main { display: grid; grid-template-columns: 1fr 1.25fr; gap: 48px; align-items: center; position: relative; }
+    .dawn { position: absolute; right: -8%; bottom: -46%; width: min(980px, 90vw); aspect-ratio: 1; pointer-events: none; color: var(--gold); opacity: .22; }
+    .dawn circle { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; }
+    .hero .icon { width: 76px; height: 76px; border-radius: 19px; box-shadow: 0 16px 40px var(--shadow); margin-bottom: 22px; }
+    .hero h1 { font-size: clamp(42px, 5.6vw, 72px); line-height: 1.03; margin: 0 0 18px; font-weight: 800; }
     .hero h1 em { font-style: normal; background: linear-gradient(90deg, var(--em-1), var(--em-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .hero p.lead { font-size: 20px; color: var(--ink-2); margin: 0 0 28px; max-width: 520px; }
     .hero .ctas { display: flex; gap: 12px; flex-wrap: wrap; }
-    .hero .meta { color: var(--ink-3); font-size: 14px; margin-top: 16px; }
+    .hero .meta { display: flex; flex-wrap: wrap; gap: 8px 18px; color: var(--ink-3); font-size: 14px; margin: 20px 0 0; padding: 0; list-style: none; }
+    .hero .meta li { display: inline-flex; align-items: center; gap: 7px; }
+    .hero .meta .i { color: var(--accent-text); font-size: 14px; stroke-width: 2.4; }
+    .works { position: relative; margin-top: 56px; border-top: 1px solid var(--hair); padding: 18px 0 22px; display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; }
+    .works b { font-family: Oxanium, sans-serif; font-size: 13px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--ink-3); font-weight: 700; margin-right: 6px; }
+    .works span { font-size: 14px; font-weight: 600; color: var(--ink-2); padding: 5px 12px; border-radius: 999px; background: var(--ghost); border: 1px solid var(--hair); }
+
 /* Handheld: a rounded-rectangle body with shoulder buttons, recessed sticks with lights, D-pad, face buttons,
    Start/Select and speaker grilles. Grips are flex columns, so the parts scale with the device. */
 .hh { --hh-light-l: #FFB84D; --hh-light-r: #FF795D; position: relative; isolation: isolate; border-radius: 46px;
@@ -95,6 +116,10 @@
   background: linear-gradient(180deg, #4A5265, #262B36); box-shadow: inset 0 1px 0 #ffffff30; }
 .hh::before { left: 7%; } .hh::after { right: 7%; }
 .hh .hh-screen { background: #05070A; border-radius: 16px; padding: 10px; box-shadow: inset 0 0 0 1px #ffffff14, 0 0 0 2px #0006; position: relative; z-index: 1; }
+.hh .slides { position: relative; border-radius: 8px; overflow: hidden; }
+.hh .slides img + img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; animation: slide 16s infinite backwards; }
+.hh .slides img:nth-child(2) { animation-delay: 4s; } .hh .slides img:nth-child(3) { animation-delay: 8s; } .hh .slides img:nth-child(4) { animation-delay: 12s; }
+@keyframes slide { 0%, 29%, 100% { opacity: 0; } 4%, 25% { opacity: 1; } }
 .hh .grip { display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; }
 .hh .well { width: 74%; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle, #0B0D12 58%, #1E222C 72%); box-shadow: inset 0 3px 6px #000c, 0 1px 0 #ffffff14; }
 .hh .stick { width: 76%; aspect-ratio: 1; border-radius: 50%; position: relative;
@@ -128,118 +153,230 @@
     h2 { font-size: clamp(32px, 4vw, 46px); margin: 0 0 14px; line-height: 1.1; font-weight: 800; }
     .sub { color: var(--ink-2); font-size: 19px; max-width: 720px; margin: 0 0 44px; }
 
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 24px; transition: border-color .2s, transform .2s; }
-    .card:hover { border-color: #FFB84D66; transform: translateY(-3px); }
-    .card .ic { font-size: 28px; line-height: 1; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 14px; background: var(--chip); margin-bottom: 16px; }
-    .card h3 { margin: 0 0 8px; font-size: 21px; }
-    .card p { margin: 0; color: var(--ink-2); font-size: 16px; }
+    /* feature groups */
+    .group { --tone: var(--tone-gold); }
+    .group.coral { --tone: var(--tone-coral); }
+    .group.rose { --tone: var(--tone-rose); }
+    .group + .group { margin-top: 44px; }
+    .ghead { display: flex; align-items: center; gap: 14px; margin: 0 0 18px; font-family: Oxanium, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--tone); }
+    .ghead::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, color-mix(in srgb, var(--tone) 45%, transparent), transparent); }
+    .ghead small { font: 600 12px/1 system-ui, sans-serif; letter-spacing: 0; color: var(--ink-3); padding: 5px 9px; border-radius: 999px; border: 1px solid var(--line); }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { --tone: inherit; display: grid; grid-template-columns: auto 1fr; column-gap: 14px; align-items: center; align-content: start; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 22px; transition: border-color .2s, transform .2s, box-shadow .2s; }
+    .card:hover { border-color: color-mix(in srgb, var(--tone) 45%, var(--line)); transform: translateY(-3px); box-shadow: 0 18px 40px -18px var(--shadow); }
+    .card .ic { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 13px; color: var(--tone); font-size: 20px;
+      background: linear-gradient(145deg, color-mix(in srgb, var(--tone) 22%, transparent), color-mix(in srgb, var(--tone) 7%, transparent)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tone) 26%, transparent); transition: transform .2s; }
+    .card:hover .ic { transform: scale(1.06) rotate(-3deg); }
+    .card h3 { margin: 0; font-size: 19px; line-height: 1.2; }
+    .card p { grid-column: 1 / -1; margin: 14px 0 0; color: var(--ink-2); font-size: 15.5px; }
 
     /* feature rows with screenshots */
-    .rows { display: grid; gap: 80px; }
+    .rows { display: grid; gap: 88px; }
     .row { display: grid; grid-template-columns: 1fr 1.3fr; gap: 56px; align-items: center; }
     .row.flip { grid-template-columns: 1.3fr 1fr; }
     .row.flip .text { order: 2; }
     .row h3 { font-size: 32px; margin: 0 0 12px; line-height: 1.15; }
     .row p { color: var(--ink-2); margin: 0 0 12px; }
-    .row ul { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
-    .row li { padding-left: 28px; position: relative; color: var(--ink-2); }
-    .row li::before { content: ""; position: absolute; left: 4px; top: 9px; width: 10px; height: 10px; border-radius: 3px; background: linear-gradient(135deg, var(--gold), var(--coral)); }
-    .shot { border-radius: 18px; border: 1px solid var(--line); box-shadow: 0 30px 70px #0009; overflow: hidden; }
+    .row ul { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+    .row li { padding-left: 32px; position: relative; color: var(--ink-2); }
+    .row li::before { content: ""; position: absolute; left: 0; top: 3px; width: 20px; height: 20px; border-radius: 7px; background: color-mix(in srgb, var(--gold) 18%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 30%, transparent); }
+    .row li::after { content: ""; position: absolute; left: 6px; top: 8px; width: 8px; height: 5px; border-left: 2px solid var(--accent-text); border-bottom: 2px solid var(--accent-text); transform: rotate(-45deg); border-radius: 1px; }
+    .shot { border-radius: 18px; border: 1px solid var(--line); box-shadow: 0 30px 70px -10px var(--shadow); overflow: hidden; cursor: zoom-in; transition: transform .25s; }
+    .shot:hover { transform: scale(1.012); }
     .pair { display: grid; gap: 14px; }
 
     /* theme studio */
     .studio { background: radial-gradient(800px 400px at 20% 0%, #FF795D22, transparent 70%), var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
     .studio .wrap > .head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 36px; }
     .studio .head .sub { margin: 0; }
-    .browser { border-radius: 18px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 40px 90px #000a; background: #1A1E2A; }
+    .browser { display: block; text-decoration: none; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 40px 90px -10px var(--shadow); background: #1A1E2A; }
     .browser .chrome { height: 38px; display: flex; align-items: center; gap: 8px; padding: 0 14px; background: #20252F; }
     .browser .chrome i { width: 11px; height: 11px; border-radius: 50%; background: #3a4050; }
     .browser .chrome i:nth-child(1) { background: #FF6159; } .browser .chrome i:nth-child(2) { background: #FFBD2E; } .browser .chrome i:nth-child(3) { background: #28C941; }
-    .browser .chrome span { margin-left: 12px; font-size: 13px; color: var(--ink-3); background: #151922; padding: 3px 12px; border-radius: 7px; }
+    .browser .chrome span { margin-left: 12px; font-size: 13px; color: #8D9AB0; background: #151922; padding: 3px 12px; border-radius: 7px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .studio .grid { margin-top: 30px; grid-template-columns: repeat(4, 1fr); }
-    @media (max-width: 1100px) { .studio .grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 600px) { .studio .grid { grid-template-columns: 1fr; } }
 
     /* gallery */
-    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .gallery figure { margin: 0; }
-    .gallery img { border-radius: 14px; border: 1px solid var(--line); cursor: zoom-in; }
+    .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .gallery figure { margin: 0; display: flex; flex-direction: column; }
+    .gallery figure.big { grid-column: span 2; grid-row: span 2; }
+    .gallery img { width: 100%; border-radius: 14px; border: 1px solid var(--line); cursor: zoom-in; transition: transform .2s, border-color .2s; }
+    .gallery figure.big img { flex: 1; min-height: 0; object-fit: cover; object-position: left center; }
+    .gallery img:hover { transform: translateY(-3px); border-color: var(--ring); }
     .gallery figcaption { color: var(--ink-3); font-size: 14px; margin-top: 8px; }
-    dialog { border: 0; padding: 0; background: transparent; max-width: min(1400px, 96vw); }
-    dialog::backdrop { background: #000c; }
+    dialog { border: 0; padding: 0; background: transparent; max-width: min(1400px, 96vw); cursor: zoom-out; }
+    dialog::backdrop { background: #000c; backdrop-filter: blur(4px); }
     dialog img { border-radius: 14px; }
 
     /* get started */
-    .steps { counter-reset: s; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .step { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 26px; }
-    .step::before { counter-increment: s; content: counter(s); font-family: Oxanium, sans-serif; font-weight: 800; font-size: 20px; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: linear-gradient(135deg, var(--pale), var(--gold)); color: #241A11; margin-bottom: 16px; }
+    .steps { counter-reset: s; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .step { position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 26px; }
+    .step .num { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; color: var(--accent-text); font-size: 20px; }
+    .step .num::before { counter-increment: s; content: counter(s); font-family: Oxanium, sans-serif; font-weight: 800; font-size: 20px; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: linear-gradient(135deg, var(--pale), var(--gold)); color: #241A11; }
+    .step .num::after { content: ""; flex: 1; height: 1px; background: var(--line); order: 1; }
+    .step .num .i { order: 2; }
     .step h3 { margin: 0 0 8px; font-size: 21px; }
     .step p { margin: 0; color: var(--ink-2); font-size: 16px; }
-    .cta-band { margin-top: 44px; padding: 40px; border-radius: 24px; text-align: center; background: radial-gradient(600px 300px at 50% 120%, #FF795D40, transparent 70%), var(--panel); border: 1px solid var(--line); }
-    .cta-band h3 { font-size: 30px; margin: 0 0 8px; }
-    .cta-band p { color: var(--ink-2); margin: 0 0 22px; }
+    .cta-band { margin-top: 44px; padding: 48px 40px; border-radius: 24px; text-align: center; background: radial-gradient(600px 300px at 50% 120%, #FF795D40, transparent 70%), var(--panel); border: 1px solid var(--line); }
+    .cta-band h3 { font-size: 32px; margin: 0 0 8px; }
+    .cta-band p { color: var(--ink-2); margin: 0 0 24px; }
     .cta-band .ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
     footer { padding: 40px 0 60px; color: var(--ink-3); font-size: 14px; border-top: 1px solid var(--line); }
     footer .wrap { display: flex; gap: 24px; flex-wrap: wrap; justify-content: space-between; align-items: center; }
-    footer .links { display: flex; gap: 18px; flex-wrap: wrap; }
+    footer .links { display: flex; gap: 8px 20px; flex-wrap: wrap; }
+    footer .links a { display: inline-flex; align-items: center; gap: 7px; }
     footer a { color: var(--ink-2); text-decoration: none; }
     footer a:hover { color: var(--ink); }
+    footer .brand { font-size: 17px; }
+    footer .brand img { width: 28px; height: 28px; }
+    footer .note { width: 100%; margin: 8px 0 0; }
+    footer .legal { width: 100%; margin: 6px 0 0; font-size: 12px; line-height: 1.5; opacity: .75; }
 
+    /* reveal on scroll, only when scripts run */
+    .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+    .js .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .js .reveal { opacity: 1; transform: none; transition: none; }
+      .hh .slides img + img { animation: none; }
+      .btn, .card, .card .ic, .shot, .gallery img { transition: none; }
+    }
+
+    @media (max-width: 1100px) {
+      .studio .grid { grid-template-columns: 1fr 1fr; }
+      nav .links a:not(.btn) { padding: 8px 8px; }
+    }
     @media (max-width: 900px) {
       nav .links a.hide-sm { display: none; }
       .hero { padding-top: 44px; }
-      .hero .wrap, .row, .row.flip { grid-template-columns: 1fr; gap: 32px; }
+      .hero .wrap.main, .row, .row.flip { grid-template-columns: 1fr; gap: 32px; }
       .row.flip .text { order: 0; }
+      .rows { gap: 64px; }
       .grid, .steps { grid-template-columns: 1fr 1fr; }
       .gallery { grid-template-columns: 1fr 1fr; }
+      .gallery figure.big { grid-row: auto; }
+      .gallery figure.big img { object-fit: initial; }
+      .works { margin-top: 28px; }
       section { padding: 64px 0; }
     }
     @media (max-width: 600px) {
       body { font-size: 16px; }
-      nav .links { gap: 14px; }
       nav .links a:not(.btn):not(.gh) { display: none; }
-      .grid, .steps, .gallery { grid-template-columns: 1fr; }
+      nav .links a.gh span { display: none; }
+      .grid, .steps, .gallery, .studio .grid { grid-template-columns: 1fr; }
+      .gallery figure.big { grid-column: auto; }
       .hero p.lead { font-size: 18px; }
+      .hh { border-radius: 30px; }
       .btn { padding: 13px 18px; }
-      .cta-band { padding: 28px 18px; }
+      .cta-band { padding: 32px 18px; }
+      .row h3 { font-size: 27px; }
     }
   </style>
 </head>
 <body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- interface -->
+      <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M10 3.5l1.8 5.2L17 10.5l-5.2 1.8L10 17.5l-1.8-5.2L3 10.5l5.2-1.8z"/><path d="M18.5 15.5v5M16 18h5"/></symbol>
+      <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.9 1.8-1.9 0-.5-.2-.9-.5-1.3-.3-.3-.4-.7-.4-1.1 0-1 .8-1.7 1.7-1.7H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><path d="M7.5 12.5h.01M9.5 8h.01M14.5 8h.01" stroke-width="2.6"/></symbol>
+      <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M21 15.5L16 11 6 20"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 5a2 2 0 0 1 2-2h12v14H7a2 2 0 0 0-2 2z"/><path d="M5 19a2 2 0 0 0 2 2h12v-4"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 20h14"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h6l10 10-8 8L3 11z"/><path d="M7.5 7.5h.01" stroke-width="2.6"/></symbol>
+      <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14.5 6.5l3 3"/></symbol>
+      <symbol id="i-code" viewBox="0 0 24 24"><path d="M8.5 7l-5 5 5 5M15.5 7l5 5-5 5"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"/></symbol>
+      <symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></symbol>
+      <!-- storage and library -->
+      <symbol id="i-server" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01" stroke-width="2.6"/><path d="M11 7.5h6M11 16.5h6"/></symbol>
+      <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.66 3.58 3 8 3s8-1.34 8-3v-13"/><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"/></symbol>
+      <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 19a4.5 4.5 0 0 1-.5-8.97A6 6 0 0 1 18 11.5a3.75 3.75 0 0 1-.25 7.5z"/></symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8.5V19l-4 2v-7.5z"/></symbol>
+      <symbol id="i-folder-in" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v5.5M9.5 14l2.5 2.5 2.5-2.5"/></symbol>
+      <symbol id="i-suitcase" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M8 11v5M16 11v5"/></symbol>
+      <!-- saves and sync -->
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11A8 8 0 0 0 5.7 7M4 13a8 8 0 0 0 14.3 4"/><path d="M5 3v4.5h4.5M19 21v-4.5h-4.5"/></symbol>
+      <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/></symbol>
+      <symbol id="i-backup" viewBox="0 0 24 24"><path d="M12 3v9M8 8.5l4 4 4-4"/><rect x="3" y="15" width="18" height="6" rx="2"/><path d="M7 18h.01" stroke-width="2.6"/></symbol>
+      <symbol id="i-sleep" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/><path d="M17.5 9V3M15 5.5L17.5 3 20 5.5"/></symbol>
+      <!-- emulators -->
+      <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h8M16 18h4"/><circle cx="16" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="14" cy="18" r="2"/></symbol>
+      <symbol id="i-gamepad" viewBox="0 0 24 24"><rect x="2" y="6.5" width="20" height="11" rx="5.5"/><path d="M6.5 12h4M8.5 10v4"/><path d="M15 13.5h.01M17.5 10.5h.01" stroke-width="2.6"/></symbol>
+      <symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 6.5A5.5 5.5 0 0 0 6.5 12"/></symbol>
+      <symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9.5 12.2l1.8 1.8 3.2-3.6"/><path d="M9 2.5V6M15 2.5V6M9 18v3.5M15 18v3.5M2.5 9H6M2.5 15H6M18 9h3.5M18 15h3.5"/></symbol>
+      <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4.5 18a9 9 0 1 1 15 0"/><path d="M12 14l4-5.5"/><circle cx="12" cy="14" r="1.6"/></symbol>
+      <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M10.5 8v4l3.5-2z"/></symbol>
+      <!-- devices and players -->
+      <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9.5 18h5M10.5 21h3"/><path d="M12 3a6 6 0 0 0-4 10.5c.8.8 1.3 1.6 1.5 2.5h5c.2-.9.7-1.7 1.5-2.5A6 6 0 0 0 12 3z"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.2a6.5 6.5 0 0 1 3 5.8"/></symbol>
+      <!-- home and TV -->
+      <symbol id="i-layout" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="10" rx="2"/><rect x="13" y="3" width="8" height="6" rx="2"/><rect x="13" y="11" width="8" height="10" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></symbol>
+      <symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 2.5V7M15 2.5V7"/><path d="M6 7h12v4a6 6 0 0 1-12 0z"/><path d="M12 17v4.5"/></symbol>
+      <symbol id="i-tv" viewBox="0 0 24 24"><rect x="2" y="4.5" width="20" height="13" rx="2.5"/><path d="M8 21h8"/></symbol>
+      <symbol id="i-dual" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="9" rx="2"/><rect x="6" y="14" width="12" height="7" rx="2"/><path d="M12 12v2"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M11 18h2"/></symbol>
+      <!-- while you play -->
+      <symbol id="i-broadcast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14"/></symbol>
+      <symbol id="i-thermo" viewBox="0 0 24 24"><path d="M14 14.5V5a2 2 0 0 0-4 0v9.5a4 4 0 1 0 4 0z"/><path d="M12 9v6.5"/><circle cx="12" cy="18" r="1.2"/></symbol>
+      <symbol id="i-bot" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="12" rx="3.5"/><path d="M12 8V5M2 13v3M22 13v3"/><circle cx="12" cy="3.8" r="1.2"/><path d="M9.5 13.5h.01M14.5 13.5h.01" stroke-width="2.8"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0z"/><path d="M8 6H5v1a3 3 0 0 0 3 3M16 6h3v1a3 3 0 0 1-3 3"/><path d="M12 14v4M8.5 20.5h7M9.5 18h5"/></symbol>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-7.5 9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-6h4v6"/></symbol>
+      <!-- theme studio -->
+      <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5L12 4l4.5 4.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></symbol>
+    </defs>
+  </svg>
+
   <nav>
     <div class="wrap">
       <a class="brand" href="./"><img src="images/mirmire-icon.svg" alt="">Mirmire</a>
       <div class="links">
-        <a href="#features" class="hide-sm"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg>Features</a>
-        <a href="#theme-studio" class="hide-sm"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3a9 9 0 0 0 0 18c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3 4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>Theme Studio</a>
-        <a href="#screenshots" class="hide-sm"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>Screenshots</a>
-        <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/GUIDE.md"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>Guide</a>
-        <a class="gh" href="https://github.com/Mirmire-Launcher/mirmire" title="Mirmire on GitHub" aria-label="Mirmire on GitHub"><svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a>
-        <button class="mode" id="mode" aria-label="Switch light or dark mode" title="Light or dark mode"><svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg><svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM2 13h2a1 1 0 0 0 0-2H2a1 1 0 0 0 0 2zm18 0h2a1 1 0 0 0 0-2h-2a1 1 0 0 0 0 2zM11 2v2a1 1 0 0 0 2 0V2a1 1 0 0 0-2 0zm0 18v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-2 0zM5.99 4.58a1 1 0 0 0-1.41 1.41l1.06 1.06a1 1 0 0 0 1.41-1.41L5.99 4.58zm12.37 12.37a1 1 0 0 0-1.41 1.41l1.06 1.06a1 1 0 0 0 1.41-1.41l-1.06-1.06zm1.06-10.96a1 1 0 0 0-1.41-1.41l-1.06 1.06a1 1 0 0 0 1.41 1.41l1.06-1.06zM7.05 18.36a1 1 0 0 0-1.41-1.41l-1.06 1.06a1 1 0 0 0 1.41 1.41l1.06-1.06z"/></svg></button>
-        <a class="btn primary small" href="https://github.com/Mirmire-Launcher/mirmire/releases/latest"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Download</a>
+        <a href="#features" class="hide-sm"><svg class="i"><use href="#i-sparkles"/></svg>Features</a>
+        <a href="#theme-studio" class="hide-sm"><svg class="i"><use href="#i-palette"/></svg>Theme Studio</a>
+        <a href="#screenshots" class="hide-sm"><svg class="i"><use href="#i-image"/></svg>Screenshots</a>
+        <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/GUIDE.md"><svg class="i"><use href="#i-book"/></svg>Guide</a>
+        <a class="gh" href="https://github.com/Mirmire-Launcher/mirmire" title="Mirmire on GitHub" aria-label="Mirmire on GitHub"><svg class="i solid"><use href="#i-github"/></svg><span>GitHub</span></a>
+        <button class="mode" id="mode" aria-label="Switch light or dark mode" title="Light or dark mode"><svg class="i moon"><use href="#i-moon"/></svg><svg class="i sun"><use href="#i-sun"/></svg></button>
+        <a class="btn primary small" href="https://github.com/Mirmire-Launcher/mirmire/releases/latest"><svg class="i"><use href="#i-download"/></svg>Download</a>
       </div>
     </div>
   </nav>
 
   <header class="hero">
-    <div class="wrap">
+    <svg class="dawn" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="18"/><circle cx="50" cy="50" r="26"/><circle cx="50" cy="50" r="34"/><circle cx="50" cy="50" r="42"/><circle cx="50" cy="50" r="49.5"/></svg>
+    <div class="wrap main">
       <div>
         <img class="icon" src="images/mirmire-icon.svg" alt="Mirmire">
         <h1>Your whole retro library, <em>straight from your NAS</em></h1>
         <p class="lead">Mirmire is a launcher for Android handhelds, phones and TVs. It plays games from your network storage, keeps your saves in sync and sets up RetroArch for you.</p>
         <div class="ctas">
-          <a class="btn primary" href="https://github.com/Mirmire-Launcher/mirmire/releases/latest"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Download for Android</a>
-          <a class="btn ghost" href="theme-maker/">🎨 Try Theme Studio</a>
+          <a class="btn primary" href="https://github.com/Mirmire-Launcher/mirmire/releases/latest"><svg class="i"><use href="#i-download"/></svg>Download for Android</a>
+          <a class="btn ghost" href="theme-maker/"><svg class="i"><use href="#i-palette"/></svg>Try Theme Studio</a>
         </div>
-        <p class="meta">Free · Android 8.0 or later · Works with RetroArch and standalone emulators</p>
+        <ul class="meta">
+          <li><svg class="i"><use href="#i-check"/></svg>Free</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Android 8.0 or later</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Works with RetroArch and standalone emulators</li>
+        </ul>
       </div>
       <div class="device hh">
         <div class="grip l"><span class="well"><span class="stick"></span></span><span class="dpad"><i></i><i></i><i></i></span><span class="hh-sys"><i></i></span><span class="grille"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
-        <div class="hh-screen"><img src="images/site/01-consoles.jpg" alt="Mirmire's console screen on a handheld, with Mega Drive / Genesis selected" width="1200" height="540"></div>
+        <div class="hh-screen"><div class="slides">
+          <img src="images/site/01-consoles.jpg" alt="Mirmire's console screen on a handheld, with Mega Drive / Genesis selected" width="1200" height="540">
+          <img src="images/site/02-games-list.jpg" alt="" width="1200" height="540">
+          <img src="images/site/06-game-details.jpg" alt="" width="1200" height="540">
+          <img src="images/site/40-spotlight.jpg" alt="" width="1200" height="540">
+        </div></div>
         <div class="grip r"><span class="face"><b>Y</b><b>X</b><b>B</b><b>A</b></span><span class="well"><span class="stick"></span></span><span class="hh-sys"><i></i></span><span class="grille"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
       </div>
+    </div>
+    <div class="wrap">
+      <div class="works"><b>Works with</b><span>SMB</span><span>SFTP</span><span>WebDAV</span><span>FTP</span><span>RomM</span><span>rclone</span><span>Syncthing</span><span>Tailscale</span><span>RetroArch</span><span>RetroAchievements</span></div>
     </div>
   </header>
   <div class="stripe"></div>
@@ -249,24 +386,46 @@
       <p class="kicker">What makes it different</p>
       <h2>Built around the library you already have</h2>
       <p class="sub">Most launchers expect your games on the device and leave emulators, saves and BIOS files to you. Mirmire is built for a library on your storage, and takes care of the rest.</p>
-      <div class="grid">
-        <div class="card"><div class="ic">📡</div><h3>Your NAS is the library</h3><p>Browse thousands of games over SMB, SFTP, WebDAV, FTP or straight from RomM. Away from home it keeps working through Tailscale. A game downloads when you press Play, big unplayed games are cleared to free space, and games only on this device upload to the NAS in one tap.</p></div>
-        <div class="card"><div class="ic">🔄</div><h3>Continue anywhere</h3><p>Saves and save states sync with your storage. Pick up another device and carry on from the same moment. Devices without shared storage pair over Wi-Fi or sync through Syncthing.</p></div>
-        <div class="card"><div class="ic">⚙️</div><h3>RetroArch, set up for you</h3><p>Cores, hotkeys, auto-resume and a sharp picture, with upscaling matched to your screen, settings for all games, one console or one game, and suggestions for your device. SwanStation for PS1; Beetle Saturn when you want accuracy.</p></div>
-        <div class="card"><div class="ic">🧹</div><h3>A clean library</h3><p>One version of each game by your preferred regions. Betas and demos are hidden, and files are checked against No-Intro.</p></div>
-        <div class="card"><div class="ic">🧩</div><h3>BIOS checker</h3><p>Every file each emulator needs, checked by checksum, with the exact folder it belongs in. Games tell you before you press Play if their console is missing one.</p></div>
-        <div class="card"><div class="ic">✈️</div><h3>Pack for a trip</h3><p>Take games offline and play anywhere. Everything syncs back when you're home, and offloading a game keeps its saves.</p></div>
-        <div class="card"><div class="ic">💡</div><h3>Stick lights that react</h3><p>On Retroid and AYN handhelds the lights follow the theme, the battery, the console, the cover art or the performance mode.</p></div>
-        <div class="card"><div class="ic">👨‍👩‍👧</div><h3>Profiles for the family</h3><p>Each player has their own saves, favorites, play time and a pixel-art avatar. Child profiles get age ratings, daily play time and a parent PIN.</p></div>
-        <div class="card"><div class="ic">💾</div><h3>Backups that travel</h3><p>Back up settings, themes and RetroArch's own settings to your storage, restore on any device, or keep devices in sync.</p></div>
-        <div class="card"><div class="ic">🗂️</div><h3>Bring what you already have</h3><p>Artwork ES-DE, RetroArch or LaunchBox already downloaded shows up straight away. Favorites, play time and collections come over from Pegasus and LaunchBox, and RetroArch's saves, states, settings and BIOS files with one tap.</p></div>
-        <div class="card"><div class="ic">🟩</div><h3>Xbox, PlayStation and Steam</h3><p>Xbox in hakuX, Xbox 360 in Xendroid Plus, PS2 in ARMSX2, PS3 in ARMSX3 or aPS3e, and Steam games from your DroidDeck library. Emulators that aren't on Google Play install from Mirmire in one tap.</p></div>
-        <div class="card"><div class="ic">☁️</div><h3>Drive &amp; Dropbox via rclone</h3><p>Add an rclone library and point Mirmire at <code>rclone serve webdav</code> on a PC or NAS: Google Drive, Dropbox, OneDrive and more.</p></div>
-        <div class="card"><div class="ic">🗄️</div><h3>Works with RomM</h3><p>Already run RomM? Pair Mirmire with it by scanning its QR code or approving a code: its platforms, covers and details come straight over, games download when you press Play, and saves and states sync to the game's page in RomM.</p></div>
-        <div class="card"><div class="ic">🎮</div><h3>Standalone defaults that fit</h3><p>Automatic prefers DuckStation for PS1, Mupen64Plus FZ for N64, WatermelonDS for DS and ARMSX2 for PS2 when those apps are installed.</p></div>
-        <div class="card"><div class="ic">🖥️</div><h3>Stream your PC games</h3><p>Games from Moonlight, Artemis or Steam Link get their own Streaming console. Press Play and the stream opens; a game that's also in your Steam library shows once, with a Stream button.</p></div>
-        <div class="card"><div class="ic">🔁</div><h3>Syncthing for saves</h3><p>Sync saves straight between your devices through a Syncthing folder, no NAS needed. Its conflict copies turn into Mirmire's usual question: which save to keep.</p></div>
-        <div class="card"><div class="ic">🚀</div><h3>Faster GPU drivers</h3><p>On Snapdragon devices, Mirmire finds your Adreno GPU, suggests the latest custom driver for it and shows how to load it in your emulator.</p></div>
+
+      <div class="group reveal">
+        <h3 class="ghead">Storage and library</h3>
+        <div class="grid">
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-server"/></svg></span><h3>Your NAS is the library</h3><p>Browse thousands of games over SMB, SFTP, WebDAV, FTP or straight from RomM. Away from home it keeps working through Tailscale. A game downloads when you press Play, big unplayed games are cleared to free space, and games only on this device upload to the NAS in one tap.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-database"/></svg></span><h3>Works with RomM</h3><p>Already run RomM? Pair Mirmire with it by scanning its QR code or approving a code: its platforms, covers and details come straight over, games download when you press Play, and saves and states sync to the game's page in RomM.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-cloud"/></svg></span><h3>Drive &amp; Dropbox via rclone</h3><p>Add an rclone library and point Mirmire at <code>rclone serve webdav</code> on a PC or NAS: Google Drive, Dropbox, OneDrive and more.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-filter"/></svg></span><h3>A clean library</h3><p>One version of each game by your preferred regions. Betas and demos are hidden, and files are checked against No-Intro.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-folder-in"/></svg></span><h3>Bring what you already have</h3><p>Artwork ES-DE, RetroArch or LaunchBox already downloaded shows up straight away. Favorites, play time and collections come over from Pegasus and LaunchBox, and RetroArch's saves, states, settings and BIOS files with one tap.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-suitcase"/></svg></span><h3>Pack for a trip</h3><p>Take games offline and play anywhere. Everything syncs back when you're home, and offloading a game keeps its saves.</p></div>
+        </div>
+      </div>
+
+      <div class="group coral reveal">
+        <h3 class="ghead">Saves and sync</h3>
+        <div class="grid">
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-refresh"/></svg></span><h3>Continue anywhere</h3><p>Saves and save states sync with your storage. Pick up another device and carry on from the same moment. Devices without shared storage pair over Wi-Fi or sync through Syncthing.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-swap"/></svg></span><h3>Syncthing for saves</h3><p>Sync saves straight between your devices through a Syncthing folder, no NAS needed. Its conflict copies turn into Mirmire's usual question: which save to keep.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-backup"/></svg></span><h3>Backups that travel</h3><p>Back up settings, themes and RetroArch's own settings to your storage, restore on any device, or keep devices in sync.</p></div>
+        </div>
+      </div>
+
+      <div class="group rose reveal">
+        <h3 class="ghead">Emulators</h3>
+        <div class="grid">
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-sliders"/></svg></span><h3>RetroArch, set up for you</h3><p>Cores, hotkeys, auto-resume and a sharp picture, with upscaling matched to your screen, settings for all games, one console or one game, and suggestions for your device. SwanStation for PS1; Beetle Saturn when you want accuracy.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-gamepad"/></svg></span><h3>Standalone defaults that fit</h3><p>Automatic prefers DuckStation for PS1, Mupen64Plus FZ for N64, WatermelonDS for DS and ARMSX2 for PS2 when those apps are installed.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-disc"/></svg></span><h3>Xbox, PlayStation and Steam</h3><p>Xbox in hakuX, Xbox 360 in Xendroid Plus, PS2 in ARMSX2, PS3 in ARMSX3 or aPS3e, and Steam games from your DroidDeck library. Emulators that aren't on Google Play install from Mirmire in one tap.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-chip"/></svg></span><h3>BIOS checker</h3><p>Every file each emulator needs, checked by checksum, with the exact folder it belongs in. Games tell you before you press Play if their console is missing one.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-gauge"/></svg></span><h3>Faster GPU drivers</h3><p>On Snapdragon devices, Mirmire finds your Adreno GPU, suggests the latest custom driver for it and shows how to load it in your emulator.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-monitor"/></svg></span><h3>Stream your PC games</h3><p>Games from Moonlight, Artemis or Steam Link get their own Streaming console. Press Play and the stream opens; a game that's also in your Steam library shows once, with a Stream button.</p></div>
+        </div>
+      </div>
+
+      <div class="group reveal">
+        <h3 class="ghead">Your device, your players</h3>
+        <div class="grid">
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-bulb"/></svg></span><h3>Stick lights that react</h3><p>On Retroid and AYN handhelds the lights follow the theme, the battery, the console, the cover art or the performance mode.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-users"/></svg></span><h3>Profiles for the family</h3><p>Each player has their own saves, favorites, play time and a pixel-art avatar. Child profiles get age ratings, daily play time and a parent PIN.</p></div>
+        </div>
       </div>
     </div>
   </section>
@@ -276,25 +435,35 @@
       <p class="kicker">From the couch to the plane</p>
       <h2>A home page, a TV mode, and saves that follow you</h2>
       <p class="sub">Things you won't find in other retro launchers: a Home page you build from widgets, a full-screen mode for the TV, both screens of a dual-screen handheld, and saves that move with you.</p>
-      <div class="grid">
-        <div class="card"><div class="ic">🧱</div><h3>A Home page you build</h3><p>Clock, weather, calendar, your last game, achievements, play time and music from your storage, plus widgets from your other apps. Drag and resize them by touch, as on a phone, or arrange them with a controller.</p></div>
-        <div class="card"><div class="ic">🧩</div><h3>Widget plugins</h3><p>Players make widgets, like a game of the day, and share them as a ZIP. Pixel Pal comes with hundreds of pals from OpenPets that eat, play, nap and cheer your achievements. You see what each one may do before you install it, and turn any of them off in Settings › Plugins.</p></div>
-        <div class="card"><div class="ic">📺</div><h3>Big Picture, docked or not</h3><p>A full-screen home for TVs and controllers, with big cards for consoles and games. Plug into a TV or dock and it switches on by itself; unplug and your layout comes back. Or make it 3D with Mirmire Cartouche.</p></div>
-        <div class="card"><div class="ic">🪟</div><h3>Two screens, both used</h3><p>On the AYN Thor, AYANEO Pocket DS or a Retroid Dual Screen add-on, the second screen shows the selected game's art, details, manual and map, or your widgets. Swap them if you like the menu below.</p></div>
-        <div class="card"><div class="ic">😴</div><h3>Saves upload when you sleep</h3><p>Press power in the middle of a game and its saves go to your storage, so your other device offers to continue.</p></div>
-        <div class="card"><div class="ic">🎮</div><h3>Play together</h3><p>Invite a paired device on the same Wi-Fi to a netplay game. Your device starts hosting by itself; theirs opens the same game.</p></div>
-        <div class="card"><div class="ic">🌡️</div><h3>Learns how hot games run</h3><p>A battery, standard or performance mode for each console, stepping down for games that ran hot. You can turn it off.</p></div>
-        <div class="card"><div class="ic">🤖</div><h3>A pal that helps you play</h3><p>Turn on AI and Pixel Pal shares tips about the game you just played, chats when you're stuck, and can float over the game. Use a free cloud AI with your own key, or a model on the device that works offline.</p></div>
-        <div class="card"><div class="ic">🏆</div><h3>RetroAchievements everywhere</h3><p>Progress on every game card, the weekly challenge, games close to mastery, and your points and streak at a glance.</p></div>
-        <div class="card"><div class="ic">🏠</div><h3>Home Assistant</h3><p>Dim the lights when a game starts on the TV, or run any scene or script when you play, stop or step away.</p></div>
-        <div class="card"><div class="ic">📱</div><h3>Your launcher, if you like</h3><p>Set Mirmire as the home app on a handheld or TV box, with your other apps one press away.</p></div>
+
+      <div class="group coral reveal">
+        <h3 class="ghead">Home and TV</h3>
+        <div class="grid">
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-layout"/></svg></span><h3>A Home page you build</h3><p>Clock, weather, calendar, your last game, achievements, play time and music from your storage, plus widgets from your other apps. Drag and resize them by touch, as on a phone, or arrange them with a controller.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-plug"/></svg></span><h3>Widget plugins</h3><p>Players make widgets, like a game of the day, and share them as a ZIP. Pixel Pal comes with hundreds of pals from OpenPets that eat, play, nap and cheer your achievements. You see what each one may do before you install it, and turn any of them off in Settings › Plugins.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-tv"/></svg></span><h3>Big Picture, docked or not</h3><p>A full-screen home for TVs and controllers, with big cards for consoles and games. Plug into a TV or dock and it switches on by itself; unplug and your layout comes back. Or make it 3D with Mirmire Cartouche.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-dual"/></svg></span><h3>Two screens, both used</h3><p>On the AYN Thor, AYANEO Pocket DS or a Retroid Dual Screen add-on, the second screen shows the selected game's art, details, manual and map, or your widgets. Swap them if you like the menu below.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-phone"/></svg></span><h3>Your launcher, if you like</h3><p>Set Mirmire as the home app on a handheld or TV box, with your other apps one press away.</p></div>
+        </div>
+      </div>
+
+      <div class="group rose reveal">
+        <h3 class="ghead">While you play</h3>
+        <div class="grid">
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-sleep"/></svg></span><h3>Saves upload when you sleep</h3><p>Press power in the middle of a game and its saves go to your storage, so your other device offers to continue.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-broadcast"/></svg></span><h3>Play together</h3><p>Invite a paired device on the same Wi-Fi to a netplay game. Your device starts hosting by itself; theirs opens the same game.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-thermo"/></svg></span><h3>Learns how hot games run</h3><p>A battery, standard or performance mode for each console, stepping down for games that ran hot. You can turn it off.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-bot"/></svg></span><h3>A pal that helps you play</h3><p>Turn on AI and Pixel Pal shares tips about the game you just played, chats when you're stuck, and can float over the game. Use a free cloud AI with your own key, or a model on the device that works offline.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-trophy"/></svg></span><h3>RetroAchievements everywhere</h3><p>Progress on every game card, the weekly challenge, games close to mastery, and your points and streak at a glance.</p></div>
+          <div class="card"><span class="ic"><svg class="i"><use href="#i-home"/></svg></span><h3>Home Assistant</h3><p>Dim the lights when a game starts on the TV, or run any scene or script when you play, stop or step away.</p></div>
+        </div>
       </div>
     </div>
   </section>
 
   <section style="padding-top:0">
     <div class="wrap rows">
-      <div class="row">
+      <div class="row reveal">
         <div class="text">
           <p class="kicker">Sync &amp; continue</p>
           <h3>Start on your phone, finish on your handheld</h3>
@@ -303,7 +472,7 @@
         </div>
         <div class="pair"><img class="shot" src="images/site/61-settings-sync.jpg" alt="Sync &amp; backup settings with save sync turned on" loading="lazy"><img class="shot" src="images/site/47-continue.jpg" alt="Continue on another device settings" loading="lazy"></div>
       </div>
-      <div class="row flip">
+      <div class="row flip reveal">
         <div class="text">
           <p class="kicker">RetroArch</p>
           <h3>Tuned without opening RetroArch's menus</h3>
@@ -312,7 +481,7 @@
         </div>
         <img class="shot" src="images/site/12-settings-retroarch.jpg" alt="RetroArch settings in Mirmire" loading="lazy">
       </div>
-      <div class="row">
+      <div class="row reveal">
         <div class="text">
           <p class="kicker">Library cleanup</p>
           <h3>One copy of each game, verified</h3>
@@ -321,7 +490,7 @@
         </div>
         <div class="pair"><img class="shot" src="images/site/45-library-cleanup.jpg" alt="Library cleanup settings" loading="lazy"><img class="shot" src="images/site/48-bios.jpg" alt="The BIOS checker listing each console's files with their status" loading="lazy"></div>
       </div>
-      <div class="row flip">
+      <div class="row flip reveal">
         <div class="text">
           <p class="kicker">Parental controls</p>
           <h3>Games that fit their age</h3>
@@ -330,7 +499,7 @@
         </div>
         <div class="pair"><img class="shot" src="images/site/67-parental.jpg" alt="Parental controls settings for a child profile" loading="lazy"><img class="shot" src="images/site/68-parental-time.jpg" alt="Daily play time limit for a child profile" loading="lazy"></div>
       </div>
-      <div class="row">
+      <div class="row reveal">
         <div class="text">
           <p class="kicker">Spotlight</p>
           <h3>Something to play, every day</h3>
@@ -338,7 +507,7 @@
         </div>
         <img class="shot" src="images/site/40-spotlight.jpg" alt="Spotlight tab" loading="lazy">
       </div>
-      <div class="row flip">
+      <div class="row flip reveal">
         <div class="text">
           <p class="kicker">Home page</p>
           <h3>A home screen of your own</h3>
@@ -347,7 +516,7 @@
         </div>
         <div class="pair"><img class="shot" src="images/site/53-home-page.jpg" alt="The Home page with clock, Pixel Pal, continue playing, achievements and library widgets" loading="lazy"><img class="shot" src="images/site/55-pixel-pet.jpg" alt="Pixel Pal settings with AI hints turned on" loading="lazy"></div>
       </div>
-      <div class="row">
+      <div class="row reveal">
         <div class="text">
           <p class="kicker">Pixel Pal &amp; AI</p>
           <h3>A companion that knows what you played</h3>
@@ -356,7 +525,7 @@
         </div>
         <div class="pair"><img class="shot" src="images/site/66-home-welcome.jpg" alt="Pixel Pal welcoming you back after playing Bionic Commando" loading="lazy"><img class="shot" src="images/site/65-pal-chat.jpg" alt="Chatting with Pixel Pal over Doom in RetroArch" loading="lazy"></div>
       </div>
-      <div class="row flip">
+      <div class="row flip reveal">
         <div class="text">
           <p class="kicker">Dual screen</p>
           <h3>Two screens, both put to work</h3>
@@ -365,7 +534,7 @@
         </div>
         <img class="shot" src="images/site/57-dual-screen.jpg" alt="Mirmire on a dual-screen handheld: the games list above and the selected game's details below" loading="lazy">
       </div>
-      <div class="row">
+      <div class="row reveal">
         <div class="text">
           <p class="kicker">Big Picture</p>
           <h3>Made for the TV</h3>
@@ -373,7 +542,7 @@
         </div>
         <img class="shot" src="images/site/56-big-picture.jpg" alt="Big Picture with the Continue card selected" loading="lazy">
       </div>
-      <div class="row">
+      <div class="row flip reveal">
         <div class="text">
           <p class="kicker">Big Picture in 3D</p>
           <h3>Your consoles in 3D, your games on their discs</h3>
@@ -393,17 +562,17 @@
           <h2>Design your own look, in your browser</h2>
           <p class="sub">Build a theme, a console icon pack or a Home page widget and see it on Mirmire's real screens as you go. Nothing to install, and nothing you add leaves your browser.</p>
         </div>
-        <a class="btn primary" href="theme-maker/">Open Theme Studio →</a>
+        <a class="btn primary" href="theme-maker/">Open Theme Studio<svg class="i arrow"><use href="#i-arrow"/></svg></a>
       </div>
-      <a href="theme-maker/" class="browser" style="display:block;text-decoration:none">
+      <a href="theme-maker/" class="browser reveal">
         <div class="chrome"><i></i><i></i><i></i><span>mirmire-launcher.github.io/mirmire/theme-maker</span></div>
         <img src="images/site/theme-studio.jpg" alt="Theme Studio editing a Mirmire theme remix with a live preview" loading="lazy">
       </a>
-      <div class="grid">
-        <div class="card"><div class="ic">👀</div><h3>Live preview</h3><p>Home, games list, game page, Spotlight and Settings update as you edit, on a handheld or both screens of a dual-screen one. Move around with the arrow keys and hear your sounds.</p></div>
-        <div class="card"><div class="ic">🎨</div><h3>A palette from one color</h3><p>Pick a color and get a full, readable palette, or start from one of Mirmire's built-in themes.</p></div>
-        <div class="card"><div class="ic">📦</div><h3>Drop in your files</h3><p>Wallpapers, console icons, backdrops, sounds and music. Sets named for other frontends are sorted automatically.</p></div>
-        <div class="card"><div class="ic">🧩</div><h3>Widget plugins</h3><p>Start from a template, write a little HTML and JavaScript, and try it on the Home page with sample games and achievements.</p></div>
+      <div class="grid group reveal">
+        <div class="card"><span class="ic"><svg class="i"><use href="#i-eye"/></svg></span><h3>Live preview</h3><p>Home, games list, game page, Spotlight and Settings update as you edit, on a handheld or both screens of a dual-screen one. Move around with the arrow keys and hear your sounds.</p></div>
+        <div class="card"><span class="ic"><svg class="i"><use href="#i-palette"/></svg></span><h3>A palette from one color</h3><p>Pick a color and get a full, readable palette, or start from one of Mirmire's built-in themes.</p></div>
+        <div class="card"><span class="ic"><svg class="i"><use href="#i-upload"/></svg></span><h3>Drop in your files</h3><p>Wallpapers, console icons, backdrops, sounds and music. Sets named for other frontends are sorted automatically.</p></div>
+        <div class="card"><span class="ic"><svg class="i"><use href="#i-code"/></svg></span><h3>Widget plugins</h3><p>Start from a template, write a little HTML and JavaScript, and try it on the Home page with sample games and achievements.</p></div>
       </div>
     </div>
   </section>
@@ -413,8 +582,8 @@
       <p class="kicker">Screenshots</p>
       <h2>Made for controllers, works with touch</h2>
       <p class="sub">Every screen works with a gamepad, keyboard or touch, in landscape or portrait, with Xbox, PlayStation or Nintendo button labels.</p>
-      <div class="gallery">
-        <figure><img src="images/site/02-games-list.jpg" alt="Games list" loading="lazy"><figcaption>Games list with preview</figcaption></figure>
+      <div class="gallery reveal">
+        <figure class="big"><img src="images/site/02-games-list.jpg" alt="Games list" loading="lazy"><figcaption>Games list with preview</figcaption></figure>
         <figure><img src="images/site/03-games-grid.jpg" alt="Cover grid" loading="lazy"><figcaption>Cover grid</figcaption></figure>
         <figure><img src="images/site/04-games-showcase.jpg" alt="Showcase" loading="lazy"><figcaption>Showcase</figcaption></figure>
         <figure><img src="images/site/06-game-details.jpg" alt="Game details" loading="lazy"><figcaption>Game page</figcaption></figure>
@@ -436,18 +605,18 @@
       <p class="kicker">Get started</p>
       <h2>Playing in a few minutes</h2>
       <p class="sub">The setup wizard walks you through everything on first launch.</p>
-      <div class="steps">
-        <div class="step"><h3>Install Mirmire</h3><p>Download the APK from GitHub Releases and open it. Mirmire keeps itself up to date after that.</p></div>
-        <div class="step"><h3>Add your library</h3><p>Point it at your NAS, your RomM server, a folder on the device, or rclone for Drive and Dropbox. Coming from Pegasus or LaunchBox? Setup brings your favorites and play time along.</p></div>
-        <div class="step"><h3>Press Play</h3><p>Mirmire picks an emulator, sets up RetroArch and downloads the game. Your saves sync from then on.</p></div>
+      <div class="steps reveal">
+        <div class="step"><div class="num"><svg class="i"><use href="#i-download"/></svg></div><h3>Install Mirmire</h3><p>Download the APK from GitHub Releases and open it. Mirmire keeps itself up to date after that.</p></div>
+        <div class="step"><div class="num"><svg class="i"><use href="#i-server"/></svg></div><h3>Add your library</h3><p>Point it at your NAS, your RomM server, a folder on the device, or rclone for Drive and Dropbox. Coming from Pegasus or LaunchBox? Setup brings your favorites and play time along.</p></div>
+        <div class="step"><div class="num"><svg class="i"><use href="#i-gamepad"/></svg></div><h3>Press Play</h3><p>Mirmire picks an emulator, sets up RetroArch and downloads the game. Your saves sync from then on.</p></div>
       </div>
-      <div class="cta-band">
+      <div class="cta-band reveal">
         <h3>Ready to play?</h3>
         <p>Free, with no account or ads.</p>
         <div class="ctas">
-          <a class="btn primary" href="https://github.com/Mirmire-Launcher/mirmire/releases/latest"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Download for Android</a>
-          <a class="btn ghost" href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/GUIDE.md"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>Read the guide</a>
-          <a class="btn ghost" href="https://github.com/Mirmire-Launcher/mirmire"><svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
+          <a class="btn primary" href="https://github.com/Mirmire-Launcher/mirmire/releases/latest"><svg class="i"><use href="#i-download"/></svg>Download for Android</a>
+          <a class="btn ghost" href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/GUIDE.md"><svg class="i"><use href="#i-book"/></svg>Read the guide</a>
+          <a class="btn ghost" href="https://github.com/Mirmire-Launcher/mirmire"><svg class="i solid"><use href="#i-github"/></svg>View on GitHub</a>
         </div>
       </div>
     </div>
@@ -455,21 +624,21 @@
 
   <footer>
     <div class="wrap">
-      <a class="brand" href="./" style="font-size:17px"><img src="images/mirmire-icon.svg" alt="" style="width:28px;height:28px">Mirmire</a>
+      <a class="brand" href="./"><img src="images/mirmire-icon.svg" alt="">Mirmire</a>
       <div class="links">
-        <a href="https://github.com/Mirmire-Launcher/mirmire/releases"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>Releases</a>
-        <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/GUIDE.md"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>User guide</a>
-        <a href="theme-maker/"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3a9 9 0 0 0 0 18c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3 4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>Theme Studio</a>
-        <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/CREATING.md"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 14c-1.66 0-3 1.34-3 3 0 1.31-1.16 2-2 2 .92 1.22 2.49 2 4 2 2.21 0 4-1.79 4-4 0-1.66-1.34-3-3-3zm13.71-9.37l-1.34-1.34a.996.996 0 0 0-1.41 0L9 12.25 11.75 15l8.96-8.96a.996.996 0 0 0 0-1.41z"/></svg>Make themes</a>
-        <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/THEMES.md"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>Theme format</a>
-        <a href="https://github.com/Mirmire-Launcher/mirmire"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
+        <a href="https://github.com/Mirmire-Launcher/mirmire/releases"><svg class="i"><use href="#i-tag"/></svg>Releases</a>
+        <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/GUIDE.md"><svg class="i"><use href="#i-book"/></svg>User guide</a>
+        <a href="theme-maker/"><svg class="i"><use href="#i-palette"/></svg>Theme Studio</a>
+        <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/CREATING.md"><svg class="i"><use href="#i-pen"/></svg>Make themes</a>
+        <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/THEMES.md"><svg class="i"><use href="#i-code"/></svg>Theme format</a>
+        <a href="https://github.com/Mirmire-Launcher/mirmire"><svg class="i solid"><use href="#i-github"/></svg>GitHub</a>
       </div>
-      <p style="width:100%;margin:8px 0 0">Mirmire means "early dawn" in Nepali.</p>
-      <p style="width:100%;margin:6px 0 0;font-size:12px;line-height:1.5;opacity:.75">Mirmire is a launcher only. It doesn't include or provide any games, ROMs or BIOS files: use it with games you own and have the right to play. Games appear in the screenshots for illustration only. DOOM is a registered trademark of id Software LLC, a ZeniMax Media company. Nintendo, Super Nintendo, Game Boy, Nintendo 64, SEGA, Mega Drive, Genesis, PlayStation, Xbox, Steam, RetroArch, and all other game titles, console names and trademarks belong to their respective owners. Game artwork comes from ScreenScraper and the Libretro thumbnail project. Mirmire is an independent project and isn't affiliated with or endorsed by any of these companies.</p>
+      <p class="note">Mirmire means "early dawn" in Nepali.</p>
+      <p class="legal">Mirmire is a launcher only. It doesn't include or provide any games, ROMs or BIOS files: use it with games you own and have the right to play. Games appear in the screenshots for illustration only. DOOM is a registered trademark of id Software LLC, a ZeniMax Media company. Nintendo, Super Nintendo, Game Boy, Nintendo 64, SEGA, Mega Drive, Genesis, PlayStation, Xbox, Steam, RetroArch, and all other game titles, console names and trademarks belong to their respective owners. Game artwork comes from ScreenScraper and the Libretro thumbnail project. Mirmire is an independent project and isn't affiliated with or endorsed by any of these companies.</p>
     </div>
   </footer>
 
-  <dialog id="zoom"><img alt=""></dialog>
+  <dialog id="zoom" aria-label="Screenshot"><img alt=""></dialog>
   <script>
     document.getElementById("mode").addEventListener("click", () => {
       const now = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
@@ -482,6 +651,11 @@
       dlg.querySelector("img").src = img.src; dlg.querySelector("img").alt = img.alt; dlg.showModal();
     }));
     dlg.addEventListener("click", () => dlg.close());
+    const reveals = document.querySelectorAll(".reveal");
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+      reveals.forEach((el) => io.observe(el));
+    } else reveals.forEach((el) => el.classList.add("in"));
   </script>
 </body>
 </html>
