@@ -40,7 +40,7 @@ Saves, save states and favorites sync with your storage. Pick up your handheld a
 
 Mirmire downloads cores, sets hotkeys, auto-resume and a sharp picture, and suggests settings for your device, including FSR, ScaleFX or AI upscaling when your screen is much sharper than the game. Change any setting for all games, one console or one game without opening RetroArch's menus, and frame the picture with bezels from The Bezel Project.
 
-Original Xbox plays in hakuX, Xbox 360 in Xendroid Plus, PS2 in ARMSX2, PS3 in ARMSX3 or aPS3e, and Steam games from your DroidDeck library in DroidDeck. Using a fork or an emulator Mirmire doesn't list? Pick **Use another installed app** in any console's emulator list, and Mirmire works out how to start games in it. Emulators that aren't on Google Play install straight from Mirmire, and on Snapdragon devices it finds the latest custom Adreno drivers for the emulators that can load them.
+Original Xbox plays in hakuX, Xbox 360 in Xendroid Plus, PS2 in ARMSX2, PS3 in ARMSX3 or aPS3e, and Steam games from your DroidDeck library in DroidDeck. Each console's emulator list also shows more emulators from [EmuHub](https://getemuhub.app/)'s catalog, with **Get** opening the emulator's page there, and **Settings › Emulators** tells you when an installed emulator has a newer version. Using a fork or an emulator Mirmire doesn't list? Pick **Use another installed app** in any console's emulator list, and Mirmire works out how to start games in it. Emulators that aren't on Google Play install straight from Mirmire, and on Snapdragon devices it finds the latest custom Adreno drivers for the emulators that can load them.
 
 | Settings for every game | Just this console |
 |---|---|
