@@ -1,0 +1,268 @@
+<!doctype html>
+{% comment %}
+  The layout GitHub Pages wraps around every Markdown file in docs/ (GUIDE.md, CREATING.md, THEMES.md, PLUGINS.md,
+  RCLONE.md), so the guides share the landing page's look. The Markdown files stay as they are and still read
+  well on GitHub. Screenshots live outside docs/, so their paths are pointed at the repository.
+{% endcomment %}
+{% assign root = '/' | relative_url %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title | default: "Mirmire" | escape }} · Mirmire</title>
+  <meta name="description" content="{{ page.title | default: 'Mirmire guide' | escape }}: Mirmire, the retro game launcher for Android handhelds, phones and TVs.">
+  <meta property="og:title" content="{{ page.title | default: 'Mirmire' | escape }}">
+  <meta property="og:image" content="https://mirmire-launcher.github.io/mirmire/images/social-preview.png">
+  <meta property="og:type" content="article">
+  <script>document.documentElement.classList.add("js"); try { const t = localStorage.getItem("mirmire-site-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}</script>
+  <link rel="icon" href="{{ root }}images/mirmire-icon.svg" type="image/svg+xml">
+  <style>
+    @font-face { font-family: Oxanium; src: url("{{ root }}theme-maker/assets/fonts/oxanium_medium.ttf") format("truetype"); font-weight: 500; font-display: swap; }
+    @font-face { font-family: Oxanium; src: url("{{ root }}theme-maker/assets/fonts/oxanium_bold.ttf") format("truetype"); font-weight: 700 800; font-display: swap; }
+    :root {
+      --bg: #0B1326; --bg-2: #101B33; --panel: #142037; --panel-2: #19283F; --line: #25364F;
+      --ink: #FFF4E4; --ink-2: #C9D2E1; --ink-3: #8D9AB0;
+      --gold: #FFB84D; --pale: #FFD584; --coral: #FF795D; --rose: #F25967;
+      --accent-text: #FFB84D; --hair: #ffffff10; --ghost: #ffffff0d; --ghost-line: #ffffff22;
+      --hero-top: #16244A; --em-1: #FFD584; --em-2: #FF795D; --shadow: #0009;
+      --ridge-1: #2C2A57; --ridge-2: #17213F;
+      color-scheme: dark;
+    }
+    :root[data-theme="light"] {
+      --bg: #FBF7F1; --bg-2: #F4ECE0; --panel: #FFFFFF; --panel-2: #FFF8EE; --line: #E9DFD0;
+      --ink: #1A2238; --ink-2: #4A546E; --ink-3: #7B8397;
+      --accent-text: #B5630A; --hair: #1A223814; --ghost: #1A22380A; --ghost-line: #1A223826;
+      --hero-top: #FFE9CC; --em-1: #E08A00; --em-2: #E2483A; --shadow: #6B4A1F2E;
+      --ridge-1: #F5C594; --ridge-2: #F4DEC4;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        --bg: #FBF7F1; --bg-2: #F4ECE0; --panel: #FFFFFF; --panel-2: #FFF8EE; --line: #E9DFD0;
+        --ink: #1A2238; --ink-2: #4A546E; --ink-3: #7B8397;
+        --accent-text: #B5630A; --hair: #1A223814; --ghost: #1A22380A; --ghost-line: #1A223826;
+        --hero-top: #FFE9CC; --em-1: #E08A00; --em-2: #E2483A; --shadow: #6B4A1F2E;
+        --ridge-1: #F5C594; --ridge-2: #F4DEC4;
+        color-scheme: light;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-text); }
+    img { max-width: 100%; height: auto; }
+    h1, h2, h3, h4, .brand { font-family: Oxanium, system-ui, sans-serif; letter-spacing: -.3px; text-wrap: balance; }
+    :focus-visible { outline: 2px solid var(--accent-text); outline-offset: 3px; border-radius: 6px; }
+    .wrap { width: min(1160px, 100% - 32px); margin: 0 auto; }
+    .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .i { width: 1.15em; height: 1.15em; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .i.solid { fill: currentColor; stroke: none; }
+
+    /* nav, as on the landing page */
+    nav.top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--hair); }
+    nav.top .wrap { display: flex; align-items: center; gap: 22px; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; color: var(--ink); text-decoration: none; }
+    .brand img { width: 34px; height: 34px; border-radius: 9px; display: block; }
+    nav.top .links { display: flex; gap: 6px; margin-left: auto; align-items: center; }
+    nav.top .links a:not(.btn) { display: inline-flex; align-items: center; gap: 7px; color: var(--ink-2); text-decoration: none; font-weight: 500; font-size: 15px; padding: 8px 11px; border-radius: 10px; transition: color .15s, background .15s; }
+    nav.top .links a:not(.btn):hover, nav.top .links a.here { color: var(--ink); background: var(--ghost); }
+    nav.top .links a:not(.btn) .i { opacity: .8; font-size: 15px; }
+    .mode { border: 1px solid var(--ghost-line); background: var(--ghost); color: var(--ink-2); width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; cursor: pointer; margin-left: 6px; font-size: 16px; }
+    .mode:hover { color: var(--ink); }
+    .mode .sunicon { display: none; }
+    :root[data-theme="light"] .mode .sunicon, :root:not([data-theme="dark"]) .mode .sunicon { display: block; }
+    :root[data-theme="light"] .mode .moonicon, :root:not([data-theme="dark"]) .mode .moonicon { display: none; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .mode .sunicon { display: none; } :root:not([data-theme="light"]) .mode .moonicon { display: block; } }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px; border-radius: 11px; font-weight: 700; font-size: 14px; text-decoration: none; transition: transform .15s, box-shadow .15s; white-space: nowrap; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn.primary, .btn.primary:hover { background: linear-gradient(135deg, var(--pale), var(--gold)); color: #241A11; box-shadow: 0 10px 30px #FFB84D40; margin-left: 8px; }
+    .btn .i { font-size: 17px; }
+
+    /* header: the landing page's dawn, kept short */
+    .head { position: relative; overflow: hidden; padding: 52px 0 clamp(84px, 10vw, 132px);
+      background: radial-gradient(760px 380px at 80% 92%, #FF795D40, transparent 62%), radial-gradient(520px 280px at 80% 86%, #FFB84D2e, transparent 65%), linear-gradient(180deg, var(--hero-top) 0%, var(--bg-2) 100%); }
+    .head .wrap { position: relative; z-index: 2; }
+    .sunrise { --d: clamp(170px, 22vw, 290px); position: absolute; right: max(7%, calc(50% - 500px)); bottom: calc(var(--d) * -.34); width: var(--d); height: var(--d); border-radius: 50%;
+      background: linear-gradient(180deg, var(--pale) 0%, var(--gold) 34%, var(--coral) 72%, var(--rose) 100%);
+      box-shadow: 0 0 0 clamp(14px, 2vw, 28px) #FFB84D14, 0 0 0 clamp(32px, 4.6vw, 64px) #FFB84D0b, 0 0 120px 20px #FF795D59; }
+    .ridges { position: absolute; left: 0; bottom: -1px; width: 100%; height: clamp(74px, 12vw, 176px); z-index: 1; pointer-events: none; }
+    .ridges .r1 { fill: var(--ridge-1); } .ridges .r2 { fill: var(--ridge-2); } .ridges .r3 { fill: var(--bg); }
+    .kicker { display: flex; align-items: center; gap: 10px; font-family: Oxanium, sans-serif; color: var(--accent-text); text-transform: uppercase; letter-spacing: 2px; font-size: 14px; font-weight: 700; margin: 0 0 10px; }
+    .kicker::before { content: ""; width: 22px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, var(--gold), var(--coral)); }
+    .head h1 { font-size: clamp(36px, 5vw, 58px); line-height: 1.05; font-weight: 800; margin: 0; max-width: 16ch; }
+    .docs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .docs a { font-size: 14px; font-weight: 600; color: var(--ink-2); text-decoration: none; padding: 6px 13px; border-radius: 999px; background: color-mix(in srgb, var(--bg) 55%, transparent); border: 1px solid var(--ghost-line); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+    .docs a:hover { color: var(--ink); }
+    .docs a.here { color: #241A11; background: linear-gradient(135deg, var(--pale), var(--gold)); border-color: transparent; }
+
+    /* page: contents on the left, the guide on the right */
+    .page { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 56px; padding: 28px 0 90px; align-items: start; }
+    .page.solo { grid-template-columns: minmax(0, 780px); }
+    .toc { position: sticky; top: 84px; max-height: calc(100vh - 104px); overflow-y: auto; padding-right: 6px; font-size: 14.5px; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+    .toc summary { list-style: none; font-family: Oxanium, sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.6px; color: var(--ink-3); padding: 0 0 10px 12px; cursor: default; }
+    .toc summary::-webkit-details-marker { display: none; }
+    .toc a { display: block; padding: 6px 12px; border-left: 2px solid var(--line); color: var(--ink-2); text-decoration: none; line-height: 1.35; }
+    .toc a:hover { color: var(--ink); }
+    .toc a.on { color: var(--accent-text); border-left-color: var(--accent-text); font-weight: 600; }
+
+    .prose { min-width: 0; max-width: 800px; }
+    .prose > h1:first-child { display: none; }
+    .prose > :first-child, .prose > h1:first-child + * { margin-top: 0; }
+    .prose h2 { font-size: clamp(26px, 3vw, 34px); line-height: 1.15; font-weight: 800; margin: 56px 0 14px; padding-top: 30px; border-top: 1px solid var(--line); }
+    .prose h3 { font-size: 22px; line-height: 1.2; margin: 34px 0 10px; }
+    .prose h4 { font-size: 18px; margin: 26px 0 8px; }
+    .prose p, .prose li { color: var(--ink-2); }
+    .prose p { margin: 0 0 16px; }
+    .prose strong { color: var(--ink); font-weight: 650; }
+    .prose ul, .prose ol { margin: 0 0 18px; padding-left: 24px; }
+    .prose li { margin: 6px 0; }
+    .prose li::marker { color: var(--accent-text); font-weight: 700; }
+    .prose a { text-decoration-color: color-mix(in srgb, var(--accent-text) 45%, transparent); text-underline-offset: 3px; }
+    .prose a:hover { text-decoration-color: currentColor; }
+    .prose code { font: .9em ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--ghost); border: 1px solid var(--hair); padding: 1px 6px; border-radius: 6px; color: var(--ink); overflow-wrap: anywhere; }
+    .prose pre { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; overflow-x: auto; margin: 0 0 18px; }
+    .prose pre code { background: none; border: 0; padding: 0; font-size: 14px; overflow-wrap: normal; }
+    .prose img { display: block; border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 24px 56px -14px var(--shadow); margin: 22px 0; cursor: zoom-in; }
+    .prose table { display: block; width: max-content; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 0 0 20px; font-size: 15.5px; border: 1px solid var(--line); border-radius: 14px; }
+    .prose th, .prose td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--ink-2); }
+    .prose th { font-family: Oxanium, sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-3); background: var(--panel); white-space: nowrap; }
+    .prose tr:last-child td { border-bottom: 0; }
+    .prose blockquote { margin: 0 0 18px; padding: 12px 18px; border-left: 3px solid var(--gold); background: var(--panel); border-radius: 0 12px 12px 0; }
+    .prose blockquote p:last-child { margin: 0; }
+    .prose hr { border: 0; border-top: 1px solid var(--line); margin: 36px 0; }
+    .edit { display: inline-flex; align-items: center; gap: 8px; margin-top: 44px; padding: 9px 14px; border-radius: 11px; border: 1px solid var(--ghost-line); background: var(--ghost); color: var(--ink-2); text-decoration: none; font-size: 14px; font-weight: 600; }
+    .edit:hover { color: var(--ink); }
+
+    footer { padding: 32px 0 50px; color: var(--ink-3); font-size: 14px; border-top: 1px solid var(--line); }
+    footer .wrap { display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between; align-items: center; }
+    footer .brand { font-size: 17px; }
+    footer .brand img { width: 28px; height: 28px; }
+    footer .links { display: flex; gap: 8px 20px; flex-wrap: wrap; }
+    footer a { color: var(--ink-2); text-decoration: none; }
+    footer a:hover { color: var(--ink); }
+    dialog { border: 0; padding: 0; background: transparent; max-width: min(1400px, 96vw); cursor: zoom-out; }
+    dialog::backdrop { background: #000c; backdrop-filter: blur(4px); }
+    dialog img { display: block; border-radius: 14px; }
+
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
+    @media (max-width: 900px) {
+      nav.top .links a.hide-sm { display: none; }
+      .page { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-top: 18px; }
+      .toc { position: static; max-height: none; overflow: visible; padding: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+      .toc summary { padding: 13px 16px; cursor: pointer; display: flex; justify-content: space-between; }
+      .toc summary::after { content: "+"; font-size: 16px; }
+      .toc[open] summary::after { content: "−"; }
+      .toc .list { padding: 0 12px 12px; }
+      .head { padding-top: 34px; }
+    }
+    @media (max-width: 600px) {
+      body { font-size: 16px; }
+      nav.top .links a:not(.btn):not(.gh) { display: none; }
+      nav.top .links a.gh span { display: none; }
+      .sunrise { right: -40px; }
+    }
+  </style>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false"><defs>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M10 3.5l1.8 5.2L17 10.5l-5.2 1.8L10 17.5l-1.8-5.2L3 10.5l5.2-1.8z"/><path d="M18.5 15.5v5M16 18h5"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.9 1.8-1.9 0-.5-.2-.9-.5-1.3-.3-.3-.4-.7-.4-1.1 0-1 .8-1.7 1.7-1.7H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><path d="M7.5 12.5h.01M9.5 8h.01M14.5 8h.01" stroke-width="2.6"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 5a2 2 0 0 1 2-2h12v14H7a2 2 0 0 0-2 2z"/><path d="M5 19a2 2 0 0 0 2 2h12v-4"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 20h14"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14.5 6.5l3 3"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"/></symbol>
+    <symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></symbol>
+  </defs></svg>
+
+  <nav class="top">
+    <div class="wrap">
+      <a class="brand" href="{{ root }}"><img src="{{ root }}images/mirmire-icon.svg" alt="">Mirmire</a>
+      <div class="links">
+        <a href="{{ root }}#features" class="hide-sm"><svg class="i"><use href="#i-sparkles"/></svg>Features</a>
+        <a href="{{ root }}theme-maker/" class="hide-sm"><svg class="i"><use href="#i-palette"/></svg>Theme Studio</a>
+        <a href="{{ root }}GUIDE.html" class="here"><svg class="i"><use href="#i-book"/></svg>Guide</a>
+        <a class="gh" href="https://github.com/Mirmire-Launcher/mirmire" title="Mirmire on GitHub" aria-label="Mirmire on GitHub"><svg class="i solid"><use href="#i-github"/></svg><span>GitHub</span></a>
+        <button class="mode" id="mode" aria-label="Switch light or dark mode" title="Light or dark mode"><svg class="i moonicon"><use href="#i-moon"/></svg><svg class="i sunicon"><use href="#i-sun"/></svg></button>
+        <a class="btn primary" href="https://github.com/Mirmire-Launcher/mirmire/releases/latest"><svg class="i"><use href="#i-download"/></svg>Download</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="head">
+    <div class="sunrise"></div>
+    <svg class="ridges" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true"><path class="r1" d="M0 190L90 150L170 185L260 110L330 160L420 90L500 150L600 60L660 110L740 40L830 130L920 80L1010 150L1100 70L1180 140L1270 95L1350 150L1440 120V320H0Z"/><path class="r2" d="M0 250L120 200L220 240L340 170L450 230L560 180L680 240L800 160L900 220L1020 175L1130 235L1250 185L1340 230L1440 195V320H0Z"/><path class="r3" d="M0 300L160 262L300 290L460 250L620 288L780 255L940 292L1100 258L1260 290L1440 262V320H0Z"/></svg>
+    <div class="wrap">
+      <p class="kicker">Mirmire guides</p>
+      <h1>{{ page.title | default: "Mirmire" | escape }}</h1>
+      <div class="docs">
+        <a href="{{ root }}GUIDE.html"{% if page.name == "GUIDE.md" %} class="here"{% endif %}>User guide</a>
+        <a href="{{ root }}RCLONE.html"{% if page.name == "RCLONE.md" %} class="here"{% endif %}>rclone</a>
+        <a href="{{ root }}CREATING.html"{% if page.name == "CREATING.md" %} class="here"{% endif %}>Make themes</a>
+        <a href="{{ root }}THEMES.html"{% if page.name == "THEMES.md" %} class="here"{% endif %}>Theme format</a>
+        <a href="{{ root }}PLUGINS.html"{% if page.name == "PLUGINS.md" %} class="here"{% endif %}>Plugins</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap page" id="page">
+    <details class="toc" id="toc" open><summary>On this page</summary><div class="list" id="tocList"></div></details>
+    <main class="prose" id="prose">
+{{ content | replace: 'src="../screenshots/', 'src="https://raw.githubusercontent.com/Mirmire-Launcher/mirmire/main/screenshots/' }}
+      {% if page.path %}<a class="edit" href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/{{ page.path }}"><svg class="i"><use href="#i-pen"/></svg>View this page on GitHub</a>{% endif %}
+    </main>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <a class="brand" href="{{ root }}"><img src="{{ root }}images/mirmire-icon.svg" alt="">Mirmire</a>
+      <div class="links">
+        <a href="https://github.com/Mirmire-Launcher/mirmire/releases">Releases</a>
+        <a href="{{ root }}GUIDE.html">User guide</a>
+        <a href="{{ root }}theme-maker/">Theme Studio</a>
+        <a href="https://github.com/Mirmire-Launcher/mirmire">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <dialog id="zoom" aria-label="Screenshot"><img alt=""></dialog>
+  <script>
+    document.getElementById("mode").addEventListener("click", () => {
+      const now = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+      const next = now === "light" ? "dark" : "light";
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem("mirmire-site-theme", next); } catch {}
+    });
+
+    // Contents: one entry per section heading, with the one being read marked.
+    const prose = document.getElementById("prose"), toc = document.getElementById("toc"), list = document.getElementById("tocList");
+    const heads = [...prose.querySelectorAll("h2[id]")];
+    if (heads.length < 3) { toc.remove(); document.getElementById("page").classList.add("solo"); }
+    else {
+      const links = new Map();
+      for (const h of heads) {
+        const a = document.createElement("a");
+        a.href = "#" + h.id; a.textContent = h.textContent;
+        list.append(a); links.set(h, a);
+      }
+      const narrow = matchMedia("(max-width: 900px)");
+      const fit = () => { toc.open = !narrow.matches; };
+      fit(); narrow.addEventListener("change", fit);
+      list.addEventListener("click", () => { if (narrow.matches) toc.open = false; });
+      const mark = () => {
+        let cur = heads[0];
+        for (const h of heads) if (h.getBoundingClientRect().top <= 120) cur = h;
+        for (const [h, a] of links) a.classList.toggle("on", h === cur);
+        if (!narrow.matches) { const a = links.get(cur), r = a.getBoundingClientRect(), t = toc.getBoundingClientRect(); if (r.top < t.top + 30 || r.bottom > t.bottom - 30) toc.scrollTop += r.top - t.top - t.height / 2; }
+      };
+      let tick = 0;
+      addEventListener("scroll", () => { if (!tick) tick = requestAnimationFrame(() => { tick = 0; mark(); }); }, { passive: true });
+      mark();
+    }
+
+    const dlg = document.getElementById("zoom");
+    prose.querySelectorAll("img").forEach((img) => { img.loading = "lazy"; img.addEventListener("click", () => { dlg.querySelector("img").src = img.src; dlg.querySelector("img").alt = img.alt; dlg.showModal(); }); });
+    dlg.addEventListener("click", () => dlg.close());
+  </script>
+</body>
+</html>
