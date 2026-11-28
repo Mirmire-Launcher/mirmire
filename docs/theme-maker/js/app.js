@@ -469,15 +469,27 @@ const NAV_THEME = [
 const NAV_ICONS = [["basics", "Name", "info"], ["icons", "Icons", "gamepad"], ["export", "Export", "download"]];
 const NAV_PLUGIN = [["basics", "Name", "info"], ["code", "Code", "code"], ["options", "Options", "tune"], ["export", "Export", "download"]];
 
+const navItems = () => (P.mode === "icons" ? NAV_ICONS : P.mode === "plugin" ? NAV_PLUGIN : NAV_THEME);
+
 function drawNav() {
-  const items = P.mode === "icons" ? NAV_ICONS : P.mode === "plugin" ? NAV_PLUGIN : NAV_THEME;
+  const items = navItems();
   if (!items.some(([id]) => id === section)) section = "basics";
   const done = {
     basics: P.name && ID_RE.test(P.id), colors: COLOR_KEYS.some(hasColor), style: true,
     wallpaper: P.wallpaper || P.wallpaperVideo, consoles: Object.keys(P.icons).length + Object.keys(P.backgrounds).length,
     sounds: Object.keys(P.sounds).length || P.music.length, icons: Object.keys(P.icons).length,
   };
-  $("#nav").innerHTML = items.map(([id, label, ic]) => `<button class="${id === section ? "on" : ""}" data-section="${id}" data-tip="${label}" aria-label="${label}">${icon(ic, 22)}${done[id] && id !== "style" ? '<i class="dot"></i>' : ""}</button>`).join("");
+  const head = P.mode === "icons" ? "Icon pack" : P.mode === "plugin" ? "Plugin" : "Theme";
+  $("#nav").innerHTML = `<span class="navhead">${head} steps</span>` + items.map(([id, label, ic], i) => `<button class="${id === section ? "on" : ""}" data-section="${id}" data-tip="${label}" aria-label="${label}"${id === section ? ' aria-current="step"' : ""}>${icon(ic, 20)}<span class="lbl"><small>Step ${i + 1}</small>${label}</span>${done[id] && id !== "style" ? '<i class="dot" title="Done"></i>' : ""}</button>`).join("");
+}
+
+/** Back and Next under every panel, so the steps can be walked in order without the side list. */
+function stepNav() {
+  const items = navItems();
+  const i = items.findIndex(([id]) => id === section);
+  if (i < 0) return "";
+  const prev = items[i - 1], next = items[i + 1];
+  return `<div class="stepnav">${prev ? `<button class="btn small" data-section="${prev[0]}">‹ ${prev[1]}</button>` : "<span></span>"}<span class="count">${i + 1} of ${items.length}</span>${next ? `<button class="btn small primary" data-section="${next[0]}">Next: ${next[1]} ›</button>` : "<span></span>"}</div>`;
 }
 
 function field(label, inner, help = "") {
@@ -706,7 +718,7 @@ function drawEditor() {
   drawNav();
   const ed = $("#editor");
   const top = ed.scrollTop;
-  ed.innerHTML = PANELS[section]();
+  ed.innerHTML = PANELS[section]() + stepNav();
   ed.scrollTop = top;
   const { out } = problems();
   const dl = $("#downloadTop");
@@ -1002,15 +1014,19 @@ function drawStart() {
     <img src="assets/mirmire-icon.svg" alt="Mirmire" width="64" height="64" style="display:block;border-radius:16px;margin-bottom:18px;box-shadow:0 10px 30px #0005">
     <h1>Make Mirmire yours</h1>
     <p class="lede">Design a theme or an icon pack and see it on Mirmire's real screens as you go. When you're done, download a ZIP and import it in the app. Everything stays in your browser.</p>
+    ${hasSaved ? `<div class="note draft"><span>You have a draft saved in this browser: <b>${esc(savedName || "Untitled")}</b></span><span style="display:flex;gap:8px"><button class="btn small" data-action="deleteDraft">Delete draft</button><button class="btn small primary" data-start="resume">Keep editing</button></span></div>` : ""}
+    <h2>Start something new</h2>
     <div class="ways">
       <button class="way" data-start="blank"><span class="ic">${icon("palette", 22)}</span><b>New theme</b><span>Start from one color and build out.</span></button>
       <button class="way" data-start="icons"><span class="ic">${icon("gamepad", 22)}</span><b>New icon pack</b><span>Console icons that work with any theme.</span></button>
       <button class="way" data-start="plugin"><span class="ic">${icon("dashboard", 22)}</span><b>New widget plugin</b><span>A widget for the Home page, from a template.</span></button>
+    </div>
+    <h2>Open one you already have</h2>
+    <div class="ways two">
       <label class="way"><span class="ic">${icon("download", 22)}</span><b>Open a ZIP</b><span>Edit a theme, icon pack or plugin you already have.</span><input type="file" accept=".zip" data-openzip></label>
       <label class="way"><span class="ic">${icon("folder", 22)}</span><b>Open a folder</b><span>Or drop one anywhere. Files are sorted by name.</span><input type="file" webkitdirectory multiple data-openfolder></label>
     </div>
-    ${hasSaved ? `<div class="note" style="margin:-14px 0 28px;display:flex;align-items:center;gap:12px;justify-content:space-between"><span>You have a draft saved in this browser: <b>${esc(savedName || "Untitled")}</b></span><span style="display:flex;gap:8px"><button class="btn small" data-action="deleteDraft">Delete draft</button><button class="btn small primary" data-start="resume">Keep editing</button></span></div>` : ""}
-    <h2>Or remix one of Mirmire's themes</h2>
+    <h2>Remix one of Mirmire's themes</h2>
     <div class="gallery">
       <button class="tpl" data-start="firstlight">${mini(fl, { cardKind: "rounded", cardRadius: 18, cardBorder: "#596A83" }, "assets/first-light/wallpaper.jpg")}<div class="meta"><b>First Light</b><small>wallpaper, sounds, music</small></div></button>
       ${BUILT_IN.map((t) => `<button class="tpl" data-start="preset:${t.id}">${mini(t.colors, t.style, t.stockWallpaper === false ? "" : undefined)}<div class="meta"><b>${esc(t.name)}</b><small>${t.dark ? "dark" : "light"}</small></div></button>`).join("")}

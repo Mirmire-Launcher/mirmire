@@ -30,15 +30,22 @@
       <nav class="nav" id="nav" aria-label="Sections"></nav>
       <section class="editor" id="editor" aria-label="Editor"></section>
       <section class="stage" aria-label="Live preview">
-        <div class="stagebar">
-          <div class="seg" id="scenes"></div>
-          <span class="spacer"></span>
-          <button class="btn small" id="pickBtn" title="Click part of the preview to edit its color">Pick</button>
-          <button class="btn small on" id="soundBtn" title="Navigation sounds">Sounds</button>
-          <button class="btn small" id="musicBtn" title="Play the theme's music">Music</button>
-          <select class="input" id="glyphs" style="width:auto;padding:6px 8px" aria-label="Controller buttons" title="Which controller's buttons the hints show. Matches Settings › Controls in the app."></select>
-          <select class="input" id="screenSize" style="width:auto;padding:6px 8px" aria-label="Screen"></select>
-          <select class="input" id="frame" style="width:auto;padding:6px 8px" aria-label="Frame"><option value="device">Handheld</option><option value="flat">Screen only</option><option value="dual">Dual screen</option></select>
+        <div class="stagetop">
+          <div class="stagebar">
+            <span class="barlabel">Screen</span>
+            <div class="seg" id="scenes"></div>
+            <span class="spacer"></span>
+            <div class="toolset" role="group" aria-label="Preview tools">
+              <button class="btn small" id="pickBtn" title="Click part of the preview to edit its color">Pick</button>
+              <button class="btn small on" id="soundBtn" title="Navigation sounds">Sounds</button>
+              <button class="btn small" id="musicBtn" title="Play the theme's music">Music</button>
+            </div>
+          </div>
+          <div class="stagebar viewopts">
+            <label class="opt"><span>Device</span><select class="input" id="frame" aria-label="Frame"><option value="device">Handheld</option><option value="flat">Screen only</option><option value="dual">Dual screen</option></select></label>
+            <label class="opt"><span>Size</span><select class="input" id="screenSize" aria-label="Screen"></select></label>
+            <label class="opt"><span>Buttons</span><select class="input" id="glyphs" aria-label="Controller buttons" title="Which controller's buttons the hints show. Matches Settings › Controls in the app."></select></label>
+          </div>
         </div>
         <div class="viewport" id="viewport">
           <div class="device hh" id="device">
