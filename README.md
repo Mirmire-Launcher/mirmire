@@ -111,12 +111,12 @@ On Retroid and AYN handhelds, the stick lights follow the theme, the battery lev
 - **🏠 Home Assistant:** dim the lights when a game starts on the TV, or run any scene or script when you play, stop or step away.
 - **✈️ Pack for a trip:** choose games to take offline. Everything syncs back when you're home.
 - **🎮 Play together:** invite a paired device on the same Wi-Fi to a netplay game.
-- **🌡️ Learns how hot each game runs:** a battery, standard or performance mode per console, stepping down for games that ran hot.
+- **🌡️ Learns how hot each game runs:** each console gets a battery, standard or performance mode, and games that ran hot step down to a cooler one.
 - **🏆 RetroAchievements:** progress on every game card, the weekly challenge and games close to mastery in Spotlight.
 - **🎨 Built for controllers:** every screen works with a gamepad, keyboard or touch, with Xbox, PlayStation or Nintendo button labels.
 - **📖 Manuals and maps** from ScreenScraper, your gamelists, ES-DE or LaunchBox.
 - **⬆️ Upload local games:** games in your local folder that are missing on the NAS go up with one tap in **Settings › Library**.
-- **🎮 Standalone defaults that fit:** Automatic prefers DuckStation for PS1, Mupen64Plus FZ for N64, WatermelonDS for DS and ARMSX2 for PS2 when they're installed.
+- **🎮 Standalone defaults that fit:** left on Automatic, Mirmire picks DuckStation for PS1, Mupen64Plus FZ for N64, WatermelonDS for DS and ARMSX2 for PS2 when they're installed.
 - **🔊 Volume in Settings › Device**, for handhelds where the buttons are hard to reach.
 
 ## Make it yours with Theme Studio
@@ -126,7 +126,7 @@ On Retroid and AYN handhelds, the stick lights follow the theme, the battery lev
 - **Colors from one color:** pick one and it builds a full palette, with readability checks.
 - **Remix or start fresh:** begin from any of Mirmire's 15 built-in themes, or open any theme or icon pack ZIP.
 - **Dual-screen preview:** see your theme on both screens of a dual-screen handheld.
-- **Bring your own files:** wallpaper, console icons, backdrops, sounds and music. Files named like other frontends' sets are sorted automatically.
+- **Bring your own files:** wallpaper, console icons, backdrops, sounds and music. Files that use another frontend's names, like ES-DE or muOS, are matched automatically.
 
 Download the ZIP and import it in **Settings › Look**. See [Make your own themes and icon packs](docs/CREATING.md) and [Make widget plugins](docs/PLUGINS.md). To offer your plugin to every player, add it to [mirmire-plugins](https://github.com/Mirmire-Launcher/mirmire-plugins) with a pull request.
 
