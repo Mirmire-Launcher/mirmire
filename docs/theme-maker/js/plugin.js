@@ -72,7 +72,7 @@ export function codePanel(P) {
       <div class="tools"><button class="iconbtn" data-pfile-remove="${esc(name)}">✕</button></div></div>`).join("")}
       <div class="drop"><div class="thumb">${icon("add", 22)}</div><div><b>Add images, fonts or sounds</b><small>Refer to them by name, like src="sprite.png"</small></div>
         <input type="file" multiple data-pfiles></div></div>
-    <p class="hint">See <a href="https://github.com/Mirmire-Launcher/mirmire/blob/main/docs/PLUGINS.md" target="_blank" rel="noopener">PLUGINS.md</a> for everything <code>window.mirmire</code> offers.</p>`;
+    <p class="hint">See <a href="../PLUGINS.html" target="_blank" rel="noopener">the plugins guide</a> for everything <code>window.mirmire</code> offers.</p>`;
 }
 
 export function optionsPanel(P, presets) {
