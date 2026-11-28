@@ -469,6 +469,23 @@ const NAV_THEME = [
 const NAV_ICONS = [["basics", "Name", "info"], ["icons", "Icons", "gamepad"], ["export", "Export", "download"]];
 const NAV_PLUGIN = [["basics", "Name", "info"], ["code", "Code", "code"], ["options", "Options", "tune"], ["export", "Export", "download"]];
 
+// Stroke icons for the studio's own chrome, the same set as the landing page. The preview keeps the app's Material icons.
+const UI = {
+  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><path d="M12 7.5h.01" stroke-width="2.6"/>',
+  palette: '<path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.9 1.8-1.9 0-.5-.2-.9-.5-1.3-.3-.3-.4-.7-.4-1.1 0-1 .8-1.7 1.7-1.7H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><path d="M7.5 12.5h.01M9.5 8h.01M14.5 8h.01" stroke-width="2.6"/>',
+  dashboard: '<rect x="3" y="3" width="8" height="10" rx="2"/><rect x="13" y="3" width="8" height="6" rx="2"/><rect x="13" y="11" width="8" height="10" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/>',
+  image: '<rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M21 15.5L16 11 6 20"/>',
+  viewAgenda: '<rect x="3" y="3" width="18" height="9" rx="2"/><rect x="6" y="14" width="12" height="7" rx="2"/><path d="M12 12v2"/>',
+  gamepad: '<rect x="2" y="6.5" width="20" height="11" rx="5.5"/><path d="M6.5 12h4M8.5 10v4"/><path d="M15 13.5h.01M17.5 10.5h.01" stroke-width="2.6"/>',
+  music: '<path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',
+  download: '<path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 20h14"/>',
+  code: '<path d="M8.5 7l-5 5 5 5M15.5 7l5 5-5 5"/>',
+  tune: '<path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h8M16 18h4"/><circle cx="16" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="14" cy="18" r="2"/>',
+  folder: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  zip: '<rect x="3" y="4" width="18" height="5" rx="1.5"/><path d="M5 9v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9M10 13h4"/>',
+};
+const ui = (name, size = 20) => `<svg class="ui" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${UI[name] || ""}</svg>`;
+
 const navItems = () => (P.mode === "icons" ? NAV_ICONS : P.mode === "plugin" ? NAV_PLUGIN : NAV_THEME);
 
 function drawNav() {
@@ -480,7 +497,7 @@ function drawNav() {
     sounds: Object.keys(P.sounds).length || P.music.length, icons: Object.keys(P.icons).length,
   };
   const head = P.mode === "icons" ? "Icon pack" : P.mode === "plugin" ? "Plugin" : "Theme";
-  $("#nav").innerHTML = `<span class="navhead">${head} steps</span>` + items.map(([id, label, ic], i) => `<button class="${id === section ? "on" : ""}" data-section="${id}" data-tip="${label}" aria-label="${label}"${id === section ? ' aria-current="step"' : ""}>${icon(ic, 20)}<span class="lbl"><small>Step ${i + 1}</small>${label}</span>${done[id] && id !== "style" ? '<i class="dot" title="Done"></i>' : ""}</button>`).join("");
+  $("#nav").innerHTML = `<span class="navhead">${head} steps</span>` + items.map(([id, label, ic], i) => `<button class="${id === section ? "on" : ""}" data-section="${id}" data-tip="${label}" aria-label="${label}"${id === section ? ' aria-current="step"' : ""}>${ui(ic, 20)}<span class="lbl"><small>Step ${i + 1}</small>${label}</span>${done[id] && id !== "style" ? '<i class="dot" title="Done"></i>' : ""}</button>`).join("");
 }
 
 /** Back and Next under every panel, so the steps can be walked in order without the side list. */
@@ -1010,21 +1027,28 @@ function drawStart() {
     </div>`;
   };
   const fl = { primary: "#FFD18A", background: "#0D1628", surface: "#142037", primaryContainer: "#493B29", surfaceContainer: "#19283F", onBackground: "#FFF4E4", outline: "#91A0B5" };
-  $("#start").innerHTML = `<div class="start-in">
-    <img src="assets/mirmire-icon.svg" alt="Mirmire" width="64" height="64" style="display:block;border-radius:16px;margin-bottom:18px;box-shadow:0 10px 30px #0005">
-    <h1>Make Mirmire yours</h1>
-    <p class="lede">Design a theme or an icon pack and see it on Mirmire's real screens as you go. When you're done, download a ZIP and import it in the app. Everything stays in your browser.</p>
+  $("#start").innerHTML = `<div class="start-hero">
+    <div class="sunrise"></div>
+    <svg class="ridges" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true"><path class="r1" d="M0 190L90 150L170 185L260 110L330 160L420 90L500 150L600 60L660 110L740 40L830 130L920 80L1010 150L1100 70L1180 140L1270 95L1350 150L1440 120V320H0Z"/><path class="r2" d="M0 250L120 200L220 240L340 170L450 230L560 180L680 240L800 160L900 220L1020 175L1130 235L1250 185L1340 230L1440 195V320H0Z"/><path class="r3" d="M0 300L160 262L300 290L460 250L620 288L780 255L940 292L1100 258L1260 290L1440 262V320H0Z"/></svg>
+    <div class="start-in">
+      <img class="mark" src="assets/mirmire-icon.svg" alt="Mirmire" width="60" height="60">
+      <p class="kicker">Theme Studio</p>
+      <h1>Make Mirmire <em>yours</em></h1>
+      <p class="lede">Design a theme or an icon pack and see it on Mirmire's real screens as you go. When you're done, download a ZIP and import it in the app. Everything stays in your browser.</p>
+    </div>
+  </div>
+  <div class="start-in start-body">
     ${hasSaved ? `<div class="note draft"><span>You have a draft saved in this browser: <b>${esc(savedName || "Untitled")}</b></span><span style="display:flex;gap:8px"><button class="btn small" data-action="deleteDraft">Delete draft</button><button class="btn small primary" data-start="resume">Keep editing</button></span></div>` : ""}
     <h2>Start something new</h2>
     <div class="ways">
-      <button class="way" data-start="blank"><span class="ic">${icon("palette", 22)}</span><b>New theme</b><span>Start from one color and build out.</span></button>
-      <button class="way" data-start="icons"><span class="ic">${icon("gamepad", 22)}</span><b>New icon pack</b><span>Console icons that work with any theme.</span></button>
-      <button class="way" data-start="plugin"><span class="ic">${icon("dashboard", 22)}</span><b>New widget plugin</b><span>A widget for the Home page, from a template.</span></button>
+      <button class="way" data-start="blank"><span class="ic">${ui("palette", 22)}</span><b>New theme</b><span>Start from one color and build out.</span></button>
+      <button class="way" data-start="icons"><span class="ic">${ui("gamepad", 22)}</span><b>New icon pack</b><span>Console icons that work with any theme.</span></button>
+      <button class="way" data-start="plugin"><span class="ic">${ui("dashboard", 22)}</span><b>New widget plugin</b><span>A widget for the Home page, from a template.</span></button>
     </div>
     <h2>Open one you already have</h2>
     <div class="ways two">
-      <label class="way"><span class="ic">${icon("download", 22)}</span><b>Open a ZIP</b><span>Edit a theme, icon pack or plugin you already have.</span><input type="file" accept=".zip" data-openzip></label>
-      <label class="way"><span class="ic">${icon("folder", 22)}</span><b>Open a folder</b><span>Or drop one anywhere. Files are sorted by name.</span><input type="file" webkitdirectory multiple data-openfolder></label>
+      <label class="way"><span class="ic">${ui("zip", 22)}</span><b>Open a ZIP</b><span>Edit a theme, icon pack or plugin you already have.</span><input type="file" accept=".zip" data-openzip></label>
+      <label class="way"><span class="ic">${ui("folder", 22)}</span><b>Open a folder</b><span>Or drop one anywhere. Files are sorted by name.</span><input type="file" webkitdirectory multiple data-openfolder></label>
     </div>
     <h2>Remix one of Mirmire's themes</h2>
     <div class="gallery">
